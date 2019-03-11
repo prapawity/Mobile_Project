@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'data.dart';
+
 class Splash extends StatefulWidget {
   @override
   SplashState createState() => new SplashState();
@@ -10,13 +11,12 @@ class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-      seconds: 7,
-      navigateAfterSeconds: new AfterSplash(),
-      image: new Image.asset("resource/logo.png"),
-      backgroundColor: Colors.white,
-      photoSize: 100.0,
-      loaderColor: Colors.orange
-    );
+        seconds: 7,
+        navigateAfterSeconds: new AfterSplash(),
+        image: new Image.asset("resource/logo.png"),
+        backgroundColor: Colors.white,
+        photoSize: 100.0,
+        loaderColor: Colors.orange);
   }
 }
 
@@ -24,7 +24,7 @@ class AfterSplash extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
   final TextEditingController _controller2 = new TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool state = false,chk2 =false;
+  bool state = false, chk2 = false;
   String user, pass;
   final _formKey = GlobalKey<FormState>();
   @override
@@ -87,7 +87,7 @@ class AfterSplash extends StatelessWidget {
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 20)),
                   RaisedButton(
-                    child: Text("LOGIN"),
+                    child: Text("SignIn"),
                     onPressed: () {
                       bool chk = false;
                       _formKey.currentState.validate();
@@ -108,23 +108,26 @@ class AfterSplash extends StatelessWidget {
                     splashColor: Colors.blueGrey,
                     textColor: Colors.white,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FlatButton(
-                        child: SizedBox(
-                          child: Text("Register New Account",
-                              textAlign: TextAlign.right),
-                        ),
-                        onPressed: () {
-                          state = true;
-                          Navigator.pushNamed(context, "/third");
-                          _controller.clear();
-                          _controller2.clear();
-                        },
-                      )
-                    ],
-                  )
+                  RaisedButton(
+                    child: Text("SignUp"),
+                    onPressed: () {
+                      bool chk = false;
+                      _formKey.currentState.validate();
+                      UserPass.idPass.add([user,pass]);
+                      Navigator.pushReplacementNamed(context, "/information");
+                      chk = true;
+
+                      if (chk == false) {
+                        _displaySnackBar(context);
+                      }
+                      _controller.clear();
+                      _controller2.clear();
+                      chk2 = false;
+                    },
+                    color: Colors.orange,
+                    splashColor: Colors.blueGrey,
+                    textColor: Colors.white,
+                  ),
                 ],
               ),
             ),
