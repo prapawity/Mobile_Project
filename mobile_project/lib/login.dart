@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'data.dart';
+import 'package:color/color.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -104,7 +105,7 @@ class AfterSplash extends StatelessWidget {
                       _controller2.clear();
                       chk2 = false;
                     },
-                    color: Colors.orange,
+                    color: Colors.blue,
                     splashColor: Colors.blueGrey,
                     textColor: Colors.white,
                   ),

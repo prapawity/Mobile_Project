@@ -4,7 +4,6 @@ import 'data.dart';
 class Information extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return MySignUp();
   }
 }
@@ -36,6 +35,16 @@ class MySignUp extends State<Information> {
           child: Column(
             children: <Widget>[
               Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 10)),
+              new Container(
+                  width: 190.0,
+                  height: 190.0,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(
+                              "https://i.imgur.com/BoN9kdC.png")))),
+              Padding(padding: EdgeInsets.fromLTRB(10, 15, 10, 10)),
               TextFormField(
                 controller: _controller,
                 decoration: InputDecoration(
