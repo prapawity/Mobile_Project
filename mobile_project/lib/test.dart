@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_ppicker/image_picker_handler.dart';
-import 'package:flutter_image_ppicker/image_picker_dialog.dart';
+import 'images_picker_handler.dart';
+import 'images_picker_dialog.dart';
 
 
 class HomeScreen extends StatefulWidget {
