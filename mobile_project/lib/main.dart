@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) =>Splash(),
-          "/information": (context) =>Information(),
+          "/information": (context) =>InfromationForm(),
         //  "/daily": (context) =>(InApp()),
         // "/third": (context) =>(SignUp()),
 

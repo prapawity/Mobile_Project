@@ -1,145 +1,80 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'data.dart';
+import 'images_picker_handler.dart';
+import 'images_picker_dialog.dart';
 
-class Information extends StatefulWidget {
+class InfromationForm extends StatefulWidget {
+
   @override
-  State<StatefulWidget> createState() {
-    return MySignUp();
-  }
+  informationState createState() => new informationState();
 }
 
-class MySignUp extends State<Information> {
-  final TextEditingController _controller = new TextEditingController();
-  final TextEditingController _controller2 = new TextEditingController();
-  final TextEditingController _controller3 = new TextEditingController();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List authen = ["", "", ""];
-  final _formKey = GlobalKey<FormState>();
+class informationState extends State<InfromationForm>
+    with TickerProviderStateMixin, ImagePickerListener {
+  File _image;
+  AnimationController _controller;
+  ImagePickerHandler imagePicker;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    imagePicker = new ImagePickerHandler(this, _controller);
+    imagePicker.init();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text(
-          "ข้อมูลส่วนตัว",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Form(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 10)),
-              new Container(
-                  width: 190.0,
-                  height: 190.0,
+    return new Scaffold(
+      body: new GestureDetector(
+        onTap: () => imagePicker.showDialog(context),
+        child: new Center(
+          child: _image == null
+              ? new Stack(
+                  children: <Widget>[
+                    new Center(
+                      child: new CircleAvatar(
+                        radius: 80.0,
+                        backgroundColor: const Color(0xFF778899),
+                      ),
+                    ),
+                    new Center(
+                      child: new Image.asset("resource/camera.png"),
+                    ),
+                  ],
+                )
+              : new Container(
+                  height: 160.0,
+                  width: 160.0,
                   decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: new NetworkImage(
-                              "https://i.imgur.com/BoN9kdC.png")))),
-              Padding(padding: EdgeInsets.fromLTRB(10, 15, 10, 10)),
-              TextFormField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  labelText: "USER-ID",
-                  hintText: "Please Input Your USER-ID",
-                  icon: Icon(Icons.email, size: 40, color: Colors.orange),
+                    color: const Color(0xff7c94b6),
+                    image: new DecorationImage(
+                      image: new ExactAssetImage(_image.path),
+                      fit: BoxFit.cover,
+                    ),
+                    border: Border.all(color: Colors.red, width: 5.0),
+                    borderRadius:
+                        new BorderRadius.all(const Radius.circular(80.0)),
+                  ),
                 ),
-                onSaved: (user) => print(user),
-                validator: (user) {
-                  if (user.isEmpty) {
-                    return "Please Input Your USER-ID";
-                  } else {
-                    authen[0] = user;
-                  }
-                },
-              ),
-              Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 10)),
-              TextFormField(
-                controller: _controller2,
-                decoration: InputDecoration(
-                  labelText: "PASSWORD",
-                  hintText: "Please Input Your PASSWORD",
-                  icon: Icon(Icons.lock, size: 40, color: Colors.orange),
-                ),
-                obscureText: true,
-                onSaved: (password) => print(password),
-                validator: (password) {
-                  if (password.isEmpty) {
-                    return "Please Input Your PASSWORD";
-                  } else {
-                    authen[1] = password;
-                  }
-                },
-              ),
-              Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 10)),
-              TextFormField(
-                controller: _controller3,
-                decoration: InputDecoration(
-                  labelText: "Confirm-PASSWORD",
-                  hintText: "Please Input Your Confirm-PASSWORD",
-                  icon: Icon(Icons.lock, size: 40, color: Colors.orange),
-                ),
-                obscureText: true,
-                onSaved: (conpass) => print(conpass),
-                validator: (conpass) {
-                  if (conpass.isEmpty) {
-                    return "Please Input Your Confirm Confirm-PASSWORD";
-                  } else {
-                    authen[2] = conpass;
-                  }
-                },
-              ),
-              Padding(padding: EdgeInsets.fromLTRB(10, 20, 10, 20)),
-              RaisedButton(
-                child: Text("Register New Account"),
-                onPressed: () {
-                  _formKey.currentState.validate();
-                  if (authen[1] != authen[2]) {
-                    _displaySnackBar(context, 1);
-                  } else if (UserPass.idPass[0][0] == authen[0]) {
-                    _displaySnackBar(context, 0);
-                  } else if (authen[0] == "" ||
-                      authen[1] == "" ||
-                      authen[2] == "") {
-                    _displaySnackBar(context, 2);
-                  } else {
-                    UserPass.idPass.add([authen[0], authen[1]]);
-                    Navigator.pop(context);
-                  }
-                  _controller.clear();
-                  _controller2.clear();
-                  _controller3.clear();
-                },
-                color: Colors.orange,
-                splashColor: Colors.blueGrey,
-                textColor: Colors.white,
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  _displaySnackBar(BuildContext context, int state) {
-    if (state == 0) {
-      final snackBar = SnackBar(content: Text('USER is Used'));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
-    } else if (state == 1) {
-      final snackBar = SnackBar(content: Text('Password confirm is Incorrect'));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
-    } else if (state == 2) {
-      final snackBar =
-          SnackBar(content: Text('Please input USER-ID and Password'));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
-    }
+  @override
+  userImage(File _image) {
+    setState(() {
+      this._image = _image;
+    });
   }
 }
