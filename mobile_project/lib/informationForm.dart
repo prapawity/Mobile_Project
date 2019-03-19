@@ -14,6 +14,9 @@ class InfromationForm extends StatefulWidget {
 
 class informationState extends State<InfromationForm>
     with TickerProviderStateMixin, ImagePickerListener {
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  List _cities =[];
+  String _currentCity;
   var textfield_date = TextEditingController();
   var pic_date = new DateTime.now();
   int _radioValue1 = 0;
@@ -25,18 +28,34 @@ class informationState extends State<InfromationForm>
   @override
   void initState() {
     super.initState();
+    for (var i = 1; i <= 100; i++) {
+      _cities.add("$i");
+    }
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
     imagePicker = new ImagePickerHandler(this, _controller);
     imagePicker.init();
+    _dropDownMenuItems = getDropDownMenuItems();
+    _currentCity = _dropDownMenuItems[0].value;
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String city in _cities) {
+      items.add(new DropdownMenuItem(
+          value: city,
+          child: new Text(city)
+      ));
+    }
+    return items;
   }
 
   @override
@@ -137,7 +156,6 @@ class informationState extends State<InfromationForm>
                 ),
               ],
             ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 8, 0, 15)),
             TextField(
               onTap: datePicker,
               textAlign: TextAlign.center,
@@ -152,9 +170,22 @@ class informationState extends State<InfromationForm>
                 labelText: "date",
               ),
             ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+            Container(
+              alignment: FractionalOffset.center,
+              decoration: BoxDecoration(color: Colors.white),
+              child: DropdownButton(
+                  value: _currentCity,
+                  items: _dropDownMenuItems,
+                  onChanged: changedDropDownItem,
+                ),
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             RaisedButton(
               child: Text("SignUp"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, "/ResraurantListScreen");
+              },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
               textColor: Colors.white,
@@ -178,7 +209,6 @@ class informationState extends State<InfromationForm>
 
   void datePicker() {
     DatePicker.showDatePicker(
-
       context,
       showTitleActions: true,
       maxYear: pic_date.year,
@@ -196,6 +226,14 @@ class informationState extends State<InfromationForm>
         textfield_date.text = "$date/$month/$year";
       },
     );
-    
   }
+
+  void changedDropDownItem(String selectedCity) {
+    setState(() {
+      _currentCity = selectedCity;
+    });
+  }
+
+
 }
+
