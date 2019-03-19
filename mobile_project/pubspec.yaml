@@ -15,7 +15,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_date_picker: "^0.1.8"
+  flutter_cupertino_date_picker: ^0.3.0
   datetime_picker_formfield: ^0.1.4
   intl: ^0.15.7
   image_picker: ^0.4.10
@@ -25,7 +25,6 @@ dependencies:
   splashscreen: ^1.2.0
   color: ^2.1.1
   image_cropper: ^0.0.4
-  custom_radio: ^0.1.2
   # video_player: ^0.10.0+2
 
   # The following adds the Cupertino Icons font to your application.

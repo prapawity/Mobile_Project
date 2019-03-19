@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'images_picker_handler.dart';
 import 'images_picker_dialog.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:image_picker/image_picker.dart';
 
 class InfromationForm extends StatefulWidget {
   @override
@@ -10,6 +14,10 @@ class InfromationForm extends StatefulWidget {
 
 class informationState extends State<InfromationForm>
     with TickerProviderStateMixin, ImagePickerListener {
+  var textfield_date = TextEditingController();
+  var pic_date = new DateTime.now();
+  int _radioValue1 = 0;
+  int day, months, years;
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
@@ -40,7 +48,8 @@ class informationState extends State<InfromationForm>
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white),
           ),
-          centerTitle: true,iconTheme: IconThemeData(color: Colors.white),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         body: new ListView(
           children: <Widget>[
@@ -53,8 +62,10 @@ class informationState extends State<InfromationForm>
                       ? new Stack(
                           children: <Widget>[
                             new Center(
-                              child: new Icon(Icons.camera_alt,size: 150,)
-                            ),
+                                child: new Icon(
+                              Icons.camera_alt,
+                              size: 150,
+                            )),
                           ],
                         )
                       : new Container(
@@ -83,7 +94,7 @@ class informationState extends State<InfromationForm>
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
             ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             TextField(
               decoration: InputDecoration(
                   labelText: "Password",
@@ -91,6 +102,55 @@ class informationState extends State<InfromationForm>
                   icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
+            ),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Radio(
+                  value: 0,
+                  groupValue: _radioValue1,
+                  onChanged: _handleRadioValueChange1,
+                ),
+                new Text(
+                  'ผู้ชาย',
+                  style: new TextStyle(fontSize: 16.0),
+                ),
+                new Radio(
+                  value: 1,
+                  groupValue: _radioValue1,
+                  onChanged: _handleRadioValueChange1,
+                ),
+                new Text(
+                  'ผู้หญิง',
+                  style: new TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+                new Radio(
+                  value: 2,
+                  groupValue: _radioValue1,
+                  onChanged: _handleRadioValueChange1,
+                ),
+                new Text(
+                  'อื่นๆ',
+                  style: new TextStyle(fontSize: 16.0),
+                ),
+              ],
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 8, 0, 15)),
+            TextField(
+              onTap: datePicker,
+              textAlign: TextAlign.center,
+              // editable: false,
+              // inputType: InputType.date,
+              // initialDate: DateTime.now(),
+              // format: DateFormat("yyyy-MM-dd"),
+              controller: textfield_date,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                labelText: "date",
+              ),
             ),
             RaisedButton(
               child: Text("SignUp"),
@@ -108,5 +168,34 @@ class informationState extends State<InfromationForm>
     setState(() {
       this._image = _image;
     });
+  }
+
+  void _handleRadioValueChange1(int value) {
+    setState(() {
+      _radioValue1 = value;
+    });
+  }
+
+  void datePicker() {
+    DatePicker.showDatePicker(
+
+      context,
+      showTitleActions: true,
+      maxYear: pic_date.year,
+      locale: 'en',
+      initialYear: pic_date.year,
+      initialMonth: pic_date.month,
+      initialDate: pic_date.day,
+      cancel: Text('custom cancel'),
+      confirm: Text('custom confirm'),
+      dateFormat: 'yyyy-mmmm-dd',
+      onChanged: (year, month, date) {
+        textfield_date.text = "$date/$month/$year";
+      },
+      onConfirm: (year, month, date) {
+        textfield_date.text = "$date/$month/$year";
+      },
+    );
+    
   }
 }

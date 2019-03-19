@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'data.dart';
 import 'package:color/color.dart';
+import 'package:mobile_project/restaurant_list_screen.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -95,7 +96,7 @@ class AfterSplash extends StatelessWidget {
                       _formKey.currentState.validate();
                       for (var item in UserPass.idPass) {
                         if (user == item[0] && pass == item[1]) {
-                          Navigator.pushReplacementNamed(context, "/second");
+                          Navigator.pushReplacementNamed(context, "/ResraurantListScreen");
                           chk = true;
                         }
                       }
