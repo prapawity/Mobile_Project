@@ -15,9 +15,9 @@ class SplashState extends State<Splash> {
         seconds: 7,
         navigateAfterSeconds: new AfterSplash(),
         image: new Image.asset("resource/logo.png"),
-        backgroundColor: Colors.white,
-        photoSize: 100.0,
-        loaderColor: Colors.orange);
+        backgroundColor: Colors.orange,
+        photoSize: 150.0,
+        loaderColor: Colors.white);
   }
 }
 
@@ -31,6 +31,7 @@ class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange,
       key: _scaffoldKey,
       body: new Builder(
         builder: (BuildContext) {
@@ -44,14 +45,14 @@ class AfterSplash extends StatelessWidget {
                     "resource/logo.png",
                     height: 250,
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
                   TextFormField(
                     controller: _controller,
                     decoration: InputDecoration(
-                        labelText: "USER-ID",
-                        hintText: "Please Input Your USER-ID",
+                        labelText: "UserName",
+                        hintText: "Please Input Your UserName",
                         icon: Icon(Icons.account_box,
-                            size: 40, color: Colors.orange),
+                            size: 40, color: Colors.white),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
                     maxLines: 1,
@@ -66,13 +67,13 @@ class AfterSplash extends StatelessWidget {
                       }
                     },
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
                   TextFormField(
                     controller: _controller2,
                     decoration: InputDecoration(
                         labelText: "PASSWORD",
                         hintText: "Please Input Your PASSWORD",
-                        icon: Icon(Icons.lock, size: 40, color: Colors.orange),
+                        icon: Icon(Icons.lock, size: 40, color: Colors.white),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
                     obscureText: true,
@@ -86,7 +87,7 @@ class AfterSplash extends StatelessWidget {
                       }
                     },
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 20)),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
                   RaisedButton(
                     child: Text("SignIn"),
                     onPressed: () {
@@ -112,22 +113,22 @@ class AfterSplash extends StatelessWidget {
                   RaisedButton(
                     child: Text("SignUp"),
                     onPressed: () {
-                      bool chk = false;
-                      _formKey.currentState.validate();
-                      UserPass.idPass.add([user,pass]);
-                      Navigator.pushReplacementNamed(context, "/information");
-                      chk = true;
+                      // bool chk = false;
+                      // _formKey.currentState.validate();
+                      // UserPass.idPass.add([user,pass]);
+                      Navigator.pushNamed(context, "/information");
+                      // chk = true;
 
-                      if (chk == false) {
-                        _displaySnackBar(context);
-                      }
-                      _controller.clear();
-                      _controller2.clear();
-                      chk2 = false;
+                      // if (chk == false) {
+                      //   _displaySnackBar(context);
+                      // }
+                      // _controller.clear();
+                      // _controller2.clear();
+                      // chk2 = false;
                     },
-                    color: Colors.orange,
+                    color: Colors.white,
                     splashColor: Colors.blueGrey,
-                    textColor: Colors.white,
+                    textColor: Colors.orange,
                   ),
                 ],
               ),

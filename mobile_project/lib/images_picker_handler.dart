@@ -34,8 +34,8 @@ class ImagePickerHandler {
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
-      maxWidth: 512,
-      maxHeight: 512,
+      maxWidth: 256,
+      maxHeight: 256,
     );
     _listener.userImage(croppedFile);
   }

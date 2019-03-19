@@ -4,7 +4,6 @@ import 'images_picker_handler.dart';
 import 'images_picker_dialog.dart';
 
 class InfromationForm extends StatefulWidget {
-
   @override
   informationState createState() => new informationState();
 }
@@ -35,40 +34,73 @@ class informationState extends State<InfromationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new GestureDetector(
-        onTap: () => imagePicker.showDialog(context),
-        child: new Center(
-          child: _image == null
-              ? new Stack(
-                  children: <Widget>[
-                    new Center(
-                      child: new CircleAvatar(
-                        radius: 80.0,
-                        backgroundColor: const Color(0xFF778899),
-                      ),
-                    ),
-                    new Center(
-                      child: new Image.asset("resource/camera.png"),
-                    ),
-                  ],
-                )
-              : new Container(
-                  height: 160.0,
-                  width: 160.0,
-                  decoration: new BoxDecoration(
-                    color: const Color(0xff7c94b6),
-                    image: new DecorationImage(
-                      image: new ExactAssetImage(_image.path),
-                      fit: BoxFit.cover,
-                    ),
-                    border: Border.all(color: Colors.red, width: 5.0),
-                    borderRadius:
-                        new BorderRadius.all(const Radius.circular(80.0)),
-                  ),
-                ),
+        appBar: AppBar(
+          title: Text(
+            "Personal Information",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+          centerTitle: true,iconTheme: IconThemeData(color: Colors.white),
         ),
-      ),
-    );
+        body: new ListView(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () => imagePicker.showDialog(context),
+              child: new Center(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: _image == null
+                      ? new Stack(
+                          children: <Widget>[
+                            new Center(
+                              child: new Icon(Icons.camera_alt,size: 150,)
+                            ),
+                          ],
+                        )
+                      : new Container(
+                          height: 160.0,
+                          width: 160.0,
+                          decoration: new BoxDecoration(
+                            image: new DecorationImage(
+                              image: new ExactAssetImage(_image.path),
+                              fit: BoxFit.cover,
+                            ),
+                            border:
+                                Border.all(color: Colors.orange, width: 5.0),
+                            borderRadius: new BorderRadius.all(
+                                const Radius.circular(80.0)),
+                          ),
+                        ),
+                ),
+              ),
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: "Username",
+                  hintText: "Please Input Your USER-ID",
+                  icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: "Password",
+                  hintText: "Please Input Your USER-ID",
+                  icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+            ),
+            RaisedButton(
+              child: Text("SignUp"),
+              onPressed: () {},
+              color: Colors.orange,
+              splashColor: Colors.blueGrey,
+              textColor: Colors.white,
+            ),
+          ],
+        ));
   }
 
   @override
