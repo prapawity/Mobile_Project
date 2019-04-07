@@ -96,7 +96,8 @@ class AfterSplash extends StatelessWidget {
                       _formKey.currentState.validate();
                       for (var item in UserPass.idPass) {
                         if (user == item[0] && pass == item[1]) {
-                          Navigator.pushReplacementNamed(context, "/ResraurantListScreen");
+                          Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/daily', (Route<dynamic> route) => false);
                           chk = true;
                         }
                       }

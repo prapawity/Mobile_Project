@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         "/": (context) =>Splash(),
         "/information": (context) =>InfromationForm(),
         "/ResraurantListScreen": (context) =>ResraurantListScreen(),
-        //  "/daily": (context) =>(InApp()),
+         "/daily":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
 
         },
