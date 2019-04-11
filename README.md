@@ -1,6 +1,6 @@
-# mobile_project
+# Boost life
 
-A new Flutter project.
+A new Flutter project @ITKMITL Year 2 (IT-SE)
 
 ## Getting Started
 
