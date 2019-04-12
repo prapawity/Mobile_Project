@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) =>Splash(),
         "/information": (context) =>InfromationForm(),
-        "/ResraurantListScreen": (context) =>ResraurantListScreen(),
-         "/daily":  (context) =>dailyMain(),
+        // "/ResraurantListScreen": (context) =>ResraurantListScreen(),
+        //  "/daily":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
 
         },
