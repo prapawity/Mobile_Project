@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class Splash extends StatefulWidget {
   @override
   SplashState createState() => new SplashState();
@@ -89,41 +91,37 @@ class AfterSplash extends StatelessWidget {
                   Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
                   RaisedButton(
                     child: Text("SignIn"),
-                    onPressed: () async{
+                    onPressed: () async {
                       bool chk = false;
-                     
+
                       // auth.createUserWithEmailAndPassword(
                       //   email: user,
                       //   password: pass
                       // );
-                      if( _formKey.currentState.validate()){
+                      if (_formKey.currentState.validate()) {
                         print("user: $user");
                         print("pass: $pass");
-                        await auth.signInWithEmailAndPassword(
-                          email: this.user,
-                          password: this.pass
-                        ).then((FirebaseUser userfire){
+                        chk = true;
+                        await auth
+                            .signInWithEmailAndPassword(
+                                email: this.user, password: this.pass)
+                            .then((FirebaseUser userfire) {
                           print(userfire);
+                          print("----");
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => dailyMain(user: userfire)
+                            )
+                          );
                         });
                       }
-
-
-
-
-
-                      // for (var item in UserPass.idPass) {
-                      //   if (user == item[0] && pass == item[1]) {
-                      //     Navigator.of(context)
-                      //     .pushNamedAndRemoveUntil('/daily', (Route<dynamic> route) => false);
-                      //     chk = true;
-                      //   }
-                      // }
-                      // if (chk == false) {
-                      //   _displaySnackBar(context);
-                      // }
-                      // _controller.clear();
-                      // _controller2.clear();
-                      // chk2 = false;
+                      if (chk == false) {
+                        _displaySnackBar(context);
+                      }
+                      _controller.clear();
+                      _controller2.clear();
+                      chk2 = false;
                     },
                     color: Colors.blue,
                     splashColor: Colors.blueGrey,
@@ -133,13 +131,14 @@ class AfterSplash extends StatelessWidget {
                     child: Text("SignUp"),
                     onPressed: () {
                       print("signup $user $pass");
-                      auth.createUserWithEmailAndPassword(
+                      auth
+                          .createUserWithEmailAndPassword(
                         email: user,
                         password: pass,
-                      ).then((FirebaseUser userid){
+                      )
+                          .then((FirebaseUser userid) {
                         Navigator.pushNamed(context, "/information");
-                      }
-                      );
+                      });
                       // bool chk = false;
                       // _formKey.currentState.validate();
                       // UserPass.idPass.add([user,pass]);

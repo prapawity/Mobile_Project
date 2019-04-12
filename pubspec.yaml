@@ -26,8 +26,10 @@ dependencies:
   color: ^2.1.1
   image_cropper: ^0.0.4
   sqflite: ^1.1.0
-  firebase_auth: any
+  firebase_auth: ^0.7.0
   flutter_launcher_icons: "^0.6.1"
+  flutter_circular_chart: ^0.1.0
+  # cloud_firestore: ^0.8.2+3
   # video_player: ^0.10.0+2
 
   # The following adds the Cupertino Icons font to your application.
