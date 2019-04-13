@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_project/ui/menuList.dart';
+import 'package:mobile_project/ui/restaurant_list_screen.dart';
+import 'package:mobile_project/ui/informationForm.dart';
+
 
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
@@ -68,7 +72,12 @@ class dailyMainState extends State<dailyMain> {
                 accountName: new Text("prchorn"),
                 accountEmail: new Text("boom@it.com"),
                 currentAccountPicture: new GestureDetector(
-                  onTap: () => print("profile click"),
+                  // InfromationForm
+                  onTap: () => Navigator.of(context).push(
+                    new MaterialPageRoute(
+                      builder: (BuildContext context) => new InfromationForm()
+                    )
+                  ),
                   // onDoubleTap: () => print("profile click"),
                   child: new CircleAvatar(
                     backgroundImage: new NetworkImage(imgprofile),
@@ -81,19 +90,28 @@ class dailyMainState extends State<dailyMain> {
                             "https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/images/running.jpg"))),
               ),
               new ListTile(
-                title: new Text("First page"),
-                trailing: new Icon(Icons.arrow_upward),
-                // onTap: () => print("first"),
+                title: new Text("restaurant"),
+                trailing: new Icon(Icons.restaurant_menu),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        new ResraurantListScreen())),
               ),
               new ListTile(
-                title: new Text("First page"),
-                trailing: new Icon(Icons.arrow_upward),
-                // onTap: () => print("first"),
+                title: new Text("menulist"),
+                trailing: new Icon(Icons.list),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new Menu())),
+              ),
+              new ListTile(
+                title: new Text("Graph"),
+                trailing: new Icon(Icons.assessment),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new Menu())),
               ),
               new Divider(),
               new ListTile(
-                title: new Text("First page"),
-                trailing: new Icon(Icons.arrow_upward),
+                title: new Text("Sign out"),
+                trailing: new Icon(Icons.exit_to_app),
                 // onTap: () => print("first"),
               )
             ],
