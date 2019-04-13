@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/informationForm.dart';
-
+import 'package:mobile_project/ui/login.dart';
 
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
@@ -65,6 +65,12 @@ class dailyMainState extends State<dailyMain> {
           title: new Text("title ${widget.user.email}"),
           backgroundColor: Colors.orange,
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add, color: Colors.white,),
+          shape: const CircleBorder(),
+          onPressed: () {},
+        ),
         endDrawer: new Drawer(
           child: new ListView(
             children: <Widget>[
@@ -73,11 +79,9 @@ class dailyMainState extends State<dailyMain> {
                 accountEmail: new Text("boom@it.com"),
                 currentAccountPicture: new GestureDetector(
                   // InfromationForm
-                  onTap: () => Navigator.of(context).push(
-                    new MaterialPageRoute(
-                      builder: (BuildContext context) => new InfromationForm()
-                    )
-                  ),
+                  onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new InfromationForm())),
                   // onDoubleTap: () => print("profile click"),
                   child: new CircleAvatar(
                     backgroundImage: new NetworkImage(imgprofile),
@@ -112,7 +116,7 @@ class dailyMainState extends State<dailyMain> {
               new ListTile(
                 title: new Text("Sign out"),
                 trailing: new Icon(Icons.exit_to_app),
-                // onTap: () => print("first"),
+                onTap: () => _signOut,
               )
             ],
           ),
@@ -245,5 +249,12 @@ class dailyMainState extends State<dailyMain> {
     // }
 
     return data;
+  }
+
+  void _signOut() {
+    FirebaseAuth.instance.signOut();
+    print("signout");
+    Navigator.of(context).push(
+        new MaterialPageRoute(builder: (BuildContext context) => new Splash()));
   }
 }
