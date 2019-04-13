@@ -67,9 +67,15 @@ class dailyMainState extends State<dailyMain> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.white,),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new Menu()));
+          },
         ),
         endDrawer: new Drawer(
           child: new ListView(
