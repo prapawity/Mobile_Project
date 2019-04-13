@@ -6,12 +6,12 @@ final baseTextStyle = const TextStyle(
 
 final headerTextStyle = baseTextStyle.copyWith(
   color: Colors.black,
-  fontSize: 32.0,
+  fontSize: 17.0,
   fontWeight: FontWeight.w600,
 );
 
 final spacexHeader = baseTextStyle.copyWith(
   color: Colors.black,
-  fontSize: 20.0,
+  fontSize: 10.0,
   fontWeight: FontWeight.w600,
 );

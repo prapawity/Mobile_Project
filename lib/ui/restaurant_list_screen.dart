@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
+import '../model/restaurant_model.dart';
+import '../service/restaurant_services.dart';
 
 class ResraurantListScreen extends StatelessWidget {
   @override
@@ -8,48 +10,68 @@ class ResraurantListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("ร้านอาหาร"),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          var image = "https://www.tropical-islands.de/fileadmin/_processed_/6/6/csm_TI_RESTAURANT_PALMBEACH4_RGB_2000x860_add5f54263.jpg";
-          String title = "title";
-          var desc = "des";
-          final cardIcon = Container(
-            padding: const EdgeInsets.all(16.0),
-            margin: EdgeInsets.symmetric(vertical: 16.0),
-            alignment: FractionalOffset.centerLeft,
-            child: Image.network(image, height: 150.0, width: 150.0),
-          );
-          var cardText = Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  child: new Text(title, style: headerTextStyle),
-                  padding: EdgeInsets.only(bottom: 15.0),
-                ),
-                Text(desc.length > 32 ? "${desc.substring(0, 32)}..." : desc)
-              ],
-            ),
-          );
-          return InkWell(
-            // onTap: () {
-            //   Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => PostScreen(title: title)));
-            // },
-            child: Card(
-              margin: EdgeInsets.all(5.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              child: Row(
-                children: <Widget>[cardIcon, cardText],
-              ),
-            ),
-          );
-        },
-      ),
+      body:FutureBuilder<List<Restaurant>>(
+            future: getAllRestaurant(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.done) {
+                  if(snapshot.hasError){
+                    return Text("Error");
+                  }
+                  else{
+
+                    return    ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                  Restaurant restaurant = snapshot.data[index];
+                                  String image = restaurant.image;
+                                  String title = restaurant.name;
+                                  String desc = restaurant.description;
+                                  final cardIcon = Container(
+                                    padding: const EdgeInsets.all(10.0),
+                                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                                    alignment: FractionalOffset.centerLeft,
+                                    child: Image.network(image, height: 150.0, width: 120.0),
+                                  );
+                                  var cardText = Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          child: new Text(title.length > 20 ? "${title.substring(0, 20)}..." : title, style: headerTextStyle),
+                                          padding: EdgeInsets.only(bottom: 5.0),
+                                        ),
+                                        Text(desc.length > 23 ? "${desc.substring(0, 23)}..." : desc)
+                                      ],
+                                    ),
+                                  );
+                                  return InkWell(
+                                    // onTap: () {
+                                    //   Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) => PostScreen(title: title)));
+                                    // },
+                                    child: Card(
+                                      margin: EdgeInsets.all(5.0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10.0)),
+                                      child: Row(
+                                        children: <Widget>[cardIcon, cardText],
+                                      ),
+                                    ),
+                                  );
+                                },
+                    );
+                  }
+
+              }
+              else
+                return Center(child: CircularProgressIndicator());
+          }
+    )  
+      ,
     );
   }
 }
+
