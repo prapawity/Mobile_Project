@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
 import '../model/restaurant_model.dart';
 import '../service/restaurant_services.dart';
+import 'restaurant_screen.dart';
 
 class ResraurantListScreen extends StatelessWidget {
   @override
@@ -46,12 +47,9 @@ class ResraurantListScreen extends StatelessWidget {
                                     ),
                                   );
                                   return InkWell(
-                                    // onTap: () {
-                                    //   Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (context) => PostScreen(title: title)));
-                                    // },
+                                    onTap: () {
+                                        Navigator.push(context,MaterialPageRoute(builder: (context) => RestaurantScreen(restaurant: restaurant,)),);
+                                    },
                                     child: Card(
                                       margin: EdgeInsets.all(5.0),
                                       shape: RoundedRectangleBorder(
