@@ -7,6 +7,8 @@ import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/login.dart';
+import 'package:mobile_project/ui/customMenu.dart';
+import 'package:mobile_project/ui/getdata.dart';
 
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
@@ -117,6 +119,18 @@ class dailyMainState extends State<dailyMain> {
                 trailing: new Icon(Icons.assessment),
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new Menu())),
+              ),
+              new ListTile(
+                title: new Text("Add menu"),
+                trailing: new Icon(Icons.add),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new Add())),
+              ),
+                            new ListTile(
+                title: new Text("get Data firebase"),
+                trailing: new Icon(Icons.add),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new getfirebase())),
               ),
               new Divider(),
               new ListTile(

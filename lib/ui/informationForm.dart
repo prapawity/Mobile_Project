@@ -16,11 +16,11 @@ class informationState extends State<InfromationForm>
     with TickerProviderStateMixin, ImagePickerListener {
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List _cities =[];
-  String _currentCity;
   var textfield_date = TextEditingController();
   var pic_date = new DateTime.now();
   int _radioValue1 = 0;
   int day, months, years;
+  int age;
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
@@ -38,7 +38,6 @@ class informationState extends State<InfromationForm>
     imagePicker = new ImagePickerHandler(this, _controller);
     imagePicker.init();
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentCity = _dropDownMenuItems[0].value;
   }
 
   @override
@@ -71,6 +70,7 @@ class informationState extends State<InfromationForm>
           iconTheme: IconThemeData(color: Colors.white),
         ),
         body: new ListView(
+          padding: EdgeInsets.all(20.0),
           children: <Widget>[
             GestureDetector(
               onTap: () => imagePicker.showDialog(context),
@@ -108,20 +108,20 @@ class informationState extends State<InfromationForm>
             TextField(
               decoration: InputDecoration(
                   labelText: "Username",
-                  hintText: "Please Input Your USER-ID",
+                  hintText: "Please Input Your USER-NAME",
                   icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10))),
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            TextField(
-              decoration: InputDecoration(
-                  labelText: "Password",
-                  hintText: "Please Input Your USER-ID",
-                  icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-            ),
+            // TextField(
+            //   decoration: InputDecoration(
+            //       labelText: "Password",
+            //       hintText: "Please Input Your USER-ID",
+            //       icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(10))),
+            // ),
             new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -145,15 +145,6 @@ class informationState extends State<InfromationForm>
                     fontSize: 16.0,
                   ),
                 ),
-                new Radio(
-                  value: 2,
-                  groupValue: _radioValue1,
-                  onChanged: _handleRadioValueChange1,
-                ),
-                new Text(
-                  'อื่นๆ',
-                  style: new TextStyle(fontSize: 16.0),
-                ),
               ],
             ),
             TextField(
@@ -167,18 +158,8 @@ class informationState extends State<InfromationForm>
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: "date",
+                labelText: "Date",
               ),
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            Container(
-              alignment: FractionalOffset.center,
-              decoration: BoxDecoration(color: Colors.white),
-              child: DropdownButton(
-                  value: _currentCity,
-                  items: _dropDownMenuItems,
-                  onChanged: changedDropDownItem,
-                ),
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             RaisedButton(
@@ -218,21 +199,20 @@ class informationState extends State<InfromationForm>
       initialDate: pic_date.day,
       cancel: Text('custom cancel'),
       confirm: Text('custom confirm'),
-      dateFormat: 'yyyy-mmmm-dd',
+      dateFormat: 'dd-mmmm-yyyy',
       onChanged: (year, month, date) {
         textfield_date.text = "$date/$month/$year";
       },
       onConfirm: (year, month, date) {
         textfield_date.text = "$date/$month/$year";
+        setState(){
+          age = DateTime.now().year - year;
+          print(age);
+        };
       },
     );
   }
 
-  void changedDropDownItem(String selectedCity) {
-    setState(() {
-      _currentCity = selectedCity;
-    });
-  }
 
 
 }
