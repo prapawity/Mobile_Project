@@ -29,7 +29,8 @@ dependencies:
   firebase_auth: ^0.7.0
   flutter_launcher_icons: "^0.6.1"
   flutter_circular_chart: ^0.1.0
-  # cloud_firestore: ^0.8.2+3
+  cloud_firestore: ^0.8.2+3
+  # firebase_storage: ^1.0.4
   # video_player: ^0.10.0+2
 
   # The following adds the Cupertino Icons font to your application.
