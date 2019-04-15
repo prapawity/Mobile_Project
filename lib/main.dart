@@ -3,6 +3,9 @@ import 'package:mobile_project/ui/login.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
+import 'package:mobile_project/ui/restaurant_screen.dart';
+import 'package:mobile_project/ui/map.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -20,11 +23,13 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) =>Splash(),
-        // "/": (context) =>ResraurantListScreen(),     
+        // "/": (context) =>ResraurantListScreen(),   
         "/information": (context) =>InfromationForm(),
         "/ResraurantListScreen": (context) =>ResraurantListScreen(),
+        "/restaurant_screen": (context) =>RestaurantScreen(),
         //  "/daily":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
+
 
         },
     );
