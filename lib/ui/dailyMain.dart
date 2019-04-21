@@ -129,8 +129,8 @@ class dailyMainState extends State<dailyMain> {
                             new ListTile(
                 title: new Text("get Data firebase"),
                 trailing: new Icon(Icons.add),
-                // onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                //     builder: (BuildContext context) => new getfirebase())),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new getfirebase())),
               )
               ,
               new Divider(),

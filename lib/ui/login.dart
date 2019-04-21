@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+String user = "", pass = "";
 class Splash extends StatefulWidget {
   @override
   SplashState createState() => new SplashState();
@@ -28,7 +28,7 @@ class AfterSplash extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool state = false, chk2 = false;
   final _formKey = GlobalKey<FormState>();
-  String user = "", pass = "";
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +104,7 @@ class AfterSplash extends StatelessWidget {
                         chk = true;
                         await auth
                             .signInWithEmailAndPassword(
-                                email: this.user, password: this.pass)
+                                email: user, password: pass)
                             .then((FirebaseUser userfire) {
                           print(userfire);
                           print("----");
