@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) =>Splash(),
+         "/": (context) =>Splash(),
         // "/": (context) =>ResraurantListScreen(),   
         "/information": (context) =>InfromationForm(),
         "/ResraurantListScreen": (context) =>ResraurantListScreen(),
         "/restaurant_screen": (context) =>RestaurantScreen(),
-        //  "/daily":  (context) =>dailyMain(),
+        //  "/":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
 
 
