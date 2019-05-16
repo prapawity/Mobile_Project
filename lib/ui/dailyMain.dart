@@ -65,6 +65,7 @@ class dailyMainState extends State<dailyMain> {
     return Scaffold(
         appBar: new AppBar(
           title: new Text("title ${widget.user.email}"),
+          // title: new Text("title ${widget.user.email}"),
           backgroundColor: Colors.orange,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -83,13 +84,13 @@ class dailyMainState extends State<dailyMain> {
           child: new ListView(
             children: <Widget>[
               new UserAccountsDrawerHeader(
-                accountName: new Text("prchorn"),
-                accountEmail: new Text("boom@it.com"),
+                accountName: new Text('${widget.user.uid}'),
+                accountEmail: new Text('${widget.user.email}'),
                 currentAccountPicture: new GestureDetector(
                   // InfromationForm
                   onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new InfromationForm())),
+                          new InfromationForm(user: widget.user))),
                   // onDoubleTap: () => print("profile click"),
                   child: new CircleAvatar(
                     backgroundImage: new NetworkImage(imgprofile),
@@ -126,13 +127,12 @@ class dailyMainState extends State<dailyMain> {
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new Add())),
               ),
-                            new ListTile(
+              new ListTile(
                 title: new Text("get Data firebase"),
                 trailing: new Icon(Icons.add),
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new getfirebase())),
-              )
-              ,
+              ),
               new Divider(),
               new ListTile(
                 title: new Text("Sign out"),

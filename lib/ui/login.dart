@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
+import 'package:mobile_project/ui/informationForm.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 String user = "", pass = "";
+
 class Splash extends StatefulWidget {
   @override
   SplashState createState() => new SplashState();
@@ -28,7 +32,7 @@ class AfterSplash extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool state = false, chk2 = false;
   final _formKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,14 +110,23 @@ class AfterSplash extends StatelessWidget {
                             .signInWithEmailAndPassword(
                                 email: user, password: pass)
                             .then((FirebaseUser userfire) {
-                          print(userfire);
+                              String uid = userfire.uid;
+                              Firestore.instance
+                              .collection('users')
+                              .document("$uid")
+                              .setData({
+                            'username': 'title',
+                            'sex': 'male',
+                            'date': '',
+                            'imgurl': ''
+                          });
+                          print(userfire.uid);
                           print("----");
                           Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => dailyMain(user: userfire)
-                            )
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      dailyMain(user: userfire)));
                         });
                       }
                       if (chk == false) {
@@ -130,15 +143,30 @@ class AfterSplash extends StatelessWidget {
                   RaisedButton(
                     child: Text("SignUp"),
                     onPressed: () {
-                      print("signup $user $pass");
-                      auth
-                          .createUserWithEmailAndPassword(
-                        email: user,
-                        password: pass,
-                      )
-                          .then((FirebaseUser userid) {
-                        Navigator.pushNamed(context, "/information");
-                      });
+                      if (_formKey.currentState.validate()) {
+                        print("signup $user $pass");
+                        auth
+                            .createUserWithEmailAndPassword(
+                          email: user,
+                          password: pass,
+                        )
+                            .then((FirebaseUser userid) {
+                          Firestore.instance
+                              .collection('users')
+                              .document('{$userid.uid}')
+                              .setData({
+                            'username': 'title',
+                            'sex': 'male',
+                            'date': '',
+                            'imgurl': ''
+                          });
+                                                    Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      InfromationForm(user: userid)));
+                        });
+                      }
                       // bool chk = false;
                       // _formKey.currentState.validate();
                       // UserPass.idPass.add([user,pass]);

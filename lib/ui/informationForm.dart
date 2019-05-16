@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_project/service/images_picker_dialog.dart';
 import 'package:mobile_project/service/images_picker_handler.dart';
+import 'package:mobile_project/service/userinfo.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mobile_project/service/userinfo.dart';
 
 class InfromationForm extends StatefulWidget {
+  const InfromationForm({Key key, this.user}) : super(key: key);
+  final FirebaseUser user;
   @override
   informationState createState() => new informationState();
 }
@@ -15,18 +21,35 @@ class InfromationForm extends StatefulWidget {
 class informationState extends State<InfromationForm>
     with TickerProviderStateMixin, ImagePickerListener {
   List<DropdownMenuItem<String>> _dropDownMenuItems;
-  List _cities =[];
+  List _cities = [];
   var textfield_date = TextEditingController();
   var pic_date = new DateTime.now();
-  int _radioValue1 = 0;
+  int _radioValue1;
   int day, months, years;
   int age;
+  var username = new TextEditingController();
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
 
   @override
   void initState() {
+    Firestore.instance
+        .collection('users')
+        .document('${widget.user.uid}')
+        .get()
+        .then((DocumentSnapshot ds) {
+      print("==================");
+      username.text = ds.data['username'];
+      if (ds.data['sex'] == "ผู้ชาย") {
+        _radioValue1 = 0;
+      } else {
+        _radioValue1 = 1;
+      }
+      // print("${widget.user.uid}");
+      print("==================");
+      // use ds as a snapshot
+    });
     super.initState();
     for (var i = 1; i <= 100; i++) {
       _cities.add("$i");
@@ -49,10 +72,7 @@ class informationState extends State<InfromationForm>
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
     for (String city in _cities) {
-      items.add(new DropdownMenuItem(
-          value: city,
-          child: new Text(city)
-      ));
+      items.add(new DropdownMenuItem(value: city, child: new Text(city)));
     }
     return items;
   }
@@ -106,22 +126,16 @@ class informationState extends State<InfromationForm>
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
             TextField(
+              controller: username,
               decoration: InputDecoration(
-                  labelText: "Username",
-                  hintText: "Please Input Your USER-NAME",
-                  icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
+                labelText: "Username",
+                hintText: "Please Input Your USER-NAME",
+                icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            // TextField(
-            //   decoration: InputDecoration(
-            //       labelText: "Password",
-            //       hintText: "Please Input Your USER-ID",
-            //       icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(10))),
-            // ),
             new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -163,9 +177,13 @@ class informationState extends State<InfromationForm>
             ),
             Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             RaisedButton(
-              child: Text("SignUp"),
+              child: Text("Save"),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, "/ResraurantListScreen");
+                Firestore.instance
+                    .collection('users')
+                    .document('${widget.user.uid}')
+                    .updateData({'date': '', 'imgurl': "a",'sex': '','username':"0p"});
+                // Navigator.pop(context);
               },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
@@ -205,15 +223,13 @@ class informationState extends State<InfromationForm>
       },
       onConfirm: (year, month, date) {
         textfield_date.text = "$date/$month/$year";
-        setState(){
+        setState() {
           age = DateTime.now().year - year;
           print(age);
-        };
+        }
+
+        ;
       },
     );
   }
-
-
-
 }
-
