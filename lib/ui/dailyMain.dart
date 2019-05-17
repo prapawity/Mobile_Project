@@ -158,25 +158,6 @@ class dailyMainState extends State<dailyMain> {
             onPressed: (){
               print("clicked");
             },),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                new RaisedButton(
-                  onPressed: _decrement,
-                  child: const Icon(Icons.remove),
-                  shape: const CircleBorder(),
-                  color: Colors.red[200],
-                  textColor: Colors.white,
-                ),
-                new RaisedButton(
-                  onPressed: _increment,
-                  child: const Icon(Icons.add),
-                  shape: const CircleBorder(),
-                  color: Colors.blue[200],
-                  textColor: Colors.white,
-                ),
-              ],
-            ),
             new SizedBox(
               height: 20,
             ),
