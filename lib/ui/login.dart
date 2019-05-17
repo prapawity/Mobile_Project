@@ -110,8 +110,8 @@ class AfterSplash extends StatelessWidget {
                             .signInWithEmailAndPassword(
                                 email: user, password: pass)
                             .then((FirebaseUser userfire) {
-                              String uid = userfire.uid;
-                              Firestore.instance
+                          String uid = userfire.uid;
+                          Firestore.instance
                               .collection('users')
                               .document("$uid")
                               .setData({
@@ -151,16 +151,18 @@ class AfterSplash extends StatelessWidget {
                           password: pass,
                         )
                             .then((FirebaseUser userid) {
+                          String uid = userid.uid;
+                          String test = _controller.text;
                           Firestore.instance
                               .collection('users')
-                              .document('{$userid.uid}')
+                              .document('$test')
                               .setData({
-                            'username': 'title',
-                            'sex': 'male',
-                            'date': '',
-                            'imgurl': ''
+                            'username': 'none',
+                            'sex': 'none',
+                            'date': 'none',
+                            'imgurl': 'none'
                           });
-                                                    Navigator.pushReplacement(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
