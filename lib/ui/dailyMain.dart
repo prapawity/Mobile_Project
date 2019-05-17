@@ -145,7 +145,7 @@ class dailyMainState extends State<dailyMain> {
         body: new Container(
           padding: EdgeInsets.all(30.0),
           child: new Column(children: <Widget>[
-            new AnimatedCircularChart(
+            FlatButton(child: new AnimatedCircularChart(
               key: _chartKey,
               size: _chartSize,
               initialChartData: _generateChartData(value),
@@ -155,6 +155,9 @@ class dailyMainState extends State<dailyMain> {
               holeLabel: '$value cal',
               labelStyle: _labelStyle,
             ),
+            onPressed: (){
+              print("clicked");
+            },),
             new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[

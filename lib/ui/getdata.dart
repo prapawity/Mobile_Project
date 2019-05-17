@@ -25,11 +25,9 @@ class getfirebaseState extends State<getfirebase> {
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator(),);
             default:
-              // return Row(children: <Widget>[
-              //   RaisedButton(onPressed: () => Firestore.instance.runTransaction((transaction) async{
-              //     final freshASnapshort = await transaction.get()
-              //   })
-              // ],);
+              return Row(children: <Widget>[
+                Text("$text")
+              ],);
           }
         },
         ),
