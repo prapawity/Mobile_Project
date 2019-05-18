@@ -58,8 +58,9 @@ class dailyMainState extends State<dailyMain> {
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
     value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
-    List<CircularStackEntry> data = _generateChartData(value);
-    _chartKey.currentState.updateData(data);
+    // List<CircularStackEntry> data = _generateChartData(value);
+    // _chartKey.currentState.updateData(data);
+
     TextStyle _labelStyle = Theme.of(context)
         .textTheme
         .title
@@ -140,7 +141,7 @@ class dailyMainState extends State<dailyMain> {
             new ListTile(
               title: new Text("Sign out"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () => print("a"),
+              onTap: () => _signOut,
             )
           ],
         ),
@@ -200,6 +201,12 @@ class dailyMainState extends State<dailyMain> {
         ]),
       ),
     );
+  }
+
+  void _signOut() {
+    FirebaseAuth.instance.signOut();
+    print("signout");
+    Navigator.of(context).popAndPushNamed("/");
   }
 
   @override
