@@ -131,6 +131,7 @@ class informationState extends State<InfromationForm>
             Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
             TextField(
               controller: username,
+              
               decoration: InputDecoration(
                 labelText: "Username",
                 hintText: "Please Input Your USER-NAME",
