@@ -142,7 +142,7 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("Add menu"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Add())),
+                  builder: (BuildContext context) => new Add(user: widget.user,))),
             ),
             new ListTile(
               title: new Text("get Data firebase"),
