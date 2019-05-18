@@ -14,14 +14,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'dailyMain.dart';
 
-class undateinfromationForm extends StatefulWidget {
-  const undateinfromationForm({Key key, this.user}) : super(key: key);
+class updateinformationForm extends StatefulWidget {
+  const updateinformationForm({Key key, this.user}) : super(key: key);
   final FirebaseUser user;
   @override
-  updateinformationState createState() => new updateinformationState();
+  updateinformationFormState createState() => new updateinformationFormState();
 }
 
-class updateinformationState extends State<undateinfromationForm>
+class updateinformationFormState extends State<updateinformationForm>
     with TickerProviderStateMixin, ImagePickerListener {
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List _cities = [];
