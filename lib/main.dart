@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.orange,
+        fontFamily: 'Sukhumvit'
       ),
       initialRoute: "/",
       routes: {

@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_project/service/user.dart';
+import 'package:mobile_project/styles/mainStyle.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/updateinformationForm.dart';
@@ -70,7 +71,6 @@ class dailyMainState extends State<dailyMain> {
         // List<CircularStackEntry> data = _generateChartData(0);
         // print(data);
         // _chartKey.currentState.updateData(data);
-        
       });
       state = 1;
     }
@@ -102,8 +102,11 @@ class dailyMainState extends State<dailyMain> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text('${widget.user.uid}'),
-              accountEmail: new Text('${widget.user.email}'),
+              accountName: Text(
+                '${nowuser.username}',
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,),
+              ),
+              accountEmail: new Text('${widget.user.email}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
               currentAccountPicture: new GestureDetector(
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
@@ -118,7 +121,7 @@ class dailyMainState extends State<dailyMain> {
                   image: new DecorationImage(
                       fit: BoxFit.fill,
                       image: new NetworkImage(
-                          "https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/images/running.jpg"))),
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN2vSHb57BWkqpxHJkc9gqtcFdXNPBQDtoSPstPMEYl-ZVLMj"))),
             ),
             new ListTile(
               title: new Text("restaurant"),
@@ -143,7 +146,9 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("Add menu"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Add(user: widget.user,))),
+                  builder: (BuildContext context) => new Add(
+                        user: widget.user,
+                      ))),
             ),
             new ListTile(
               title: new Text("get Data firebase"),
@@ -246,7 +251,7 @@ class dailyMainState extends State<dailyMain> {
 
 List<CircularStackEntry> _generateChartData(double value) {
   print('test $value');
-  Color dialColor = Colors.blue[200];
+  Color dialColor = Colors.orange;
   if (value < 0) {
     dialColor = Colors.red[200];
   } else if (value < 50) {

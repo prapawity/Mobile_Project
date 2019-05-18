@@ -31,6 +31,7 @@ dependencies:
   flutter_circular_chart: ^0.1.0
   cloud_firestore: any
   firebase_storage: ^1.1.0+1
+  google_sign_in: any
   # firebase_core: ^0.2.5
   # firebase_analytics: ^1.0.4
   # firebase_storage: ^1.0.4
@@ -78,11 +79,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Sukhumvit
+      fonts:
+        - asset: resource/SukhumvitSet.ttc
+        # - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
