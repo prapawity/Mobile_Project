@@ -4,6 +4,7 @@ import 'package:mobile_project/ui/informationForm.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 String user = "", pass = "";
 
@@ -179,6 +180,19 @@ class AfterSplash extends StatelessWidget {
                     splashColor: Colors.blueGrey,
                     textColor: Colors.orange,
                   ),
+                  InkWell(
+                      child: Container(
+                          constraints: BoxConstraints.expand(height: 50),
+                          child: Text("Login with Google ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.blue[600])),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.white),
+                          margin: EdgeInsets.only(top: 12),
+                          padding: EdgeInsets.all(12)),
+                      onTap: () => loginWithGoogle(context))
                 ],
               ),
             ),
@@ -191,5 +205,36 @@ class AfterSplash extends StatelessWidget {
   _displaySnackBar(BuildContext context) {
     final snackBar = SnackBar(content: Text('USER or PASSWORD is Incorrect'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  Future loginWithGoogle(BuildContext context) async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    bool isSigned = await _googleSignIn.isSignedIn();
+    if (isSigned) {
+      await _googleSignIn.signOut();
+    }
+
+    GoogleSignInAccount users = await _googleSignIn.signIn();
+    GoogleSignInAuthentication userAuth = await users.authentication;
+    FirebaseUser eiei = await auth.signInWithCredential(GoogleAuthProvider.getCredential(
+        idToken: userAuth.idToken, accessToken: userAuth.accessToken));
+    int chk = 0;
+    if (Firestore.instance.collection('users').where('email') == users.email) {
+      chk = 1;
+    }
+    if (chk == 0) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => InfromationForm(user: eiei)));
+    }
+    print('---------');
+    // await _auth.signInWithCredential(GoogleAuthProvider.getCredential(
+    //     idToken: userAuth.idToken, accessToken: userAuth.accessToken));
+    // checkAuth(context); // after success route to home.
   }
 }

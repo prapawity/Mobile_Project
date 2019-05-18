@@ -212,12 +212,13 @@ class informationState extends State<InfromationForm>
                 Firestore.instance
                     .collection('users')
                     .document('$user')
-                    .updateData({
+                    .setData({
                   'date': '$date',
                   'imgurl': "$url",
                   'sex': '$sex',
                   'username': "$name",
                   'calmax': cal,
+                  'calnow':0,
                 });
                 Navigator.pushReplacement(
                     context,

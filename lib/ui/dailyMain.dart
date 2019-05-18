@@ -26,6 +26,7 @@ class dailyMain extends StatefulWidget {
 Color labelColor = Colors.blue[200];
 
 class dailyMainState extends State<dailyMain> {
+
   int state = 0;
   // Circular setup
   final GlobalKey<AnimatedCircularChartState> _chartKey =
@@ -165,6 +166,7 @@ class dailyMainState extends State<dailyMain> {
         child: new Column(children: <Widget>[
           FlatButton(
             child: new AnimatedCircularChart(
+              
               key: _chartKey,
               size: _chartSize,
               initialChartData: _generateChartData(value),
@@ -173,6 +175,8 @@ class dailyMainState extends State<dailyMain> {
               percentageValues: true,
               holeLabel: '${nowuser.calnow} cal',
               labelStyle: _labelStyle,
+              
+              
             ),
             onPressed: () {
               print("clicked");
@@ -246,13 +250,14 @@ class dailyMainState extends State<dailyMain> {
 
 List<CircularStackEntry> _generateChartData(double value) {
   print('test $value');
-  Color dialColor = Colors.blue[200];
+  Color dialColor = Colors.orange;
   if (value < 0) {
     dialColor = Colors.red[200];
   } else if (value < 50) {
     dialColor = Colors.red[200];
   }
   labelColor = dialColor;
+  
 
   List<CircularStackEntry> data = <CircularStackEntry>[
     new CircularStackEntry(
@@ -261,9 +266,11 @@ List<CircularStackEntry> _generateChartData(double value) {
           value,
           dialColor,
           rankKey: 'percentage',
+          
         )
       ],
       rankKey: 'percentage',
+      
     ),
   ];
 
