@@ -24,6 +24,9 @@ class _Add extends State<Add> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("เพิ่มเมนู"),
+      ),
       body: Builder(
         builder: (BuildContext context) {
           return Form(

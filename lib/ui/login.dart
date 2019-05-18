@@ -155,6 +155,10 @@ class AfterSplash extends StatelessWidget {
                             'calmax': 2000,
                             'calnow': 0,
                           });
+                          Firestore.instance
+                            .collection('calorie_food')
+                            .document(uid).setData({});
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
