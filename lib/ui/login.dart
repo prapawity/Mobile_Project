@@ -21,7 +21,7 @@ class SplashState extends State<Splash> {
         navigateAfterSeconds: new AfterSplash(),
         image: new Image.asset("resource/logo.png"),
         backgroundColor: Colors.orange,
-        photoSize: 150.0,
+        photoSize: 200.0,
         loaderColor: Colors.white);
   }
 }
@@ -49,15 +49,15 @@ class AfterSplash extends StatelessWidget {
                 children: <Widget>[
                   new Image.asset(
                     "resource/logo.png",
-                    height: 250,
+                    height: 400,
                   ),
                   InkWell(
                       child: Container(
                           constraints: BoxConstraints.expand(height: 50),
-                          child: Text("Login with Google ",
+                          child: Text("ลงชื่อเข้าใช้ด้วย Gmail",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 18, color: Colors.blue[600])),
+                                  fontSize: 20, color: Colors.orange,fontFamily: 'Sukhumvit')),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               color: Colors.white),
