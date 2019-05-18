@@ -219,6 +219,7 @@ class informationState extends State<InfromationForm>
                   'username': "$name",
                   'calmax': cal,
                   'calnow':0,
+                  'email': widget.user.email,
                 });
                 Navigator.pushReplacement(
                     context,

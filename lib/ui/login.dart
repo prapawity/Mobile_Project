@@ -51,139 +51,6 @@ class AfterSplash extends StatelessWidget {
                     "resource/logo.png",
                     height: 250,
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                  TextFormField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                        labelText: "UserName",
-                        hintText: "Please Input Your UserName",
-                        icon: Icon(Icons.account_box,
-                            size: 40, color: Colors.white),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    maxLines: 1,
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (id) => print(id),
-                    validator: (id) {
-                      if (id.isEmpty) {
-                        chk2 = true;
-                        return "Please Input Your USER-ID";
-                      } else {
-                        user = id;
-                      }
-                    },
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
-                  TextFormField(
-                    controller: _controller2,
-                    decoration: InputDecoration(
-                        labelText: "PASSWORD",
-                        hintText: "Please Input Your PASSWORD",
-                        icon: Icon(Icons.lock, size: 40, color: Colors.white),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    obscureText: true,
-                    onSaved: (password) => print(password),
-                    validator: (password) {
-                      if (password.isEmpty) {
-                        chk2 = true;
-                        return "Please Input Your PASSWORD";
-                      } else {
-                        pass = password;
-                      }
-                    },
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
-                  RaisedButton(
-                    child: Text("SignIn"),
-                    onPressed: () async {
-                      bool chk = false;
-
-                      // auth.createUserWithEmailAndPassword(
-                      //   email: user,
-                      //   password: pass
-                      // );
-                      if (_formKey.currentState.validate()) {
-                        print("user: $user");
-                        print("pass: $pass");
-                        chk = true;
-                        await auth
-                            .signInWithEmailAndPassword(
-                                email: user, password: pass)
-                            .then((FirebaseUser userfire) {
-                          String uid = userfire.uid;
-                          print(userfire);
-                          print("----");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      dailyMain(user: userfire)));
-                        });
-                      }
-                      if (chk == false) {
-                        _displaySnackBar(context);
-                      }
-                      _controller.clear();
-                      _controller2.clear();
-                      chk2 = false;
-                    },
-                    color: Colors.blue,
-                    splashColor: Colors.blueGrey,
-                    textColor: Colors.white,
-                  ),
-                  RaisedButton(
-                    child: Text("SignUp"),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        print("signup $user $pass");
-                        auth
-                            .createUserWithEmailAndPassword(
-                          email: user,
-                          password: pass,
-                        )
-                            .then((FirebaseUser userid) {
-                          String uid = userid.uid;
-                          String test = _controller.text;
-                          Firestore.instance
-                              .collection('users')
-                              .document('$test')
-                              .setData({
-                            'username': 'none',
-                            'sex': 'none',
-                            'date': 'none',
-                            'imgurl': 'none',
-                            'calmax': 2000,
-                            'calnow': 0,
-                          });
-                          Firestore.instance
-                            .collection('calorie_food')
-                            .document(uid).setData({});
-
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      InfromationForm(user: userid)));
-                        });
-                      }
-                      // bool chk = false;
-                      // _formKey.currentState.validate();
-                      // UserPass.idPass.add([user,pass]);
-                      // Navigator.pushNamed(context, "/information");
-                      // chk = true;
-
-                      // if (chk == false) {
-                      //   _displaySnackBar(context);
-                      // }
-                      // _controller.clear();
-                      // _controller2.clear();
-                      // chk2 = false;
-                    },
-                    color: Colors.white,
-                    splashColor: Colors.blueGrey,
-                    textColor: Colors.orange,
-                  ),
                   InkWell(
                       child: Container(
                           constraints: BoxConstraints.expand(height: 50),
@@ -206,11 +73,6 @@ class AfterSplash extends StatelessWidget {
     );
   }
 
-  _displaySnackBar(BuildContext context) {
-    final snackBar = SnackBar(content: Text('USER or PASSWORD is Incorrect'));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
   Future loginWithGoogle(BuildContext context) async {
     GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: [
@@ -224,19 +86,25 @@ class AfterSplash extends StatelessWidget {
 
     GoogleSignInAccount users = await _googleSignIn.signIn();
     GoogleSignInAuthentication userAuth = await users.authentication;
-    FirebaseUser eiei = await auth.signInWithCredential(GoogleAuthProvider.getCredential(
-        idToken: userAuth.idToken, accessToken: userAuth.accessToken));
+    FirebaseUser eiei = await auth.signInWithCredential(
+        GoogleAuthProvider.getCredential(
+            idToken: userAuth.idToken, accessToken: userAuth.accessToken));
     int chk = 0;
-    if (Firestore.instance.collection('users').where('email') == users.email) {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('users')
+        .where('email', isEqualTo: eiei.email)
+        .limit(1)
+        .getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    if (documents.length == 1) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => dailyMain(user: eiei)));
       chk = 1;
     }
     if (chk == 0) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => InfromationForm(user: eiei)));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => InfromationForm(user: eiei)));
     }
-    print('---------');
     // await _auth.signInWithCredential(GoogleAuthProvider.getCredential(
     //     idToken: userAuth.idToken, accessToken: userAuth.accessToken));
     // checkAuth(context); // after success route to home.
