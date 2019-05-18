@@ -111,15 +111,6 @@ class AfterSplash extends StatelessWidget {
                                 email: user, password: pass)
                             .then((FirebaseUser userfire) {
                           String uid = userfire.uid;
-                          Firestore.instance
-                              .collection('users')
-                              .document("$uid")
-                              .setData({
-                            'username': 'title',
-                            'sex': 'male',
-                            'date': '',
-                            'imgurl': ''
-                          });
                           print(userfire.uid);
                           print("----");
                           Navigator.pushReplacement(
@@ -160,7 +151,9 @@ class AfterSplash extends StatelessWidget {
                             'username': 'none',
                             'sex': 'none',
                             'date': 'none',
-                            'imgurl': 'none'
+                            'imgurl': 'none',
+                            'calmax': 2000,
+                            'calnow': 0,
                           });
                           Navigator.pushReplacement(
                               context,

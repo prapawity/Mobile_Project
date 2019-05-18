@@ -1,88 +1,42 @@
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/service/images_picker_dialog.dart';
-import 'package:mobile_project/service/images_picker_handler.dart';
+import 'dart:async';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:mobile_project/ui/menuList.dart';
+import 'package:mobile_project/ui/restaurant_list_screen.dart';
+import 'package:mobile_project/ui/informationForm.dart';
+import 'package:mobile_project/ui/login.dart';
+import 'package:mobile_project/ui/customMenu.dart';
+import 'package:mobile_project/ui/getdata.dart';
+import 'package:mobile_project/service/userinfo.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.title}) : super(key: key);
-  final String title;
-
+class dailyMain extends StatefulWidget {
+  const dailyMain({Key key, this.user}) : super(key: key);
+  final FirebaseUser user;
   @override
-  _HomeScreenState createState() => new _HomeScreenState();
+  dailyMainState createState() => dailyMainState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin, ImagePickerListener {
-  File _image;
-  AnimationController _controller;
-  ImagePickerHandler imagePicker;
+class dailyMainState extends State<dailyMain> {
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    imagePicker = new ImagePickerHandler(this, _controller);
-    imagePicker.init();
-  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    Widget buildUi(BuildContext context, userinfo nowuser) {
+  return Center(
+    child: Text("$nowuser."),
+  );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(
-          widget.title,
-          style: new TextStyle(color: Colors.white),
-        ),
-      ),
-      body: new GestureDetector(
-        onTap: () => imagePicker.showDialog(context),
-        child: new Center(
-          child: _image == null
-              ? new Stack(
-                  children: <Widget>[
-                    new Center(
-                      child: new CircleAvatar(
-                        radius: 80.0,
-                        backgroundColor: const Color(0xFF778899),
-                      ),
-                    ),
-                    new Center(
-                      child: new Image.asset("assets/photo_camera.png"),
-                    ),
-                  ],
-                )
-              : new Container(
-                  height: 160.0,
-                  width: 160.0,
-                  decoration: new BoxDecoration(
-                    color: const Color(0xff7c94b6),
-                    image: new DecorationImage(
-                      image: new ExactAssetImage(_image.path),
-                      fit: BoxFit.cover,
-                    ),
-                    border: Border.all(color: Colors.red, width: 5.0),
-                    borderRadius:
-                        new BorderRadius.all(const Radius.circular(80.0)),
-                  ),
-                ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  userImage(File _image) {
-    setState(() {
-      this._image = _image;
-    });
+   return StreamBuilder<DocumentSnapshot>(
+   stream: Firestore.instance.collection('users').document('${widget.user.uid}').snapshots(),
+   builder: (context, snapshot) {
+     if (!snapshot.hasData) return LinearProgressIndicator();
+          final  nowuser = userinfo.fromSnapshot(snapshot.data);
+          return buildUi(context, nowuser);
+   },
+ );
   }
 }
