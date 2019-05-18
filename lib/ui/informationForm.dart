@@ -30,7 +30,7 @@ class informationState extends State<InfromationForm>
   int day, months, years;
   int age;
   var username = new TextEditingController();
-  int _discreteValue = 0;
+  int _discreteValue = 2000;
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
@@ -199,7 +199,8 @@ class informationState extends State<InfromationForm>
                 String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                 String date = textfield_date.text;
                 String user = widget.user.email;
-                print(widget.user.email);
+                FirebaseUser userobj = widget.user;
+                int cal = _discreteValue;
                 Firestore.instance
                     .collection('users')
                     .document('$user')
@@ -208,18 +209,19 @@ class informationState extends State<InfromationForm>
                   'imgurl': "a",
                   'sex': '$sex',
                   'username': "$name",
-                  'calories_day': '$_discreteValue',
+                  'calmax': cal,
                 });
+                print(userobj);
                 // String name = widget.user.email;
                 // StorageReference ref = FirebaseStorage.instance
                 //     .ref()
                 //     .child('$name')
                 //     .child("image.jpg");
                 // StorageUploadTask uploadTask = ref.putFile(_image);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => dailyMain(user: widget.user)));
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => dailyMain(user: userobj)));
               },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
