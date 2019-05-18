@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/informationForm.dart';
@@ -14,6 +16,7 @@ import 'package:mobile_project/service/userinfo.dart';
 
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
+
   final FirebaseUser user;
   @override
   dailyMainState createState() => dailyMainState();
@@ -22,13 +25,12 @@ class dailyMain extends StatefulWidget {
 Color labelColor = Colors.blue[200];
 
 class dailyMainState extends State<dailyMain> {
-  String imgprofile =
-      "https://scontent.fbkk5-6.fna.fbcdn.net/v/t1.0-9/40432184_1828845493817855_5173684245750611968_o.jpg?_nc_cat=101&_nc_ht=scontent.fbkk5-6.fna&oh=aa1b368524a1ae602cd8d6a5e159fd91&oe=5D38E56E";
+  int state = 0;
   // Circular setup
   final GlobalKey<AnimatedCircularChartState> _chartKey =
       new GlobalKey<AnimatedCircularChartState>();
   final _chartSize = const Size(200.0, 200.0);
-  double value = 0;
+
 // Tab setup
   final Map<int, Widget> pagelist = const <int, Widget>{
     0: Text("อาหาร"),
@@ -57,10 +59,21 @@ class dailyMainState extends State<dailyMain> {
   };
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
-    value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
-    // List<CircularStackEntry> data = _generateChartData(value);
-    // _chartKey.currentState.updateData(data);
-
+    double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
+    if (state > 0) {
+      value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
+      List<CircularStackEntry> data = _generateChartData(value);
+      _chartKey.currentState.updateData(data);
+    } else {
+      setState(() {
+        // List<CircularStackEntry> data = _generateChartData(0);
+        // print(data);
+        // _chartKey.currentState.updateData(data);
+        
+      });
+      state = 1;
+    }
+    String imgprofile = "${nowuser.imgurl}";
     TextStyle _labelStyle = Theme.of(context)
         .textTheme
         .title
@@ -68,7 +81,7 @@ class dailyMainState extends State<dailyMain> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("title ${widget.user.email}"),
+        title: new Text("${widget.user.email}"), centerTitle: true,
         // title: new Text("title ${widget.user.email}"),
         backgroundColor: Colors.orange,
       ),
@@ -129,7 +142,7 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("Add menu"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Add())),
+                  builder: (BuildContext context) => new Add(user: widget.user,))),
             ),
             new ListTile(
               title: new Text("get Data firebase"),
@@ -223,9 +236,15 @@ class dailyMainState extends State<dailyMain> {
       },
     );
   }
+
+  @override
+  void setState(fn) {
+    // TODO: implement setState
+  }
 }
 
 List<CircularStackEntry> _generateChartData(double value) {
+  print('test $value');
   Color dialColor = Colors.blue[200];
   if (value < 0) {
     dialColor = Colors.red[200];

@@ -111,7 +111,7 @@ class AfterSplash extends StatelessWidget {
                                 email: user, password: pass)
                             .then((FirebaseUser userfire) {
                           String uid = userfire.uid;
-                          print(userfire.uid);
+                          print(userfire);
                           print("----");
                           Navigator.pushReplacement(
                               context,
