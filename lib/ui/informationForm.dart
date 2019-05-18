@@ -210,11 +210,16 @@ class informationState extends State<InfromationForm>
                   'username': "$name",
                   'calories_day': '$_discreteValue',
                 });
+                // String name = widget.user.email;
+                // StorageReference ref = FirebaseStorage.instance
+                //     .ref()
+                //     .child('$name')
+                //     .child("image.jpg");
+                // StorageUploadTask uploadTask = ref.putFile(_image);
                 Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      dailyMain(user: widget.user)));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => dailyMain(user: widget.user)));
               },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
