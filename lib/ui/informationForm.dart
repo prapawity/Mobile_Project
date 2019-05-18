@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_project/service/userinfo.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'dailyMain.dart';
 
@@ -194,34 +195,34 @@ class informationState extends State<InfromationForm>
             Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             RaisedButton(
               child: Text("Save"),
-              onPressed: () {
+              onPressed: () async {
                 String name = username.text;
                 String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                 String date = textfield_date.text;
                 String user = widget.user.email;
                 FirebaseUser userobj = widget.user;
                 int cal = _discreteValue;
+                String namez = widget.user.email;
+                final StorageReference storageRef =
+                    FirebaseStorage.instance.ref().child('$namez');
+                final StorageUploadTask uploadTask = storageRef.putFile(_image);
+                var dowurl =
+                    await(await uploadTask.onComplete).ref.getDownloadURL();
+                String url = dowurl.toString();
                 Firestore.instance
                     .collection('users')
                     .document('$user')
                     .updateData({
                   'date': '$date',
-                  'imgurl': "a",
+                  'imgurl': "$url",
                   'sex': '$sex',
                   'username': "$name",
                   'calmax': cal,
                 });
-                print(userobj);
-                // String name = widget.user.email;
-                // StorageReference ref = FirebaseStorage.instance
-                //     .ref()
-                //     .child('$name')
-                //     .child("image.jpg");
-                // StorageUploadTask uploadTask = ref.putFile(_image);
-                // Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => dailyMain(user: userobj)));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => dailyMain(user: userobj)));
               },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
