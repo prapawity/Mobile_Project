@@ -82,7 +82,7 @@ class dailyMainState extends State<dailyMain> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("${widget.user.email}"), centerTitle: true,
+        title: new Text("${nowuser.username}",style: TextStyle(fontSize: 20),), centerTitle: true,
         // title: new Text("title ${widget.user.email}"),
         backgroundColor: Colors.orange,
       ),
@@ -104,9 +104,9 @@ class dailyMainState extends State<dailyMain> {
             new UserAccountsDrawerHeader(
               accountName: Text(
                 '${nowuser.username}',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),
               ),
-              accountEmail: new Text('${widget.user.email}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
+              accountEmail: new Text('${widget.user.email}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,),),
               currentAccountPicture: new GestureDetector(
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
