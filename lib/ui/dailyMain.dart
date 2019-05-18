@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
+import 'package:mobile_project/ui/updateinformationForm.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/login.dart';
 import 'package:mobile_project/ui/customMenu.dart';
@@ -107,7 +108,7 @@ class dailyMainState extends State<dailyMain> {
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        new InfromationForm(user: widget.user))),
+                        new updateinformationForm(user: widget.user))),
                 // onDoubleTap: () => print("profile click"),
                 child: new CircleAvatar(
                   backgroundImage: new NetworkImage(imgprofile),
