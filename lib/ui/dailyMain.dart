@@ -105,9 +105,10 @@ class dailyMainState extends State<dailyMain> {
         shape: const CircleBorder(),
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new Menu()));
+              builder: (BuildContext context) => new Menu(user: widget.user)));
         },
       ),
+      
       endDrawer: new Drawer(
         child: new ListView(
           children: <Widget>[
@@ -153,7 +154,7 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("รายการอาหาร"),
               trailing: new Icon(Icons.list),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
+                  builder: (BuildContext context) => new Menu(user:widget.user))),
             ),
             new ListTile(
               title: new Text("เพิ่มอาหาร"),
@@ -204,10 +205,9 @@ class dailyMainState extends State<dailyMain> {
               ),
               Container(
                 padding: EdgeInsets.all(10),
-                  child: Container(
-                    child: icons[sharedValue],
-                  ),
-
+                child: Container(
+                  child: icons[sharedValue],
+                ),
               ),
             ],
           ),
