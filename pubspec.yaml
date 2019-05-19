@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: any
   firebase_storage: ^1.1.0+1
   location: ^1.4.1
+  image_picker_saver: ^0.1.0
   # firebase_core: ^0.2.5
   # firebase_analytics: ^1.0.4
   # firebase_storage: ^1.0.4

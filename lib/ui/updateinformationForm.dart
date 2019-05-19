@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_project/service/images_picker_dialog.dart';
@@ -11,6 +12,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_project/service/userinfo.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker_saver/image_picker_saver.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import 'dailyMain.dart';
 
@@ -33,9 +37,10 @@ class updateinformationFormState extends State<updateinformationForm>
   var username = new TextEditingController();
   int _discreteValue = 1000;
   File _image;
+  String userimg;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
-
+  static var httpClient = new HttpClient();
   @override
   void initState() {
     Firestore.instance
@@ -49,6 +54,7 @@ class updateinformationFormState extends State<updateinformationForm>
         username.text = ds.data['username'];
         textfield_date.text = ds.data['date'];
         _discreteValue = ds.data['calmax'];
+        userimg = ds.data['imgurl'];
         if (ds.data['sex'] == "ผู้ชาย") {
           _radioValue1 = 0;
         } else {
@@ -106,7 +112,8 @@ class updateinformationFormState extends State<updateinformationForm>
               child: new Center(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: _image == null
+                  child:
+                   userimg == null
                       ? new Stack(
                           children: <Widget>[
                             new Center(
@@ -116,7 +123,20 @@ class updateinformationFormState extends State<updateinformationForm>
                             )),
                           ],
                         )
-                      : new Container(
+                      : _image == null ? new Container(
+                          height: 160.0,
+                          width: 160.0,
+                          decoration: new BoxDecoration(
+                            image: new DecorationImage(
+                              image: new NetworkImage("$userimg"),
+                              fit: BoxFit.cover,
+                            ),
+                            border:
+                                Border.all(color: Colors.orange, width: 5.0),
+                            borderRadius: new BorderRadius.all(
+                                const Radius.circular(80.0)),
+                          ),
+                        ) : new Container(
                           height: 160.0,
                           width: 160.0,
                           decoration: new BoxDecoration(
