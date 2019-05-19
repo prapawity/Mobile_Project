@@ -31,7 +31,7 @@ class updateinformationFormState extends State<updateinformationForm>
   int day, months, years;
   int age;
   var username = new TextEditingController();
-  int _discreteValue = 2000;
+  int _discreteValue = 1000;
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
@@ -40,16 +40,21 @@ class updateinformationFormState extends State<updateinformationForm>
   void initState() {
     Firestore.instance
         .collection('users')
-        .document('${widget.user.uid}')
+        .document('${widget.user.email}')
         .get()
         .then((DocumentSnapshot ds) {
       print("==================");
-      username.text = ds.data['username'];
-      if (ds.data['sex'] == "ผู้ชาย") {
-        _radioValue1 = 0;
-      } else {
-        _radioValue1 = 1;
-      }
+      print(_discreteValue);
+      setState(() {
+        username.text = ds.data['username'];
+        textfield_date.text = ds.data['date'];
+        _discreteValue = ds.data['calmax'];
+        if (ds.data['sex'] == "ผู้ชาย") {
+          _radioValue1 = 0;
+        } else {
+          _radioValue1 = 1;
+        }
+      });
       // print("${widget.user.uid}");
       print("==================");
       // use ds as a snapshot
@@ -207,7 +212,7 @@ class updateinformationFormState extends State<updateinformationForm>
                     FirebaseStorage.instance.ref().child('$namez');
                 final StorageUploadTask uploadTask = storageRef.putFile(_image);
                 var dowurl =
-                    await(await uploadTask.onComplete).ref.getDownloadURL();
+                    await (await uploadTask.onComplete).ref.getDownloadURL();
                 String url = dowurl.toString();
                 Firestore.instance
                     .collection('users')
