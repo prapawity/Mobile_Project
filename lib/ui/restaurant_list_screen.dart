@@ -3,8 +3,20 @@ import 'package:mobile_project/styles/mainStyle.dart';
 import '../model/restaurant_model.dart';
 import '../service/restaurant_services.dart';
 import 'restaurant_screen.dart';
+import 'package:location/location.dart';
 
-class ResraurantListScreen extends StatelessWidget {
+class ResraurantListScreen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return _ResraurantListScreen();
+  }
+
+}
+class _ResraurantListScreen extends State<ResraurantListScreen> {
+  var location = new Location();
+
+  Map<String, double> userLocation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +24,7 @@ class ResraurantListScreen extends StatelessWidget {
         title: Text("ร้านอาหาร"),centerTitle: true,
       ),
       body:FutureBuilder<List<Restaurant>>(
-            future: getAllRestaurant(),
+            future: getAllRestaurant(userLocation),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done) {
                   if(snapshot.hasError){
