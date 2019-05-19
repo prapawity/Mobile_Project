@@ -37,9 +37,9 @@ class dailyMainState extends State<dailyMain> {
 
 // Tab setup
   final Map<int, Widget> logoWidgets = const <int, Widget>{
-    0: Text('Logo 1'),
-    1: Text('Logo 2'),
-    2: Text('Logo 3'),
+    0: Text('อาหาร'),
+    1: Text('ร้านอาหาร'),
+    2: Text('ออกกำลัง'),
   };
   List icons = [
     Container(
