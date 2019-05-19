@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_project/service/user.dart';
+import 'package:mobile_project/styles/mainStyle.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/updateinformationForm.dart';
@@ -26,6 +27,7 @@ class dailyMain extends StatefulWidget {
 Color labelColor = Colors.blue[200];
 
 class dailyMainState extends State<dailyMain> {
+  int chks = 0;
   int state = 0;
   // Circular setup
   final GlobalKey<AnimatedCircularChartState> _chartKey =
@@ -33,10 +35,10 @@ class dailyMainState extends State<dailyMain> {
   final _chartSize = const Size(200.0, 200.0);
 
 // Tab setup
-  final Map<int, Widget> pagelist = const <int, Widget>{
-    0: Text("อาหาร"),
-    1: Text("ร้านอาหาร"),
-    2: Text("ออกกำลังกาย"),
+  final Map<int, Widget> logoWidgets = const <int, Widget>{
+    0: Text('Logo 1'),
+    1: Text('Logo 2'),
+    2: Text('Logo 3'),
   };
   final Map<int, Widget> icons = const <int, Widget>{
     0: Center(
@@ -58,22 +60,25 @@ class dailyMainState extends State<dailyMain> {
       ),
     ),
   };
+
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
-    if (state > 0) {
+    if (state > 0 || chks != 0) {
       value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
       List<CircularStackEntry> data = _generateChartData(value);
       _chartKey.currentState.updateData(data);
     } else {
-      setState(() {
-        // List<CircularStackEntry> data = _generateChartData(0);
-        // print(data);
-        // _chartKey.currentState.updateData(data);
-        
-      });
+      if (chks != 0) {
+        setState(() {
+          // List<CircularStackEntry> data = _generateChartData(0);
+          // print(data);
+          // _chartKey.currentState.updateData(data);
+        });
+      }
       state = 1;
     }
+    chks++;
     String imgprofile = "${nowuser.imgurl}";
     TextStyle _labelStyle = Theme.of(context)
         .textTheme
@@ -82,7 +87,11 @@ class dailyMainState extends State<dailyMain> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("${widget.user.email}"), centerTitle: true,
+        title: new Text(
+          "${nowuser.username}",
+          style: TextStyle(fontSize: 20),
+        ),
+        centerTitle: true,
         // title: new Text("title ${widget.user.email}"),
         backgroundColor: Colors.orange,
       ),
@@ -103,8 +112,20 @@ class dailyMainState extends State<dailyMain> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text('${widget.user.uid}'),
-              accountEmail: new Text('${widget.user.email}'),
+              accountName: Text(
+                '${nowuser.username}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              accountEmail: new Text(
+                '${widget.user.email}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
               currentAccountPicture: new GestureDetector(
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
@@ -119,7 +140,7 @@ class dailyMainState extends State<dailyMain> {
                   image: new DecorationImage(
                       fit: BoxFit.fill,
                       image: new NetworkImage(
-                          "https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/images/running.jpg"))),
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN2vSHb57BWkqpxHJkc9gqtcFdXNPBQDtoSPstPMEYl-ZVLMj"))),
             ),
             new ListTile(
               title: new Text("restaurant"),
@@ -144,7 +165,9 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("Add menu"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Add(user: widget.user,))),
+                  builder: (BuildContext context) => new Add(
+                        user: widget.user,
+                      ))),
             ),
             new ListTile(
               title: new Text("get Data firebase"),
@@ -156,7 +179,12 @@ class dailyMainState extends State<dailyMain> {
             new ListTile(
               title: new Text("Sign out"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () => _signOut,
+              onTap: () async {
+                    print('test');
+                    await FirebaseAuth.instance.signOut();
+                    print("signout");
+                    Navigator.of(context).popAndPushNamed("/");
+                  },
             )
           ],
         ),
@@ -175,43 +203,29 @@ class dailyMainState extends State<dailyMain> {
               holeLabel: '${nowuser.calnow} cal',
               labelStyle: _labelStyle,
             ),
-            onPressed: () {
-              print("clicked");
-            },
           ),
-          new SizedBox(
-            height: 20,
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          new Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                  width: 300.0,
-                  child: CupertinoSegmentedControl<int>(
-                    children: pagelist,
-                    onValueChanged: (int val) {
-                      setState(() {
-                        sharedValue = val;
-                      });
-                    },
-                    groupValue: sharedValue,
-                  ))
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 32.0,
-                horizontal: 16.0,
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 64.0,
-                  horizontal: 16.0,
+                width: 500.0,
+                child: CupertinoSegmentedControl<int>(
+                  children: logoWidgets,
+                  onValueChanged: (int val) {
+                    setState(() {
+                      sharedValue = val;
+                    });
+                  },
+                  groupValue: sharedValue,
                 ),
-                child: icons[sharedValue],
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  child: icons[sharedValue],
+                ),
+              ),
+            ],
           ),
         ]),
       ),
@@ -238,16 +252,11 @@ class dailyMainState extends State<dailyMain> {
       },
     );
   }
-
-  @override
-  void setState(fn) {
-    // TODO: implement setState
-  }
 }
 
 List<CircularStackEntry> _generateChartData(double value) {
   print('test $value');
-  Color dialColor = Colors.blue[200];
+  Color dialColor = Colors.orange;
   if (value < 0) {
     dialColor = Colors.red[200];
   } else if (value < 50) {

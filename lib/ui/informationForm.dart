@@ -207,18 +207,24 @@ class informationState extends State<InfromationForm>
                     FirebaseStorage.instance.ref().child('$namez');
                 final StorageUploadTask uploadTask = storageRef.putFile(_image);
                 var dowurl =
-                    await(await uploadTask.onComplete).ref.getDownloadURL();
+                    await (await uploadTask.onComplete).ref.getDownloadURL();
                 String url = dowurl.toString();
                 Firestore.instance
                     .collection('users')
                     .document('$user')
-                    .updateData({
+                    .setData({
                   'date': '$date',
                   'imgurl': "$url",
                   'sex': '$sex',
                   'username': "$name",
                   'calmax': cal,
+                  'calnow': 0,
+                  'email': widget.user.email,
                 });
+                Firestore.instance
+                    .collection('calorie_food')
+                    .document('$user')
+                    .setData({});
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

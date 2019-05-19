@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:mobile_project/ui/informationForm.dart';
@@ -20,7 +21,7 @@ class SplashState extends State<Splash> {
         navigateAfterSeconds: new AfterSplash(),
         image: new Image.asset("resource/logo.png"),
         backgroundColor: Colors.orange,
-        photoSize: 150.0,
+        photoSize: 200.0,
         loaderColor: Colors.white);
   }
 }
@@ -44,11 +45,11 @@ class AfterSplash extends StatelessWidget {
             child: Form(
               key: _formKey,
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
                 children: <Widget>[
                   new Image.asset(
                     "resource/logo.png",
-                    height: 250,
+                    height: 270,
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
                   TextFormField(
@@ -94,7 +95,10 @@ class AfterSplash extends StatelessWidget {
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
                   RaisedButton(
-                    child: Text("SignIn"),
+                    child: Text(
+                      "ลงชื่อเข้าใช้",
+                      style: TextStyle(fontSize: 18),
+                    ),
                     onPressed: () async {
                       bool chk = false;
 
@@ -103,25 +107,45 @@ class AfterSplash extends StatelessWidget {
                       //   password: pass
                       // );
                       if (_formKey.currentState.validate()) {
-                        print("user: $user");
-                        print("pass: $pass");
                         chk = true;
                         await auth
                             .signInWithEmailAndPassword(
                                 email: user, password: pass)
-                            .then((FirebaseUser userfire) {
-                          String uid = userfire.uid;
-                          print(userfire);
-                          print("----");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      dailyMain(user: userfire)));
+                            .then((FirebaseUser userfire) async {
+                          if (userfire.isEmailVerified) {
+                            int ck = 0;
+                            final QuerySnapshot result = await Firestore
+                                .instance
+                                .collection('users')
+                                .where('email', isEqualTo: userfire.email)
+                                .limit(1)
+                                .getDocuments();
+                            final List<DocumentSnapshot> documents =
+                                result.documents;
+                            if (documents.length == 1) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          dailyMain(user: userfire)));
+                              ck = 1;
+                            }
+                            if (ck == 0) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InfromationForm(user: userfire)));
+                            }
+                          } else {
+                            _displaySnackBar3(context);
+                          }
+                        }).catchError((e){
+                            _displaySnackBar4(context);
                         });
                       }
                       if (chk == false) {
-                        _displaySnackBar(context);
+                        _displaySnackBar4(context);
                       }
                       _controller.clear();
                       _controller2.clear();
@@ -132,39 +156,52 @@ class AfterSplash extends StatelessWidget {
                     textColor: Colors.white,
                   ),
                   RaisedButton(
-                    child: Text("SignUp"),
+                    child: Text("สมัครสมาชิก", style: TextStyle(fontSize: 18)),
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        print("signup $user $pass");
                         auth
                             .createUserWithEmailAndPassword(
                           email: user,
                           password: pass,
                         )
                             .then((FirebaseUser userid) {
-                          String uid = userid.uid;
-                          String test = _controller.text;
-                          Firestore.instance
-                              .collection('users')
-                              .document('$test')
-                              .setData({
-                            'username': 'none',
-                            'sex': 'none',
-                            'date': 'none',
-                            'imgurl': 'none',
-                            'calmax': 2000,
-                            'calnow': 0,
-                          });
-                          Firestore.instance
-                            .collection('calorie_food')
-                            .document(uid).setData({});
+                          print(userid);
+                          if (userid == null) {
+                            _displaySnackBar(context);
+                          }
+                          try {
+                            userid.sendEmailVerification();
+                            Navigator.pushNamed(context, "/verify");
+                          } catch (e) {
+                            _displaySnackBar(context);
+                          }
+                          //   String uid = userid.uid;
+                          //   String test = _controller.text;
+                          //   Firestore.instance
+                          //       .collection('users')
+                          //       .document('$test')
+                          //       .setData({
+                          //     'username': 'none',
+                          //     'sex': 'none',
+                          //     'date': 'none',
+                          //     'imgurl': 'none',
+                          //     'calmax': 2000,
+                          //     'calnow': 0,
+                          //   });
+                          //   Firestore.instance
+                          //     .collection('calorie_food')
+                          //     .document(uid).setData({});
 
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      InfromationForm(user: userid)));
+                          //   Navigator.pushReplacement(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               InfromationForm(user: userid)));
+                        }).catchError((e) {
+                          _displaySnackBar2(context);
                         });
+                      } else {
+                        _displaySnackBar4(context);
                       }
                       // bool chk = false;
                       // _formKey.currentState.validate();
@@ -178,6 +215,8 @@ class AfterSplash extends StatelessWidget {
                       // _controller.clear();
                       // _controller2.clear();
                       // chk2 = false;
+                      _controller.clear();
+                      _controller2.clear();
                     },
                     color: Colors.white,
                     splashColor: Colors.blueGrey,
@@ -194,6 +233,21 @@ class AfterSplash extends StatelessWidget {
 
   _displaySnackBar(BuildContext context) {
     final snackBar = SnackBar(content: Text('USER or PASSWORD is Incorrect'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  _displaySnackBar2(BuildContext context) {
+    final snackBar = SnackBar(content: Text('E-mail นี้ถูกใช้ไปแล้ว'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  _displaySnackBar3(BuildContext context) {
+    final snackBar =
+        SnackBar(content: Text('กรุณาลงทะเบียน หรือยืนยัน E-mailของท่านก่อน'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+  _displaySnackBar4(BuildContext context) {
+    final snackBar = SnackBar(content: Text('กรุณากรอกข้อมูลให้ถูกห้อง'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 }

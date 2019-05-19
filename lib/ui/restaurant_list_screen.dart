@@ -9,7 +9,7 @@ class ResraurantListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ร้านอาหาร"),
+        title: Text("ร้านอาหาร"),centerTitle: true,
       ),
       body:FutureBuilder<List<Restaurant>>(
             future: getAllRestaurant(),
@@ -42,7 +42,7 @@ class ResraurantListScreen extends StatelessWidget {
                                           child: new Text(title.length > 20 ? "${title.substring(0, 20)}..." : title, style: headerTextStyle),
                                           padding: EdgeInsets.only(bottom: 5.0),
                                         ),
-                                        Text(desc.length > 23 ? "${desc.substring(0, 23)}..." : desc)
+                                        Text(desc.length > 30 ? "${desc.substring(0, 30)}..." : desc)
                                       ],
                                     ),
                                   );
@@ -51,6 +51,7 @@ class ResraurantListScreen extends StatelessWidget {
                                         Navigator.push(context,MaterialPageRoute(builder: (context) => RestaurantScreen(restaurant: restaurant,)),);
                                     },
                                     child: Card(
+                                      color: Colors.amberAccent,
                                       margin: EdgeInsets.all(5.0),
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10.0)),

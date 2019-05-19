@@ -16,7 +16,7 @@ class _MapLocationState extends State<MapLocation>{
   Widget build(BuildContext context) {
     return   Scaffold(
           appBar: AppBar(
-            title: Text("แผนที่"),
+            title: Text("แผนที่"),centerTitle: true,
           ),
           body: new FlutterMap(
               options: new MapOptions(
