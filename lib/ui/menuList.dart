@@ -111,14 +111,24 @@ class _MenuState extends State<Menu> {
             return new Column(
               children: <Widget>[
                 new ListTile(
-                  title:
-                      new Text("${foods[index].name}    ${foods[index].cal}"),
-                  leading: Text((index + 1).toString()),
-                  onTap: () =>{
-                    print("click")
-                  }
-                  ,
-                ),
+                    title:
+                        new Text("${foods[index].name}    ${foods[index].cal}"),
+                    leading: Text((index + 1).toString()),
+                    onTap: () {
+                      List<Map<String, String>> list =
+                          new List<Map<String, String>>();
+                      Map<String, String> list2 = Map<String, String>();
+                      list2['name'] = foods[index].name;
+                      list2['cal'] = foods[index].cal;
+
+                      list.add(list2);
+
+                      Firestore.instance
+                          .collection('users.eat')
+                          .document(widget.user.email)
+                          .updateData({"food": FieldValue.arrayUnion(list)});
+                      Navigator.pop(context);
+                    }),
                 new Divider(
                   height: 2.0,
                 ),
