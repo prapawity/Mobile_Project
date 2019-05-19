@@ -65,14 +65,14 @@ class dailyMainState extends State<dailyMain> {
   Widget food(BuildContext context) {
      return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance
-          .collection('users')
+          .collection('users.eat')
           .document('${widget.user.email}')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        final nowuser = userinfo.fromSnapshot(snapshot.data);
+        // final nowuser = userinfo.fromSnapshot(snapshot.data);
         return Center(
-          child: Text("${nowuser.username}")
+          child: Text("${snapshot.data}")
         );
       },);
   }
