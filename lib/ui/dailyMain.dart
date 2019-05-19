@@ -25,6 +25,7 @@ class dailyMain extends StatefulWidget {
 }
 
 Color labelColor = Colors.blue[200];
+int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
   int state = 0;
@@ -50,7 +51,6 @@ class dailyMainState extends State<dailyMain> {
       child: Text('data3'),
     ),
   };
-  int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
     if (state > 0) {
@@ -73,7 +73,11 @@ class dailyMainState extends State<dailyMain> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("${nowuser.username}",style: TextStyle(fontSize: 20),), centerTitle: true,
+        title: new Text(
+          "${nowuser.username}",
+          style: TextStyle(fontSize: 20),
+        ),
+        centerTitle: true,
         // title: new Text("title ${widget.user.email}"),
         backgroundColor: Colors.orange,
       ),
@@ -95,9 +99,18 @@ class dailyMainState extends State<dailyMain> {
             new UserAccountsDrawerHeader(
               accountName: Text(
                 '${nowuser.username}',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-              accountEmail: new Text('${widget.user.email}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,),),
+              accountEmail: new Text(
+                '${widget.user.email}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
               currentAccountPicture: new GestureDetector(
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
@@ -181,14 +194,13 @@ class dailyMainState extends State<dailyMain> {
                   width: 300.0,
                   child: CupertinoSegmentedControl<int>(
                     children: pagelist,
-                    onValueChanged: (value){
+                    onValueChanged: (value) {
                       print(value);
-                      sharedValue = value;
-                      // setState(() {
-                      //   sharedValue = value;
-                      // });
+                      // sharedValue = value;
+                      setState(() {
+                        sharedValue = value;
+                      });
                     },
-                    
                     groupValue: sharedValue,
                   ))
             ],
@@ -232,13 +244,6 @@ class dailyMainState extends State<dailyMain> {
         return buildUi(context, nowuser);
       },
     );
-  }
-
-  @override
-  void setState(fn) {
-    // TODO: implement setState
-    print('test');
-    print(sharedValue);
   }
 }
 
