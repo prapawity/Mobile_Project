@@ -63,7 +63,7 @@ class dailyMainState extends State<dailyMain> {
   int sharedValue = 0;
 
   Widget food(BuildContext context) {
-     return StreamBuilder<DocumentSnapshot>(
+    return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance
           .collection('users')
           .document('${widget.user.email}')
@@ -71,10 +71,9 @@ class dailyMainState extends State<dailyMain> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         final nowuser = userinfo.fromSnapshot(snapshot.data);
-        return Center(
-          child: Text("${nowuser.username}")
-        );
-      },);
+        return Center(child: Text("${nowuser.username}"));
+      },
+    );
   }
 
   Widget restaurant(BuildContext context) {
@@ -100,17 +99,23 @@ class dailyMainState extends State<dailyMain> {
                           Padding(
                             child: Container(
                                 child: Column(
-                                  children: <Widget>[
-                                    new Text(
-                                        title.length > 20
-                                            ? "${title.substring(0, 20)}..."
-                                            : title,
-                                        style: headerTextStyle),
-                                    new Text(
-                                        "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
-                                    )
-                                  ],
-                                )),
+                              children: <Widget>[
+                                new Text(
+                                    title.length > 20
+                                        ? "${title.substring(0, 20)}..."
+                                        : title,
+                                    style: headerTextStyle),
+                                new Text("ระยะห่าง " +
+                                    Haversine.haversine(
+                                            Haversine.lat,
+                                            Haversine.lng,
+                                            restaurant.lat,
+                                            restaurant.lng)
+                                        .toStringAsFixed(2)
+                                        .toString() +
+                                    " กม.")
+                              ],
+                            )),
                             padding: EdgeInsets.only(bottom: 5.0),
                           ),
                           Text(desc.length > 30
@@ -255,6 +260,11 @@ class dailyMainState extends State<dailyMain> {
                         user: widget.user,
                       ))),
             ),
+            new ListTile(
+              title: new Text("ออกกำลังกาย"),
+              trailing: new Icon(Icons.add),
+              onTap: () => Navigator.pushNamed(context, "/exercise"),
+            ),
             new Divider(),
             new ListTile(
               title: new Text("ออกจากระบบ"),
@@ -315,7 +325,6 @@ class dailyMainState extends State<dailyMain> {
     print("signout");
     Navigator.of(context).popAndPushNamed("/");
   }
-
 
   @override
   Widget build(BuildContext context) {
