@@ -16,13 +16,30 @@ class Splash extends StatefulWidget {
 class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
-    return new SplashScreen(
-        seconds: 7,
-        navigateAfterSeconds: new AfterSplash(),
-        image: new Image.asset("resource/logo.png"),
-        backgroundColor: Colors.orange,
-        photoSize: 200.0,
-        loaderColor: Colors.white);
+    return new Container(
+      decoration: BoxDecoration(
+        // Box decoration takes a gradient
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          stops: [0.3, 5],
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Colors.orange,
+            Colors.deepOrangeAccent,
+          ],
+        ),
+      ),
+      child: SplashScreen(
+          seconds: 6,
+          navigateAfterSeconds: new AfterSplash(),
+          image: new Image.asset("resource/logo.png"),
+          backgroundColor: Colors.orange,
+          photoSize: 200.0,
+          loaderColor: Colors.white),
+    );
   }
 }
 
@@ -39,194 +56,212 @@ class AfterSplash extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.orange,
       key: _scaffoldKey,
-      body: new Builder(
-        builder: (BuildContext) {
-          return SafeArea(
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
-                children: <Widget>[
-                  new Image.asset(
-                    "resource/logo.png",
-                    height: 270,
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                  TextFormField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                        labelText: "UserName",
-                        hintText: "Please Input Your UserName",
-                        icon: Icon(Icons.account_box,
-                            size: 40, color: Colors.white),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    maxLines: 1,
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (id) => print(id),
-                    validator: (id) {
-                      if (id.isEmpty) {
-                        chk2 = true;
-                        return "Please Input Your USER-ID";
-                      } else {
-                        user = id;
-                      }
-                    },
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
-                  TextFormField(
-                    controller: _controller2,
-                    decoration: InputDecoration(
-                        labelText: "PASSWORD",
-                        hintText: "Please Input Your PASSWORD",
-                        icon: Icon(Icons.lock, size: 40, color: Colors.white),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    obscureText: true,
-                    onSaved: (password) => print(password),
-                    validator: (password) {
-                      if (password.isEmpty) {
-                        chk2 = true;
-                        return "Please Input Your PASSWORD";
-                      } else {
-                        pass = password;
-                      }
-                    },
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
-                  RaisedButton(
-                    child: Text(
-                      "ลงชื่อเข้าใช้",
-                      style: TextStyle(fontSize: 18),
+      body: Container(
+        child: new Builder(
+          builder: (BuildContext) {
+            return SafeArea(
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
+                  children: <Widget>[
+                    new Image.asset(
+                      "resource/logo.png",
+                      height: 270,
                     ),
-                    onPressed: () async {
-                      bool chk = false;
-
-                      // auth.createUserWithEmailAndPassword(
-                      //   email: user,
-                      //   password: pass
-                      // );
-                      if (_formKey.currentState.validate()) {
-                        chk = true;
-                        await auth
-                            .signInWithEmailAndPassword(
-                                email: user, password: pass)
-                            .then((FirebaseUser userfire) async {
-                          if (userfire.isEmailVerified) {
-                            int ck = 0;
-                            final QuerySnapshot result = await Firestore
-                                .instance
-                                .collection('users')
-                                .where('email', isEqualTo: userfire.email)
-                                .limit(1)
-                                .getDocuments();
-                            final List<DocumentSnapshot> documents =
-                                result.documents;
-                            if (documents.length == 1) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          dailyMain(user: userfire)));
-                              ck = 1;
-                            }
-                            if (ck == 0) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InfromationForm(user: userfire)));
-                            }
+                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                    Theme(
+                      data: new ThemeData(
+                        primaryColor: Colors.white,
+                        primaryColorDark: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                            labelText: "UserName",
+                            hintText: "Please Input Your UserName",
+                            icon: Icon(Icons.account_box,
+                                size: 40, color: Colors.white),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        maxLines: 1,
+                        keyboardType: TextInputType.emailAddress,
+                        onSaved: (id) => print(id),
+                        validator: (id) {
+                          if (id.isEmpty) {
+                            chk2 = true;
+                            return "Please Input Your USER-ID";
                           } else {
-                            _displaySnackBar3(context);
+                            user = id;
                           }
-                        }).catchError((e){
+                        },
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
+                    Theme(
+                      data: new ThemeData(
+                        primaryColor: Colors.white,
+                        primaryColorDark: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _controller2,
+                        decoration: InputDecoration(
+                            labelText: "PASSWORD",
+                            hintText: "Please Input Your PASSWORD",
+                            icon:
+                                Icon(Icons.lock, size: 40, color: Colors.white),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        obscureText: true,
+                        onSaved: (password) => print(password),
+                        validator: (password) {
+                          if (password.isEmpty) {
+                            chk2 = true;
+                            return "Please Input Your PASSWORD";
+                          } else {
+                            pass = password;
+                          }
+                        },
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 15)),
+                    RaisedButton(
+                      child: Text(
+                        "ลงชื่อเข้าใช้",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold,),
+                      ),
+                      onPressed: () async {
+                        bool chk = false;
+
+                        // auth.createUserWithEmailAndPassword(
+                        //   email: user,
+                        //   password: pass
+                        // );
+                        if (_formKey.currentState.validate()) {
+                          chk = true;
+                          await auth
+                              .signInWithEmailAndPassword(
+                                  email: user, password: pass)
+                              .then((FirebaseUser userfire) async {
+                            if (userfire.isEmailVerified) {
+                              int ck = 0;
+                              final QuerySnapshot result = await Firestore
+                                  .instance
+                                  .collection('users')
+                                  .where('email', isEqualTo: userfire.email)
+                                  .limit(1)
+                                  .getDocuments();
+                              final List<DocumentSnapshot> documents =
+                                  result.documents;
+                              if (documents.length == 1) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            dailyMain(user: userfire)));
+                                ck = 1;
+                              }
+                              if (ck == 0) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            InfromationForm(user: userfire)));
+                              }
+                            } else {
+                              _displaySnackBar3(context);
+                            }
+                          }).catchError((e) {
                             _displaySnackBar4(context);
-                        });
-                      }
-                      if (chk == false) {
-                        _displaySnackBar4(context);
-                      }
-                      _controller.clear();
-                      _controller2.clear();
-                      chk2 = false;
-                    },
-                    color: Colors.blue,
-                    splashColor: Colors.blueGrey,
-                    textColor: Colors.white,
-                  ),
-                  RaisedButton(
-                    child: Text("สมัครสมาชิก", style: TextStyle(fontSize: 18)),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        auth
-                            .createUserWithEmailAndPassword(
-                          email: user,
-                          password: pass,
-                        )
-                            .then((FirebaseUser userid) {
-                          print(userid);
-                          if (userid == null) {
-                            _displaySnackBar(context);
-                          }
-                          try {
-                            userid.sendEmailVerification();
-                            Navigator.pushNamed(context, "/verify");
-                          } catch (e) {
-                            _displaySnackBar(context);
-                          }
-                          //   String uid = userid.uid;
-                          //   String test = _controller.text;
-                          //   Firestore.instance
-                          //       .collection('users')
-                          //       .document('$test')
-                          //       .setData({
-                          //     'username': 'none',
-                          //     'sex': 'none',
-                          //     'date': 'none',
-                          //     'imgurl': 'none',
-                          //     'calmax': 2000,
-                          //     'calnow': 0,
-                          //   });
-                          //   Firestore.instance
-                          //     .collection('calorie_food')
-                          //     .document(uid).setData({});
+                          });
+                        }
+                        if (chk == false) {
+                          _displaySnackBar4(context);
+                        }
+                        _controller.clear();
+                        _controller2.clear();
+                        chk2 = false;
+                      },
+                      color: Colors.blue,
+                      splashColor: Colors.blueGrey,
+                      textColor: Colors.white,
+                    ),
+                    RaisedButton(
+                      child: Text("สมัครสมาชิก",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black)),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          auth
+                              .createUserWithEmailAndPassword(
+                            email: user,
+                            password: pass,
+                          )
+                              .then((FirebaseUser userid) {
+                            print(userid);
+                            if (userid == null) {
+                              _displaySnackBar(context);
+                            }
+                            try {
+                              userid.sendEmailVerification();
+                              Navigator.pushNamed(context, "/verify");
+                            } catch (e) {
+                              _displaySnackBar(context);
+                            }
+                            //   String uid = userid.uid;
+                            //   String test = _controller.text;
+                            //   Firestore.instance
+                            //       .collection('users')
+                            //       .document('$test')
+                            //       .setData({
+                            //     'username': 'none',
+                            //     'sex': 'none',
+                            //     'date': 'none',
+                            //     'imgurl': 'none',
+                            //     'calmax': 2000,
+                            //     'calnow': 0,
+                            //   });
+                            //   Firestore.instance
+                            //     .collection('calorie_food')
+                            //     .document(uid).setData({});
 
-                          //   Navigator.pushReplacement(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) =>
-                          //               InfromationForm(user: userid)));
-                        }).catchError((e) {
-                          _displaySnackBar2(context);
-                        });
-                      } else {
-                        _displaySnackBar4(context);
-                      }
-                      // bool chk = false;
-                      // _formKey.currentState.validate();
-                      // UserPass.idPass.add([user,pass]);
-                      // Navigator.pushNamed(context, "/information");
-                      // chk = true;
+                            //   Navigator.pushReplacement(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               InfromationForm(user: userid)));
+                          }).catchError((e) {
+                            _displaySnackBar2(context);
+                          });
+                        } else {
+                          _displaySnackBar4(context);
+                        }
+                        // bool chk = false;
+                        // _formKey.currentState.validate();
+                        // UserPass.idPass.add([user,pass]);
+                        // Navigator.pushNamed(context, "/information");
+                        // chk = true;
 
-                      // if (chk == false) {
-                      //   _displaySnackBar(context);
-                      // }
-                      // _controller.clear();
-                      // _controller2.clear();
-                      // chk2 = false;
-                      _controller.clear();
-                      _controller2.clear();
-                    },
-                    color: Colors.white,
-                    splashColor: Colors.blueGrey,
-                    textColor: Colors.orange,
-                  ),
-                ],
+                        // if (chk == false) {
+                        //   _displaySnackBar(context);
+                        // }
+                        // _controller.clear();
+                        // _controller2.clear();
+                        // chk2 = false;
+                        _controller.clear();
+                        _controller2.clear();
+                      },
+                      color: Colors.white,
+                      splashColor: Colors.blueGrey,
+                      textColor: Colors.orange,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -246,6 +281,7 @@ class AfterSplash extends StatelessWidget {
         SnackBar(content: Text('กรุณาลงทะเบียน หรือยืนยัน E-mailของท่านก่อน'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
+
   _displaySnackBar4(BuildContext context) {
     final snackBar = SnackBar(content: Text('กรุณากรอกข้อมูลให้ถูกห้อง'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
