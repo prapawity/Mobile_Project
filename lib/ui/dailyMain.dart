@@ -85,6 +85,7 @@ class dailyMainState extends State<dailyMain> {
               if (snapshot.hasError) {
                 return Text("Error");
               } else {
+                print(snapshot.data);
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
@@ -140,7 +141,11 @@ class dailyMainState extends State<dailyMain> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Row(
-                          children: <Widget>[cardText],
+                          children: <Widget>[
+                            snapshot.data.length == 0
+                                ? Text('Nodata')
+                                : cardText
+                          ],
                         ),
                       ),
                     );

@@ -12,8 +12,8 @@ Future<List<Restaurant>> getAllRestaurant(Map<String, double> userLocation) asyn
    try{
      userLocation = await location.getLocation();
      if(userLocation != null){
-      url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat='+
-      userLocation["latitude"].toString() +'&lng='+userLocation["longitude"].toString()+'&distance=20&sortby=place_name&orderby=asc';
+      // url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat='+
+      // userLocation["latitude"].toString() +'&lng='+userLocation["longitude"].toString()+'&distance=20&sortby=place_name&orderby=asc';
       Haversine.lat = double.parse(userLocation["latitude"].toString());
       Haversine.lng =  double.parse(userLocation["longitude"].toString());
      }else{
