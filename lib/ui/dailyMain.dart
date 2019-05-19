@@ -58,6 +58,34 @@ class dailyMainState extends State<dailyMain> {
     )
   ];
   int sharedValue = 0;
+
+  Widget food(BuildContext context) {
+     return StreamBuilder<DocumentSnapshot>(
+      stream: Firestore.instance
+          .collection('users')
+          .document('${widget.user.email}')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        final nowuser = userinfo.fromSnapshot(snapshot.data);
+        return Center(
+          child: Text("${nowuser.username}")
+        );
+      },);
+  }
+
+  Widget restaurant(BuildContext context) {
+    return Center(
+      child: Text("restaurant"),
+    );
+  }
+
+  Widget work(BuildContext context) {
+    return Center(
+      child: Text("work"),
+    );
+  }
+
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
     if (state > 0 || chks != 0) {
@@ -202,30 +230,10 @@ class dailyMainState extends State<dailyMain> {
                 padding: EdgeInsets.all(10),
                 child: Container(
                     child: sharedValue == 0
-                        ? Container(
-                            color: Colors.red,
-                            child: StreamBuilder(
-                              stream: Firestore.instance
-                                  .collection('users')
-                                  .snapshots(),
-                              builder: (context,
-                                  AsyncSnapshot<QuerySnapshot> snapshort) {
-                                if (snapshort.hasData) {
-                                  return ListView.builder(
-                                    itemCount: snapshort.data.documents.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Text('data');
-                                    },
-                                  );
-                                } else {
-                                  return Center(
-                                    child: Text("No Data"),
-                                  );
-                                }
-                              },
-                            ))
-                        : Container()),
+                        ? food(context)
+                        : sharedValue == 1
+                            ? restaurant(context)
+                            : work(context)),
               ),
             ],
           ),
