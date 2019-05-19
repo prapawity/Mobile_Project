@@ -95,9 +95,10 @@ class dailyMainState extends State<dailyMain> {
         shape: const CircleBorder(),
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new Menu()));
+              builder: (BuildContext context) => new Menu(user: widget.user)));
         },
       ),
+      
       endDrawer: new Drawer(
         child: new ListView(
           children: <Widget>[
@@ -131,7 +132,7 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("menulist"),
               trailing: new Icon(Icons.list),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
+                  builder: (BuildContext context) => new Menu(user:widget.user))),
             ),
             new ListTile(
               title: new Text("Graph"),
