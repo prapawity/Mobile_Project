@@ -25,6 +25,7 @@ class dailyMain extends StatefulWidget {
 }
 
 Color labelColor = Colors.blue[200];
+int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
   int chks = 0;
@@ -104,9 +105,10 @@ class dailyMainState extends State<dailyMain> {
         shape: const CircleBorder(),
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new Menu()));
+              builder: (BuildContext context) => new Menu(user: widget.user)));
         },
       ),
+      
       endDrawer: new Drawer(
         child: new ListView(
           children: <Widget>[
@@ -142,48 +144,31 @@ class dailyMainState extends State<dailyMain> {
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN2vSHb57BWkqpxHJkc9gqtcFdXNPBQDtoSPstPMEYl-ZVLMj"))),
             ),
             new ListTile(
-              title: new Text("restaurant"),
+              title: new Text("ร้านอาหาร"),
               trailing: new Icon(Icons.restaurant_menu),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) =>
                       new ResraurantListScreen())),
             ),
             new ListTile(
-              title: new Text("menulist"),
+              title: new Text("รายการอาหาร"),
               trailing: new Icon(Icons.list),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
+                  builder: (BuildContext context) => new Menu(user:widget.user))),
             ),
             new ListTile(
-              title: new Text("Graph"),
-              trailing: new Icon(Icons.assessment),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
-            ),
-            new ListTile(
-              title: new Text("Add menu"),
+              title: new Text("เพิ่มอาหาร"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => new Add(
                         user: widget.user,
                       ))),
             ),
-            new ListTile(
-              title: new Text("get Data firebase"),
-              trailing: new Icon(Icons.add),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new getfirebase())),
-            ),
             new Divider(),
             new ListTile(
-              title: new Text("Sign out"),
+              title: new Text("ออกจากระบบ"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () async {
-                    print('test');
-                    await FirebaseAuth.instance.signOut();
-                    print("signout");
-                    Navigator.of(context).popAndPushNamed("/");
-                  },
+              onTap: () => _signOut(),
             )
           ],
         ),

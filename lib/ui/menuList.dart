@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../model/food_model.dart';
 
 class Menu extends StatefulWidget {
+  FirebaseUser user;
+  Menu({this.user});
   @override
   _MenuState createState() => _MenuState();
 }
@@ -9,48 +14,19 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   var _searchEdit = new TextEditingController();
-
+  List<FoodElement> foods =new List<FoodElement>();
   bool _isSearch = true;
   String _searchText = "";
 
-  List<String> _MenuListItems;
-  List<String> _searchListItems;
-  List<String> _CalListItems;
+
+  Set<String> _searchListItems;
+  Set<String> _searchListCal;
 
   @override
-  void initState() {
-    super.initState();
-    _MenuListItems = new List<String>();
-    _MenuListItems = [
-      "Icecream",
-      "Choc",
-      "Banana",
-      "Apple",
-      "Crep",
-      "Egg",
-      "Grape",
-      "Watermelon",
-      "Orage",
-      "Rice",
-    ];
-    _MenuListItems.sort();
+  // void initState() {
+  //   super.initState();
 
-    _CalListItems = new List<String>();
-    _CalListItems = [
-      "50 kcal",
-      "10 kcal",
-      "80 kcal",
-      "30 kcal",
-      "60 kcal",
-      "90 kcal",
-      "0 kcal",
-      "100 kcal",
-      "500 kcal",
-      "50 kcal",
-    ];
-    _CalListItems.sort();
-
-  }
+  // }
 
   _MenuState() {
     _searchEdit.addListener(() {
@@ -72,16 +48,33 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Food List"),
+        title: new Text("รายการอาหาร"),
       ),
-      body: new Container(
-        margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 5.0),
-        child: new Column(
-          children: <Widget>[
-            _searchBox(),
-            _isSearch ? _listView() : _searchListView()
-          ],
-        ),
+      body: StreamBuilder(
+        stream: Firestore.instance.collection('calorie_food').snapshots(),
+        builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.documents.length == 0) {
+                  return Center(
+                    child: Text("No data found"),
+                  );
+                   }
+                else {
+                  
+                   return new Container(
+                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 5.0),
+                    child: new Column(
+                    children: <Widget>[
+                      _searchBox(),
+                            _isSearch ? _listView(snapshot.data.documents, widget.user.uid) : _searchListView()
+                        ],
+                      ),
+                  );
+                  }
+              }else{
+                return Center(child: CircularProgressIndicator());
+              }
+        },    
       ),
     );
   }
@@ -100,17 +93,26 @@ class _MenuState extends State<Menu> {
     );
   }
 
-  Widget _listView() {
+  Widget _listView(menu, String uid) {
+    for(int i=0;i< menu.length;i++){
+      if(menu[i].documentID == uid || menu[i].documentID == "NqWIRf1CoiaIZKVUpXYp"){
+        for(int j=0;j<menu[i]["food"].length;j++){
+            FoodElement foodEl = new FoodElement(name:menu[i]["food"][j]["name"], cal:menu[i]["food"][j]["cal"]);
+            foods.add(foodEl);
+        }
+      }
+    }
     return new Flexible(
       child: new ListView.builder(
-          itemCount: _MenuListItems.length,
+          itemCount: foods.length,
           itemBuilder: (BuildContext context, int index) {
             return new Card(
               color: Colors.cyan[50],
               elevation: 5.0,
               child: new Container(
                 margin: EdgeInsets.all(15.0),
-                child: new Text("${_MenuListItems[index]}    ${_CalListItems[index]}"),
+                // child: Firestore.instance.collection("calorie_food").document(user.uid).get(),
+                child: new Text("${foods[index].name}    ${foods[index].cal}"),
               ),
             );
           }),
@@ -118,15 +120,16 @@ class _MenuState extends State<Menu> {
   }
 
   Widget _searchListView() {
-    _searchListItems = new List<String>();
-    for (int i = 0; i < _MenuListItems.length; i++) {
-      var item = _MenuListItems[i];
+    _searchListItems = new Set<String>();
+    for (int i = 0; i < foods.length; i++) {
+      var item = foods[i].name;
 
       if (item.toLowerCase().contains(_searchText.toLowerCase())) {
+        // _searchListCal.add(foods[i].cal);
         _searchListItems.add(item);
       }
     }
-    return _searchAddList();
+        return _searchAddList();
   }
 
   Widget _searchAddList() {
@@ -139,7 +142,7 @@ class _MenuState extends State<Menu> {
               elevation: 5.0,
               child: new Container(
                 margin: EdgeInsets.all(15.0),
-                child: new Text("${_searchListItems[index]}, ${_CalListItems[index]}"),
+                child: new Text("${_searchListItems.elementAt(index)}"),
               ),
             );
           }),
