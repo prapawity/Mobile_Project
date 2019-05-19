@@ -4,14 +4,16 @@ import 'package:mobile_project/model/restaurant_model.dart';
 import 'dart:io';
 import 'package:location/location.dart';
 import 'dart:math';
-String url = 'http://api.halalthai.com/restaurant/?access_token=e807f1fcf82d132f9bb018ca6738a19f&sortby=place_name&orderby=asc';
+String url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat=13.729792&lng=100.78044159999999&distance=20&sortby=place_name&orderby=asc';
 var location = new Location();
 
 Future<List<Restaurant>> getAllRestaurant(Map<String, double> userLocation) async {
    
    try{
      userLocation = await location.getLocation();
-     if(userLocation != null){
+     print(userLocation["latitude"].toString());
+     print(userLocation["longitude"].toString());
+     if(userLocation["latitude"].toString() != null){
       url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat='+
       userLocation["latitude"].toString() +'&lng='+userLocation["longitude"].toString()+'&distance=20&sortby=place_name&orderby=asc';
       Haversine.lat = double.parse(userLocation["latitude"].toString());

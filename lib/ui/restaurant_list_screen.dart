@@ -21,7 +21,7 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ร้านอาหาร"),
+        title: Text("ร้านอาหารที่ใกล้เคียง"),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Restaurant>>(

@@ -39,7 +39,7 @@ class RestaurantScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => new MapLocation(
-                        lat: restaurant.lat, lng: restaurant.lng)),
+                        lat: restaurant.lat, lng: restaurant.lng, restaurant: restaurant,)),
               );
             },
           ),
