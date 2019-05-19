@@ -11,8 +11,11 @@ class verifying extends StatelessWidget {
       ),
       body: Center(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('กรุณาตรวจสอบที่E-mailของท่าน'),
+          Text('กรุณาตรวจสอบที่E-mailของท่าน',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           RaisedButton(
             child: Text('ยืนยัน'),
             onPressed: () {
