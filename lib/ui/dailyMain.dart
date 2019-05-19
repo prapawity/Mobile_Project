@@ -25,8 +25,10 @@ class dailyMain extends StatefulWidget {
 }
 
 Color labelColor = Colors.blue[200];
+int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
+  int chks = 0;
   int state = 0;
   // Circular setup
   final GlobalKey<AnimatedCircularChartState> _chartKey =
@@ -34,37 +36,50 @@ class dailyMainState extends State<dailyMain> {
   final _chartSize = const Size(200.0, 200.0);
 
 // Tab setup
-  final Map<int, Widget> pagelist = const <int, Widget>{
-    0: Text("อาหาร"),
-    1: Text("ร้านอาหาร"),
-    2: Text("ออกกำลังกาย"),
+  final Map<int, Widget> logoWidgets = const <int, Widget>{
+    0: Text('Logo 1'),
+    1: Text('Logo 2'),
+    2: Text('Logo 3'),
   };
-  final Map<int, Center> icons = const <int, Center>{
+  final Map<int, Widget> icons = const <int, Widget>{
     0: Center(
-      child: Text('data1'),
+      child: FlutterLogo(
+        colors: Colors.indigo,
+        size: 200.0,
+      ),
     ),
     1: Center(
-      child: Text('data2'),
+      child: FlutterLogo(
+        colors: Colors.teal,
+        size: 200.0,
+      ),
     ),
     2: Center(
-      child: Text('data3'),
+      child: FlutterLogo(
+        colors: Colors.cyan,
+        size: 200.0,
+      ),
     ),
   };
+
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
-    if (state > 0) {
+    if (state > 0 || chks != 0) {
       value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
       List<CircularStackEntry> data = _generateChartData(value);
       _chartKey.currentState.updateData(data);
     } else {
-      setState(() {
-        // List<CircularStackEntry> data = _generateChartData(0);
-        // print(data);
-        // _chartKey.currentState.updateData(data);
-      });
+      if (chks != 0) {
+        setState(() {
+          // List<CircularStackEntry> data = _generateChartData(0);
+          // print(data);
+          // _chartKey.currentState.updateData(data);
+        });
+      }
       state = 1;
     }
+    chks++;
     String imgprofile = "${nowuser.imgurl}";
     TextStyle _labelStyle = Theme.of(context)
         .textTheme
@@ -73,7 +88,11 @@ class dailyMainState extends State<dailyMain> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("${nowuser.username}",style: TextStyle(fontSize: 20),), centerTitle: true,
+        title: new Text(
+          "${nowuser.username}",
+          style: TextStyle(fontSize: 20),
+        ),
+        centerTitle: true,
         // title: new Text("title ${widget.user.email}"),
         backgroundColor: Colors.orange,
       ),
@@ -86,18 +105,28 @@ class dailyMainState extends State<dailyMain> {
         shape: const CircleBorder(),
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new Menu()));
+              builder: (BuildContext context) => new Menu(user: widget.user)));
         },
       ),
+      
       endDrawer: new Drawer(
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
               accountName: Text(
                 '${nowuser.username}',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-              accountEmail: new Text('${widget.user.email}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,),),
+              accountEmail: new Text(
+                '${widget.user.email}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
               currentAccountPicture: new GestureDetector(
                 // InfromationForm
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
@@ -115,43 +144,31 @@ class dailyMainState extends State<dailyMain> {
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN2vSHb57BWkqpxHJkc9gqtcFdXNPBQDtoSPstPMEYl-ZVLMj"))),
             ),
             new ListTile(
-              title: new Text("restaurant"),
+              title: new Text("ร้านอาหาร"),
               trailing: new Icon(Icons.restaurant_menu),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) =>
                       new ResraurantListScreen())),
             ),
             new ListTile(
-              title: new Text("menulist"),
+              title: new Text("รายการอาหาร"),
               trailing: new Icon(Icons.list),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
+                  builder: (BuildContext context) => new Menu(user:widget.user))),
             ),
             new ListTile(
-              title: new Text("Graph"),
-              trailing: new Icon(Icons.assessment),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu())),
-            ),
-            new ListTile(
-              title: new Text("Add menu"),
+              title: new Text("เพิ่มอาหาร"),
               trailing: new Icon(Icons.add),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => new Add(
                         user: widget.user,
                       ))),
             ),
-            new ListTile(
-              title: new Text("get Data firebase"),
-              trailing: new Icon(Icons.add),
-              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new getfirebase())),
-            ),
             new Divider(),
             new ListTile(
-              title: new Text("Sign out"),
+              title: new Text("ออกจากระบบ"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () => _signOut,
+              onTap: () => _signOut(),
             )
           ],
         ),
@@ -171,42 +188,28 @@ class dailyMainState extends State<dailyMain> {
               labelStyle: _labelStyle,
             ),
           ),
-          new SizedBox(
-            height: 20,
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          new Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                  width: 300.0,
-                  child: CupertinoSegmentedControl<int>(
-                    children: pagelist,
-                    onValueChanged: (value){
-                      print(value);
-                      sharedValue = value;
-                      // setState(() {
-                      //   sharedValue = value;
-                      // });
-                    },
-                    
-                    groupValue: sharedValue,
-                  ))
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 32.0,
-                horizontal: 16.0,
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 64.0,
-                  horizontal: 16.0,
+                width: 500.0,
+                child: CupertinoSegmentedControl<int>(
+                  children: logoWidgets,
+                  onValueChanged: (int val) {
+                    setState(() {
+                      sharedValue = val;
+                    });
+                  },
+                  groupValue: sharedValue,
                 ),
-                child: icons[sharedValue],
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  child: icons[sharedValue],
+                ),
+              ),
+            ],
           ),
         ]),
       ),
@@ -232,13 +235,6 @@ class dailyMainState extends State<dailyMain> {
         return buildUi(context, nowuser);
       },
     );
-  }
-
-  @override
-  void setState(fn) {
-    // TODO: implement setState
-    print('test');
-    print(sharedValue);
   }
 }
 
