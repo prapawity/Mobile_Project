@@ -6,10 +6,12 @@ import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_project/model/restaurant_model.dart';
+import 'package:mobile_project/service/restaurant_services.dart';
 import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
+import 'package:mobile_project/ui/restaurant_screen.dart';
 import 'package:mobile_project/ui/updateinformationForm.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/login.dart';
@@ -29,6 +31,7 @@ Color labelColor = Colors.blue[200];
 int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
+  Map<String, double> userLocation;
   int chks = 0;
   int state = 0;
   // Circular setup
@@ -76,7 +79,72 @@ class dailyMainState extends State<dailyMain> {
 
   Widget restaurant(BuildContext context) {
     return Center(
-      child: Text("restaurant"),
+      child: FutureBuilder<List<Restaurant>>(
+          future: getAllRestaurant(userLocation),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Text("Error");
+              } else {
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    Restaurant restaurant = snapshot.data[index];
+                    String title = restaurant.name;
+                    String desc = restaurant.description;
+                    var cardText = Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    new Text(
+                                        title.length > 20
+                                            ? "${title.substring(0, 20)}..."
+                                            : title,
+                                        style: headerTextStyle),
+                                    new Text(
+                                        "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
+                                    )
+                                  ],
+                                )),
+                            padding: EdgeInsets.only(bottom: 5.0),
+                          ),
+                          Text(desc.length > 30
+                              ? "${desc.substring(0, 30)}..."
+                              : desc)
+                        ],
+                      ),
+                    );
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RestaurantScreen(
+                                    restaurant: restaurant,
+                                  )),
+                        );
+                      },
+                      child: Card(
+                        color: Colors.amberAccent,
+                        margin: EdgeInsets.all(5.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          children: <Widget>[cardText],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            } else
+              return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 
@@ -248,10 +316,6 @@ class dailyMainState extends State<dailyMain> {
     Navigator.of(context).popAndPushNamed("/");
   }
 
-  gotoRestaurant() {
-    Navigator.of(context).push(new MaterialPageRoute(
-        builder: (BuildContext context) => new Menu(user: widget.user)));
-  }
 
   @override
   Widget build(BuildContext context) {
