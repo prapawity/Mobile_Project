@@ -39,24 +39,15 @@ class dailyMainState extends State<dailyMain> {
     1: Text("ร้านอาหาร"),
     2: Text("ออกกำลังกาย"),
   };
-  final Map<int, Widget> icons = const <int, Widget>{
+  final Map<int, Center> icons = const <int, Center>{
     0: Center(
-      child: FlutterLogo(
-        colors: Colors.indigo,
-        size: 200.0,
-      ),
+      child: Text('data1'),
     ),
     1: Center(
-      child: FlutterLogo(
-        colors: Colors.teal,
-        size: 200.0,
-      ),
+      child: Text('data2'),
     ),
     2: Center(
-      child: FlutterLogo(
-        colors: Colors.cyan,
-        size: 200.0,
-      ),
+      child: Text('data3'),
     ),
   };
   int sharedValue = 0;
@@ -179,9 +170,6 @@ class dailyMainState extends State<dailyMain> {
               holeLabel: '${nowuser.calnow} cal',
               labelStyle: _labelStyle,
             ),
-            onPressed: () {
-              print("clicked");
-            },
           ),
           new SizedBox(
             height: 20,
@@ -193,11 +181,14 @@ class dailyMainState extends State<dailyMain> {
                   width: 300.0,
                   child: CupertinoSegmentedControl<int>(
                     children: pagelist,
-                    onValueChanged: (int val) {
-                      setState(() {
-                        sharedValue = val;
-                      });
+                    onValueChanged: (value){
+                      print(value);
+                      sharedValue = value;
+                      // setState(() {
+                      //   sharedValue = value;
+                      // });
                     },
+                    
                     groupValue: sharedValue,
                   ))
             ],
@@ -246,6 +237,8 @@ class dailyMainState extends State<dailyMain> {
   @override
   void setState(fn) {
     // TODO: implement setState
+    print('test');
+    print(sharedValue);
   }
 }
 

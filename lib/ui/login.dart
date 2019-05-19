@@ -140,6 +140,8 @@ class AfterSplash extends StatelessWidget {
                           } else {
                             _displaySnackBar3(context);
                           }
+                        }).catchError((e){
+                            _displaySnackBar4(context);
                         });
                       }
                       if (chk == false) {
