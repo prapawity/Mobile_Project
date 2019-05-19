@@ -112,8 +112,7 @@ class updateinformationFormState extends State<updateinformationForm>
               child: new Center(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child:
-                   userimg == null
+                  child: userimg == null
                       ? new Stack(
                           children: <Widget>[
                             new Center(
@@ -123,33 +122,35 @@ class updateinformationFormState extends State<updateinformationForm>
                             )),
                           ],
                         )
-                      : _image == null ? new Container(
-                          height: 160.0,
-                          width: 160.0,
-                          decoration: new BoxDecoration(
-                            image: new DecorationImage(
-                              image: new NetworkImage("$userimg"),
-                              fit: BoxFit.cover,
+                      : _image == null
+                          ? new Container(
+                              height: 160.0,
+                              width: 160.0,
+                              decoration: new BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new NetworkImage("$userimg"),
+                                  fit: BoxFit.cover,
+                                ),
+                                border: Border.all(
+                                    color: Colors.orange, width: 5.0),
+                                borderRadius: new BorderRadius.all(
+                                    const Radius.circular(80.0)),
+                              ),
+                            )
+                          : new Container(
+                              height: 160.0,
+                              width: 160.0,
+                              decoration: new BoxDecoration(
+                                image: new DecorationImage(
+                                  image: new ExactAssetImage(_image.path),
+                                  fit: BoxFit.cover,
+                                ),
+                                border: Border.all(
+                                    color: Colors.orange, width: 5.0),
+                                borderRadius: new BorderRadius.all(
+                                    const Radius.circular(80.0)),
+                              ),
                             ),
-                            border:
-                                Border.all(color: Colors.orange, width: 5.0),
-                            borderRadius: new BorderRadius.all(
-                                const Radius.circular(80.0)),
-                          ),
-                        ) : new Container(
-                          height: 160.0,
-                          width: 160.0,
-                          decoration: new BoxDecoration(
-                            image: new DecorationImage(
-                              image: new ExactAssetImage(_image.path),
-                              fit: BoxFit.cover,
-                            ),
-                            border:
-                                Border.all(color: Colors.orange, width: 5.0),
-                            borderRadius: new BorderRadius.all(
-                                const Radius.circular(80.0)),
-                          ),
-                        ),
                 ),
               ),
             ),
@@ -221,6 +222,7 @@ class updateinformationFormState extends State<updateinformationForm>
             RaisedButton(
               child: Text("Save"),
               onPressed: () async {
+                print("SAce");
                 String name = username.text;
                 String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                 String date = textfield_date.text;
@@ -228,12 +230,18 @@ class updateinformationFormState extends State<updateinformationForm>
                 FirebaseUser userobj = widget.user;
                 int cal = _discreteValue;
                 String namez = widget.user.email;
-                final StorageReference storageRef =
-                    FirebaseStorage.instance.ref().child('$namez');
-                final StorageUploadTask uploadTask = storageRef.putFile(_image);
-                var dowurl =
-                    await (await uploadTask.onComplete).ref.getDownloadURL();
-                String url = dowurl.toString();
+                String url;
+                if (_image != null) {
+                  final StorageReference storageRef =
+                      FirebaseStorage.instance.ref().child('$namez');
+                  final StorageUploadTask uploadTask =
+                      storageRef.putFile(_image);
+                  var dowurl =
+                      await (await uploadTask.onComplete).ref.getDownloadURL();
+                  url = dowurl.toString();
+                }else{
+                  url = userimg;
+                }
                 Firestore.instance
                     .collection('users')
                     .document('$user')
@@ -244,10 +252,7 @@ class updateinformationFormState extends State<updateinformationForm>
                   'username': "$name",
                   'calmax': cal,
                 });
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => dailyMain(user: userobj)));
+                Navigator.pop(context);
               },
               color: Colors.orange,
               splashColor: Colors.blueGrey,
