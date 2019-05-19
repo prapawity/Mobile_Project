@@ -41,26 +41,17 @@ class dailyMainState extends State<dailyMain> {
     1: Text('Logo 2'),
     2: Text('Logo 3'),
   };
-  final Map<int, Widget> icons = const <int, Widget>{
-    0: Center(
-      child: FlutterLogo(
-        colors: Colors.indigo,
-        size: 200.0,
-      ),
+  List icons = [
+    Container(
+      child: Text('test'),
     ),
-    1: Center(
-      child: FlutterLogo(
-        colors: Colors.teal,
-        size: 200.0,
-      ),
+    Container(
+      child: Text('2'),
     ),
-    2: Center(
-      child: FlutterLogo(
-        colors: Colors.cyan,
-        size: 200.0,
-      ),
-    ),
-  };
+    Container(
+      child: Text('d'),
+    )
+  ];
 
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
@@ -108,7 +99,6 @@ class dailyMainState extends State<dailyMain> {
               builder: (BuildContext context) => new Menu(user: widget.user)));
         },
       ),
-      
       endDrawer: new Drawer(
         child: new ListView(
           children: <Widget>[
@@ -154,7 +144,8 @@ class dailyMainState extends State<dailyMain> {
               title: new Text("รายการอาหาร"),
               trailing: new Icon(Icons.list),
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Menu(user:widget.user))),
+                  builder: (BuildContext context) =>
+                      new Menu(user: widget.user))),
             ),
             new ListTile(
               title: new Text("เพิ่มอาหาร"),
