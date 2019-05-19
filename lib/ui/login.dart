@@ -21,7 +21,7 @@ class SplashState extends State<Splash> {
         navigateAfterSeconds: new AfterSplash(),
         image: new Image.asset("resource/logo.png"),
         backgroundColor: Colors.orange,
-        photoSize: 150.0,
+        photoSize: 200.0,
         loaderColor: Colors.white);
   }
 }
@@ -45,11 +45,11 @@ class AfterSplash extends StatelessWidget {
             child: Form(
               key: _formKey,
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
                 children: <Widget>[
                   new Image.asset(
                     "resource/logo.png",
-                    height: 250,
+                    height: 270,
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
                   TextFormField(
@@ -143,7 +143,7 @@ class AfterSplash extends StatelessWidget {
                         });
                       }
                       if (chk == false) {
-                        _displaySnackBar(context);
+                        _displaySnackBar4(context);
                       }
                       _controller.clear();
                       _controller2.clear();
@@ -199,7 +199,7 @@ class AfterSplash extends StatelessWidget {
                           _displaySnackBar2(context);
                         });
                       } else {
-                        _displaySnackBar(context);
+                        _displaySnackBar4(context);
                       }
                       // bool chk = false;
                       // _formKey.currentState.validate();
@@ -242,6 +242,10 @@ class AfterSplash extends StatelessWidget {
   _displaySnackBar3(BuildContext context) {
     final snackBar =
         SnackBar(content: Text('กรุณาลงทะเบียน หรือยืนยัน E-mailของท่านก่อน'));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+  _displaySnackBar4(BuildContext context) {
+    final snackBar = SnackBar(content: Text('กรุณากรอกข้อมูลให้ถูกห้อง'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 }
