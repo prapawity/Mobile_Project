@@ -108,20 +108,18 @@ class _MenuState extends State<Menu> {
       child: new ListView.builder(
           itemCount: foods.length,
           itemBuilder: (BuildContext context, int index) {
-            return SizedBox(
-              width: 300.0,
-                          child: RaisedButton(
-                child: new Card(
-                  color: Colors.amberAccent[200],
-                  elevation: 5.0,
-                  child: new Container(
-                    margin: EdgeInsets.all(15.0),
-                    // child: Firestore.instance.collection("calorie_food").document(user.uid).get(),
-                    child:
-                        new Text("${foods[index].name}    ${foods[index].cal}"),
-                  ),
+            return new Column(
+              children: <Widget>[
+                new ListTile(
+                  title:
+                      new Text("${foods[index].name}    ${foods[index].cal}"),
+                  leading: Text((index + 1).toString()),
+                  onTap: print("GOGO"),
                 ),
-              ),
+                new Divider(
+                  height: 2.0,
+                ),
+              ],
             );
           }),
     );
