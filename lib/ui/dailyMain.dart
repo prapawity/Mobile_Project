@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_project/model/restaurant_model.dart';
 import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
 import 'package:mobile_project/ui/menuList.dart';
@@ -41,9 +42,13 @@ class dailyMainState extends State<dailyMain> {
     1: Text('ร้านอาหาร'),
     2: Text('ออกกำลัง'),
   };
-  List icons = [
+  List<Container> icons = [
     Container(
-      child: Text('test'),
+      child: Column(
+        children: <Widget>[
+          // RaisedButton(onPressed: gotoRestaurant)
+        ],
+      ),
     ),
     Container(
       child: Text('2'),
@@ -52,7 +57,6 @@ class dailyMainState extends State<dailyMain> {
       child: Text('d'),
     )
   ];
-
   int sharedValue = 0;
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
@@ -197,8 +201,31 @@ class dailyMainState extends State<dailyMain> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: Container(
-                  child: icons[sharedValue],
-                ),
+                    child: sharedValue == 0
+                        ? Container(
+                            color: Colors.red,
+                            child: StreamBuilder(
+                              stream: Firestore.instance
+                                  .collection('users')
+                                  .snapshots(),
+                              builder: (context,
+                                  AsyncSnapshot<QuerySnapshot> snapshort) {
+                                if (snapshort.hasData) {
+                                  return ListView.builder(
+                                    itemCount: snapshort.data.documents.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Text('data');
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: Text("No Data"),
+                                  );
+                                }
+                              },
+                            ))
+                        : Container()),
               ),
             ],
           ),
@@ -211,6 +238,11 @@ class dailyMainState extends State<dailyMain> {
     FirebaseAuth.instance.signOut();
     print("signout");
     Navigator.of(context).popAndPushNamed("/");
+  }
+
+  gotoRestaurant() {
+    Navigator.of(context).push(new MaterialPageRoute(
+        builder: (BuildContext context) => new Menu(user: widget.user)));
   }
 
   @override
