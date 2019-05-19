@@ -92,7 +92,7 @@ class _Add extends State<Add> {
 
                       Firestore.instance
                         .collection('calorie_food')
-                        .document(widget.user.uid)
+                        .document(widget.user.email)
                         .updateData(
                           {"food": FieldValue.arrayUnion(list)});
                       Navigator.pop(context);
