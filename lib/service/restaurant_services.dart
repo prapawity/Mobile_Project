@@ -11,17 +11,23 @@ Future<List<Restaurant>> getAllRestaurant(Map<String, double> userLocation) asyn
    
    try{
      userLocation = await location.getLocation();
-     url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat='+
-    userLocation["latitude"].toString() +'&lng='+userLocation["longitude"].toString()+'&distance=20&sortby=place_name&orderby=asc';
-    Haversine.lat = double.parse(userLocation["latitude"].toString());
-    Haversine.lng =  double.parse(userLocation["longitude"].toString());
+     if(userLocation != null){
+      url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e807f1fcf82d132f9bb018ca6738a19f&lat='+
+      userLocation["latitude"].toString() +'&lng='+userLocation["longitude"].toString()+'&distance=20&sortby=place_name&orderby=asc';
+      Haversine.lat = double.parse(userLocation["latitude"].toString());
+      Haversine.lng =  double.parse(userLocation["longitude"].toString());
+     }else{
+       print("cant get device location");
+        Haversine.lat = 13.729792;
+        Haversine.lng  = 100.78044159999999;
+     }
    }
    catch (e) {
      print(e);
     }
   
   final response = await http.get(url);
-  print(response.body);
+  // print(response.body);
   return allRestaurantFromJson(response.body);
 }
 

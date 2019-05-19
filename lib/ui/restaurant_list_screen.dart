@@ -59,7 +59,7 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                                             : title,
                                         style: headerTextStyle),
                                     new Text(
-                                        Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toString()
+                                        "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
                                     )
                                   ],
                                 )),
