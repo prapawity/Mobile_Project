@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_project/ui/exercise.dart';
 import 'package:mobile_project/ui/login.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
@@ -29,9 +30,10 @@ class MyApp extends StatelessWidget {
         "/information": (context) =>InfromationForm(),
         "/ResraurantListScreen": (context) =>ResraurantListScreen(),
         "/restaurant_screen": (context) =>RestaurantScreen(),
-        "/verify":(context) => verifying(),
+        "/verify": (context) => verifying(),
         //  "/":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
+        "/exercise": (context) => exercise(),
 
 
         },
