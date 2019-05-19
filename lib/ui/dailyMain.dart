@@ -178,7 +178,12 @@ class dailyMainState extends State<dailyMain> {
             new ListTile(
               title: new Text("Sign out"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () => _signOut,
+              onTap: () async {
+                    print('test');
+                    await FirebaseAuth.instance.signOut();
+                    print("signout");
+                    Navigator.of(context).popAndPushNamed("/");
+                  },
             )
           ],
         ),
@@ -215,10 +220,9 @@ class dailyMainState extends State<dailyMain> {
               ),
               Container(
                 padding: EdgeInsets.all(10),
-                  child: Container(
-                    child: icons[sharedValue],
-                  ),
-
+                child: Container(
+                  child: icons[sharedValue],
+                ),
               ),
             ],
           ),
