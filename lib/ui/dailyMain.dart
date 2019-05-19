@@ -54,6 +54,34 @@ class dailyMainState extends State<dailyMain> {
   ];
 
   int sharedValue = 0;
+
+  Widget food(BuildContext context) {
+     return StreamBuilder<DocumentSnapshot>(
+      stream: Firestore.instance
+          .collection('users')
+          .document('${widget.user.email}')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        final nowuser = userinfo.fromSnapshot(snapshot.data);
+        return Center(
+          child: Text("${nowuser.username}")
+        );
+      },);
+  }
+
+  Widget restaurant(BuildContext context) {
+    return Center(
+      child: Text("restaurant"),
+    );
+  }
+
+  Widget work(BuildContext context) {
+    return Center(
+      child: Text("work"),
+    );
+  }
+
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
     if (state > 0 || chks != 0) {
@@ -197,8 +225,11 @@ class dailyMainState extends State<dailyMain> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: Container(
-                  child: icons[sharedValue],
-                ),
+                    child: sharedValue == 0
+                        ? food(context)
+                        : sharedValue == 1
+                            ? restaurant(context)
+                            : work(context)),
               ),
             ],
           ),

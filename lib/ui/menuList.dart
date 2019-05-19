@@ -114,7 +114,10 @@ class _MenuState extends State<Menu> {
                   title:
                       new Text("${foods[index].name}    ${foods[index].cal}"),
                   leading: Text((index + 1).toString()),
-                  onTap: print("GOGO"),
+                  onTap: () =>{
+                    print("click")
+                  }
+                  ,
                 ),
                 new Divider(
                   height: 2.0,
