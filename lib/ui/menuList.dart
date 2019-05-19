@@ -14,10 +14,9 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   var _searchEdit = new TextEditingController();
-  List<FoodElement> foods =new List<FoodElement>();
+  List<FoodElement> foods = new List<FoodElement>();
   bool _isSearch = true;
   String _searchText = "";
-
 
   Set<String> _searchListItems;
   Set<String> _searchListCal;
@@ -53,28 +52,29 @@ class _MenuState extends State<Menu> {
       body: StreamBuilder(
         stream: Firestore.instance.collection('calorie_food').snapshots(),
         builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.documents.length == 0) {
-                  return Center(
-                    child: Text("No data found"),
-                  );
-                   }
-                else {
-                  
-                   return new Container(
-                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 5.0),
-                    child: new Column(
-                    children: <Widget>[
-                      _searchBox(),
-                            _isSearch ? _listView(snapshot.data.documents, widget.user.email) : _searchListView()
-                        ],
-                      ),
-                  );
-                  }
-              }else{
-                return Center(child: CircularProgressIndicator());
-              }
-        },    
+          if (snapshot.hasData) {
+            if (snapshot.data.documents.length == 0) {
+              return Center(
+                child: Text("ไม่พบข้อมูล"),
+              );
+            } else {
+              return new Container(
+                margin: EdgeInsets.only(
+                    left: 10.0, right: 10.0, top: 10.0, bottom: 5.0),
+                child: new Column(
+                  children: <Widget>[
+                    _searchBox(),
+                    _isSearch
+                        ? _listView(snapshot.data.documents, widget.user.email)
+                        : _searchListView()
+                  ],
+                ),
+              );
+            }
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
@@ -85,7 +85,7 @@ class _MenuState extends State<Menu> {
       child: new TextField(
         controller: _searchEdit,
         decoration: InputDecoration(
-          hintText: "Find your food here!",
+          hintText: "ค้นหาอาหารที่นี่!",
           hintStyle: new TextStyle(color: Colors.grey[300]),
         ),
         textAlign: TextAlign.center,
@@ -94,11 +94,13 @@ class _MenuState extends State<Menu> {
   }
 
   Widget _listView(menu, String uid) {
-    for(int i=0;i< menu.length;i++){
-      if(menu[i]["food"] != null && menu[i].documentID == uid || menu[i].documentID == "NqWIRf1CoiaIZKVUpXYp"){
-        for(int j=0;j<menu[i]["food"].length;j++){
-            FoodElement foodEl = new FoodElement(name:menu[i]["food"][j]["name"], cal:menu[i]["food"][j]["cal"]);
-            foods.add(foodEl);
+    for (int i = 0; i < menu.length; i++) {
+      if (menu[i]["food"] != null && menu[i].documentID == uid ||
+          menu[i].documentID == "NqWIRf1CoiaIZKVUpXYp") {
+        for (int j = 0; j < menu[i]["food"].length; j++) {
+          FoodElement foodEl = new FoodElement(
+              name: menu[i]["food"][j]["name"], cal: menu[i]["food"][j]["cal"]);
+          foods.add(foodEl);
         }
       }
     }
@@ -106,14 +108,31 @@ class _MenuState extends State<Menu> {
       child: new ListView.builder(
           itemCount: foods.length,
           itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              color: Colors.cyan[50],
-              elevation: 5.0,
-              child: new Container(
-                margin: EdgeInsets.all(15.0),
-                // child: Firestore.instance.collection("calorie_food").document(user.uid).get(),
-                child: new Text("${foods[index].name}    ${foods[index].cal}"),
-              ),
+            return new Column(
+              children: <Widget>[
+                new ListTile(
+                    title:
+                        new Text("${foods[index].name}    ${foods[index].cal}"),
+                    leading: Text((index + 1).toString()),
+                    onTap: () {
+                      List<Map<String, String>> list =
+                          new List<Map<String, String>>();
+                      Map<String, String> list2 = Map<String, String>();
+                      list2['name'] = foods[index].name;
+                      list2['cal'] = foods[index].cal;
+
+                      list.add(list2);
+
+                      Firestore.instance
+                          .collection('users.eat')
+                          .document(widget.user.email)
+                          .updateData({"food": FieldValue.arrayUnion(list)});
+                      Navigator.pop(context);
+                    }),
+                new Divider(
+                  height: 2.0,
+                ),
+              ],
             );
           }),
     );
@@ -129,7 +148,7 @@ class _MenuState extends State<Menu> {
         _searchListItems.add(item);
       }
     }
-        return _searchAddList();
+    return _searchAddList();
   }
 
   Widget _searchAddList() {
@@ -138,7 +157,7 @@ class _MenuState extends State<Menu> {
           itemCount: _searchListItems.length,
           itemBuilder: (BuildContext context, int index) {
             return new Card(
-              color: Color.fromARGB(255, 203, 243, 240),
+              color: Colors.amberAccent,
               elevation: 5.0,
               child: new Container(
                 margin: EdgeInsets.all(15.0),
