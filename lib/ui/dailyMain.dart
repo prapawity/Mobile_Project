@@ -367,7 +367,7 @@ class dailyMainState extends State<dailyMain> {
               percentageValues: true,
               holeLabel: '${nowuser.calnow} กิโลแคลรอรี่',
               labelStyle: _labelStyle,
-            ),
+            ), onPressed: () {},
           ),
           new Column(
             // mainAxisAlignment: MainAxisAlignment.center,

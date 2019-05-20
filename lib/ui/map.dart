@@ -1,10 +1,12 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
+import 'package:mobile_project/model/restaurant_model.dart';
 
 class MapLocation extends StatefulWidget{
   final double lat, lng;
-  MapLocation({this.lat, this.lng});
+  final Restaurant restaurant;
+  MapLocation({this.lat, this.lng, this.restaurant});
   @override
   State<StatefulWidget> createState() {
     return _MapLocationState();
@@ -41,6 +43,28 @@ class _MapLocationState extends State<MapLocation>{
                               color: Colors.red,
                               iconSize: 45.0,
                               onPressed: () {
+                                showBottomSheet(
+                                  context: context,
+                                  builder: (builder){
+                                    return Container(
+                                      height: 300,
+                                      color: Colors.white,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(widget.restaurant.name),
+                                            Text("Rate "+widget.restaurant.rate.toString()),
+                                            Text(widget.restaurant.category.name),
+                                            Text(widget.restaurant.detail.time[0]),
+                                            Text(widget.restaurant.detail.address),
+
+                                          ],
+                                        ),
+                                      )
+                                    );
+                                  }
+                                );
                                 print('Marker tapped');
                               },
                             ),
