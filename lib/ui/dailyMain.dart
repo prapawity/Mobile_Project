@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_project/model/food_model.dart';
 import 'package:mobile_project/model/restaurant_model.dart';
 import 'package:mobile_project/service/restaurant_services.dart';
 import 'package:mobile_project/service/user.dart';
@@ -31,6 +32,7 @@ Color labelColor = Colors.blue[200];
 int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
+  int number = 0;
   Map<String, double> userLocation;
   int chks = 0;
   int state = 0;
@@ -63,25 +65,89 @@ class dailyMainState extends State<dailyMain> {
   int sharedValue = 0;
 
   Widget food(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: Firestore.instance
-          .collection('users.eat')
-          .document('${widget.user.email}')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-<<<<<<< HEAD
-        // final nowuser = userinfo.fromSnapshot(snapshot.data);
-        return Center(
-          child: Text("${snapshot.data}")
-        );
-      },);
-=======
-        final nowuser = userinfo.fromSnapshot(snapshot.data);
-        return Center(child: Text("${nowuser.username}"));
-      },
+    return Container(
+      height: 200,
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: Firestore.instance
+            .collection('users.eat')
+            .document('${widget.user.email}')
+            .snapshots(),
+        builder: (context, snapshort) {
+          if (!snapshort.hasData) return LinearProgressIndicator();
+          List<FoodElement> listFalse = new List<FoodElement>();
+          if (snapshort.hasData) {
+            for (var i = 0;
+                i < snapshort.data.data.values.toList().elementAt(0).length;
+                i++) {
+              FoodElement e = new FoodElement(
+                  cal:
+                      '${snapshort.data.data.values.toList().elementAt(0)[i]["cal"]}',
+                  name:
+                      '${snapshort.data.data.values.toList().elementAt(0)[i]["name"]}');
+              listFalse.add(e);
+            }
+            double cal = 0;
+            for (var item in listFalse) {
+              cal = cal + double.parse(item.cal);
+            }
+            Firestore.instance
+                .collection('users')
+                .document('${widget.user.email}')
+                .updateData({'calnow': cal});
+            return Container(
+              child: ListView.builder(
+                itemCount: listFalse.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text('${listFalse.elementAt(index).name}'),
+                    trailing: RaisedButton(
+                      child: Text('del'),
+                      onPressed: () {
+                        setState(() {
+                          List<Map<String, String>> list =
+                              new List<Map<String, String>>();
+                          int chked = 0;
+                          number = 1;
+                          for (var item in listFalse) {
+                            Map<String, String> list2 = Map<String, String>();
+                            print(item.name);
+                            List namechk = item.name.split(' ');
+                            print(namechk);
+                            list2['name'] = '${number}. ${namechk[1]}';
+                            list2['cal'] = item.cal;
+                            if (list2['name'] !=
+                                listFalse.elementAt(index).name) {
+                              list.add(list2);
+                              number += 1;
+                            }else{
+                              if(chked > 0){
+                                list.add(list2);
+                                number += 1;
+                              }
+                              else{
+                                chked = 1;
+                              }
+                            }
+                            
+                          }
+
+                          Firestore.instance
+                              .collection('users.eat')
+                              .document('${widget.user.email}')
+                              .updateData({'food': list}).catchError((e) {
+                            print(e);
+                          });
+                        });
+                      },
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        },
+      ),
     );
->>>>>>> b2986276e49a66e216ece373927063ae1e68073a
   }
 
   Widget restaurant(BuildContext context) {
@@ -174,6 +240,7 @@ class dailyMainState extends State<dailyMain> {
 
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
+    print('testttttt');
     if (state > 0 || chks != 0) {
       value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
       List<CircularStackEntry> data = _generateChartData(value);
@@ -298,7 +365,7 @@ class dailyMainState extends State<dailyMain> {
               chartType: CircularChartType.Radial,
               edgeStyle: SegmentEdgeStyle.round,
               percentageValues: true,
-              holeLabel: '${nowuser.calnow} cal',
+              holeLabel: '${nowuser.calnow} กิโลแคลรอรี่',
               labelStyle: _labelStyle,
             ),
           ),

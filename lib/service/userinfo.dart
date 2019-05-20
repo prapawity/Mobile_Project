@@ -8,7 +8,7 @@ class userinfo {
   String imgurl;
   String date;
   int calmax;
-  int calnow;
+  double calnow;
   final DocumentReference reference;
 
   userinfo.fromMap(Map<String, dynamic> map, {this.reference})

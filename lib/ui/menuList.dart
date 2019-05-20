@@ -13,6 +13,7 @@ class Menu extends StatefulWidget {
 //  theme: ThemeData(primaryColor: Color.fromARGB(255, 46, 196, 182)
 
 class _MenuState extends State<Menu> {
+  int number = 1;
   var _searchEdit = new TextEditingController();
   List<FoodElement> foods = new List<FoodElement>();
   bool _isSearch = true;
@@ -115,19 +116,7 @@ class _MenuState extends State<Menu> {
                         new Text("${foods[index].name}    ${foods[index].cal}"),
                     leading: Text((index + 1).toString()),
                     onTap: () {
-                      List<Map<String, String>> list =
-                          new List<Map<String, String>>();
-                      Map<String, String> list2 = Map<String, String>();
-                      list2['name'] = foods[index].name;
-                      list2['cal'] = foods[index].cal;
-
-                      list.add(list2);
-
-                      Firestore.instance
-                          .collection('users.eat')
-                          .document(widget.user.email)
-                          .updateData({"food": FieldValue.arrayUnion(list)});
-                      Navigator.pop(context);
+                      _showDialog(index);
                     }),
                 new Divider(
                   height: 2.0,
@@ -165,6 +154,61 @@ class _MenuState extends State<Menu> {
               ),
             );
           }),
+    );
+  }
+
+  void _showDialog(index) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("แจ้งเตือน"),
+          content: new Text("ยืนยันการรับประทานอาหารหรือไม่?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: new Text("ยืนยัน"),
+              onPressed: () async {
+                this.number = 1;
+                List<Map<String, String>> list =
+                    new List<Map<String, String>>();
+                Map<String, String> list2 = Map<String, String>();
+                Stream<DocumentSnapshot> test = await Firestore.instance
+                    .collection('users.eat')
+                    .document('${widget.user.email}')
+                    .snapshots();
+                await test.elementAt(0).then((a) {
+                  
+                  for (var item in a.data.values.toList()[0]) {
+                    print(number);
+                    list2['name'] = '${this.number}. ${item['name']}';
+                    list2['cal'] = item['cal'];
+                    list.add(list2);
+                    this.number +=1;
+                  }
+                });
+                list2['name'] = '${this.number}. ${foods[index].name}';
+                list2['cal'] = foods[index].cal;
+                list.add(list2);
+                Firestore.instance
+                    .collection('users.eat')
+                    .document(widget.user.email)
+                    .updateData({"food": FieldValue.arrayUnion(list)});
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: new Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

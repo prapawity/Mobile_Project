@@ -225,6 +225,10 @@ class informationState extends State<InfromationForm>
                     .collection('calorie_food')
                     .document('$user')
                     .setData({});
+                Firestore.instance
+                    .collection('users.eat')
+                    .document('$user')
+                    .setData({});
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
