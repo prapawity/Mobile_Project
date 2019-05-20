@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.orange,
-        fontFamily: 'Sukhumvit'
+        fontFamily: 'Sukhumvit',
+        appBarTheme: AppBarTheme(color: Color(0xfff5a623)),
       ),
       initialRoute: "/",
       routes: {

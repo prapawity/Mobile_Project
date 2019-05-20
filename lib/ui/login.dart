@@ -28,8 +28,8 @@ class SplashState extends State<Splash> {
           stops: [0.3, 5],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.orange,
-            Colors.deepOrangeAccent,
+            Color(0xfff5a623),
+            Color(0xfff5a623),
           ],
         ),
       ),
