@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
+import 'package:mobile_project/ui/featureList.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -256,6 +257,9 @@ class AfterSplash extends StatelessWidget {
                       splashColor: Colors.blueGrey,
                       textColor: Colors.orange,
                     ),
+                    RaisedButton(child: Text('Test FeatureList'),onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
+                    },)
                   ],
                 ),
               ),
