@@ -15,6 +15,15 @@ class FeatureListState extends State<FeatureList>{
   @override
   void initState() {
     super.initState();
+    slides.add(
+      new Slide(
+        title: "การคำนวณแคลอรี่",
+        description: "เราจะทำการแคลอรี่ของท่านในแต่ละวัน\nที่มาจากการกินและการออกกำลังกายของท่าน",
+        pathImage: "resource/calculator.png",
+        backgroundColor: Color(0xfff5a623),
+        
+      ),
+    );
 
     slides.add(
       new Slide(

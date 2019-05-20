@@ -218,7 +218,7 @@ class informationState extends State<InfromationForm>
                   'sex': '$sex',
                   'username': "$name",
                   'calmax': cal,
-                  'calnow': 0,
+                  'calnow': 0.0,
                   'email': widget.user.email,
                 });
                 Firestore.instance
@@ -228,7 +228,7 @@ class informationState extends State<InfromationForm>
                 Firestore.instance
                     .collection('users.eat')
                     .document('$user')
-                    .setData({});
+                    .setData({'food':[]});
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

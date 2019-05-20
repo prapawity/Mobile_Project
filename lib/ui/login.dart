@@ -43,6 +43,35 @@ class SplashState extends State<Splash> {
     );
   }
 }
+class SplashState2 extends State<Splash> {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      decoration: BoxDecoration(
+        // Box decoration takes a gradient
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          stops: [0.3, 5],
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Color(0xfff5a623),
+            Color(0xfff5a623),
+          ],
+        ),
+      ),
+      child: SplashScreen(
+          seconds: 10,
+          navigateAfterSeconds: new AfterSplash(),
+          image: new Image.asset("resource/logo.png"),
+          backgroundColor: Colors.orange,
+          photoSize: 200.0,
+          loaderColor: Colors.white),
+    );
+  }
+}
 
 class AfterSplash extends StatelessWidget {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -145,6 +174,7 @@ class AfterSplash extends StatelessWidget {
                               .signInWithEmailAndPassword(
                                   email: user, password: pass)
                               .then((FirebaseUser userfire) async {
+                            SplashState2();
                             if (userfire.isEmailVerified) {
                               int ck = 0;
                               final QuerySnapshot result = await Firestore

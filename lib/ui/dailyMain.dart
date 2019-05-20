@@ -145,6 +145,9 @@ class dailyMainState extends State<dailyMain> {
               ),
             );
           }
+          else{
+            return Container();
+          }
         },
       ),
     );
@@ -248,9 +251,9 @@ class dailyMainState extends State<dailyMain> {
     } else {
       if (chks != 0) {
         setState(() {
-          // List<CircularStackEntry> data = _generateChartData(0);
-          // print(data);
-          // _chartKey.currentState.updateData(data);
+          List<CircularStackEntry> data = _generateChartData(0);
+          print(data);
+          _chartKey.currentState.updateData(data);
         });
       }
       state = 1;
