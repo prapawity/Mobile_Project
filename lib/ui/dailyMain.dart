@@ -77,7 +77,7 @@ class dailyMainState extends State<dailyMain> {
           List<FoodElement> listFalse = new List<FoodElement>();
           if (snapshort.hasData) {
             for (var i = 0;
-                i < snapshort.data.data.values.toList().elementAt(0).length;
+                i < snapshort.data.data.values.toList().elementAt(1).length;
                 i++) {
               FoodElement e = new FoodElement(
                   cal:
@@ -243,7 +243,6 @@ class dailyMainState extends State<dailyMain> {
 
   Widget buildUi(BuildContext context, userinfo nowuser) {
     double value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
-    print('testttttt');
     if (state > 0 || chks != 0) {
       value = (nowuser.calnow / (nowuser.calmax / 100)).toDouble();
       List<CircularStackEntry> data = _generateChartData(value);
@@ -313,6 +312,7 @@ class dailyMainState extends State<dailyMain> {
                 // onDoubleTap: () => print("profile click"),
                 child: new CircleAvatar(
                   backgroundImage: new NetworkImage(imgprofile),
+                  backgroundColor: Colors.white,
                 ),
               ),
               decoration: new BoxDecoration(

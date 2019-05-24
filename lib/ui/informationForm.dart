@@ -32,6 +32,7 @@ class informationState extends State<InfromationForm>
   int age;
   var username = new TextEditingController();
   int _discreteValue = 2000;
+  String state = '';
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
@@ -203,12 +204,20 @@ class informationState extends State<InfromationForm>
                 FirebaseUser userobj = widget.user;
                 int cal = _discreteValue;
                 String namez = widget.user.email;
-                final StorageReference storageRef =
-                    FirebaseStorage.instance.ref().child('$namez');
-                final StorageUploadTask uploadTask = storageRef.putFile(_image);
-                var dowurl =
-                    await (await uploadTask.onComplete).ref.getDownloadURL();
-                String url = dowurl.toString();
+                String url = '';
+                if (state != '') {
+                  final StorageReference storageRef =
+                      FirebaseStorage.instance.ref().child('$namez');
+                  final StorageUploadTask uploadTask =
+                      storageRef.putFile(_image);
+                  var dowurl =
+                      await (await uploadTask.onComplete).ref.getDownloadURL();
+                  url = dowurl.toString();
+                }
+                if (state == '') {
+                  url = 'https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png';
+                }
+                var now = new DateTime.now();
                 Firestore.instance
                     .collection('users')
                     .document('$user')
@@ -228,7 +237,7 @@ class informationState extends State<InfromationForm>
                 Firestore.instance
                     .collection('users.eat')
                     .document('$user')
-                    .setData({'food':[]});
+                    .setData({'food': [], 'date': '$now'});
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -245,6 +254,7 @@ class informationState extends State<InfromationForm>
   @override
   userImage(File _image) {
     setState(() {
+      this.state = '0';
       this._image = _image;
     });
   }

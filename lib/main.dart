@@ -6,7 +6,6 @@ import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/restaurant_screen.dart';
 import 'package:mobile_project/ui/map.dart';
-import 'package:mobile_project/ui/verify.dart';
 
 
 void main() => runApp(MyApp());
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
         "/information": (context) =>InfromationForm(),
         "/ResraurantListScreen": (context) =>ResraurantListScreen(),
         "/restaurant_screen": (context) =>RestaurantScreen(),
-        "/verify": (context) => verifying(),
         //  "/":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
         "/exercise": (context) => exercise(),

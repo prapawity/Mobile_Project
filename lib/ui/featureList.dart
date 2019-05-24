@@ -17,20 +17,19 @@ class FeatureListState extends State<FeatureList>{
     super.initState();
     slides.add(
       new Slide(
-        title: "การคำนวณแคลอรี่",
+        title: "กรุณายืนยัน E-mail ของท่าน",
         description: "เราจะทำการแคลอรี่ของท่านในแต่ละวัน\nที่มาจากการกินและการออกกำลังกายของท่าน",
-        pathImage: "resource/calculator.png",
-        backgroundColor: Color(0xfff5a623),
+        pathImage: "resource/email.png",
+        backgroundColor: Color(0xff406E8E),
         
       ),
     );
-
     slides.add(
       new Slide(
         title: "การคำนวณแคลอรี่",
         description: "เราจะทำการแคลอรี่ของท่านในแต่ละวัน\nที่มาจากการกินและการออกกำลังกายของท่าน",
         pathImage: "resource/calculator.png",
-        backgroundColor: Color(0xfff5a623),
+        backgroundColor: Color(0xffD78521),
         
       ),
     );
@@ -57,14 +56,14 @@ class FeatureListState extends State<FeatureList>{
         description:
         "เราจะแสดงแผนที่ของร้านอาหารที่ท่านสนใจ",
         pathImage: "resource/map.png",
-        backgroundColor: Color(0xff9932CC),
+        backgroundColor: Color(0xff90323D),
       ),
     );
   }
 
   void onDonePress() {
     // Do what you want
-    print('test');
+    Navigator.pop(context);
   }
   @override
   Widget build(BuildContext context) {

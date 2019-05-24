@@ -236,7 +236,7 @@ class AfterSplash extends StatelessWidget {
                             }
                             try {
                               userid.sendEmailVerification();
-                              Navigator.pushNamed(context, "/verify");
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
                             } catch (e) {
                               _displaySnackBar(context);
                             }
@@ -287,9 +287,9 @@ class AfterSplash extends StatelessWidget {
                       splashColor: Colors.blueGrey,
                       textColor: Colors.orange,
                     ),
-                    RaisedButton(child: Text('Test FeatureList'),onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
-                    },)
+                    // RaisedButton(child: Text('Test FeatureList'),onPressed: (){
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
+                    // },)
                   ],
                 ),
               ),
