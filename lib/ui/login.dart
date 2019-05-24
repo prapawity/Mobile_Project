@@ -33,13 +33,15 @@ class SplashState extends State<Splash> {
           ],
         ),
       ),
-      child: SplashScreen(
-          seconds: 6,
-          navigateAfterSeconds: new AfterSplash(),
-          image: new Image.asset("resource/logo.png"),
-          backgroundColor: Colors.orange,
-          photoSize: 200.0,
-          loaderColor: Colors.white),
+      child: Container(
+        child: SplashScreen(
+            seconds: 6,
+            navigateAfterSeconds: new AfterSplash(),
+            image: new Image.asset("resource/logo.png"),
+            backgroundColor: Colors.orange,
+            photoSize: 150.0,
+            loaderColor: Colors.white),
+      ),
     );
   }
 }
@@ -62,13 +64,15 @@ class SplashState2 extends State<Splash> {
           ],
         ),
       ),
-      child: SplashScreen(
-          seconds: 10,
-          navigateAfterSeconds: new AfterSplash(),
-          image: new Image.asset("resource/logo.png"),
-          backgroundColor: Colors.orange,
-          photoSize: 200.0,
-          loaderColor: Colors.white),
+      child: Wrap(
+        children: <Widget>[SplashScreen(
+            seconds: 10,
+            navigateAfterSeconds: new AfterSplash(),
+            image: new Image.asset("resource/logo.png"),
+            backgroundColor: Colors.orange,
+            photoSize: 100.0,
+            loaderColor: Colors.white),],
+      ),
     );
   }
 }

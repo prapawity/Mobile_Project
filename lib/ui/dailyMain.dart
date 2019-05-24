@@ -20,6 +20,8 @@ import 'package:mobile_project/ui/customMenu.dart';
 import 'package:mobile_project/ui/getdata.dart';
 import 'package:mobile_project/service/userinfo.dart';
 
+
+
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
 
@@ -32,6 +34,7 @@ Color labelColor = Colors.blue[200];
 int sharedValue = 0;
 
 class dailyMainState extends State<dailyMain> {
+  
   int number = 0;
   Map<String, double> userLocation;
   int chks = 0;
@@ -81,9 +84,9 @@ class dailyMainState extends State<dailyMain> {
                 i++) {
               FoodElement e = new FoodElement(
                   cal:
-                      '${snapshort.data.data.values.toList().elementAt(0)[i]["cal"]}',
+                      '${snapshort.data.data.values.toList().elementAt(1)[i]["cal"]}',
                   name:
-                      '${snapshort.data.data.values.toList().elementAt(0)[i]["name"]}');
+                      '${snapshort.data.data.values.toList().elementAt(1)[i]["name"]}');
               listFalse.add(e);
             }
             double cal = 0;
@@ -100,8 +103,11 @@ class dailyMainState extends State<dailyMain> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text('${listFalse.elementAt(index).name}'),
-                    trailing: RaisedButton(
-                      child: Text('del'),
+                    trailing: FlatButton(
+                      color: Colors.transparent,
+                      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      splashColor: Colors.white,
+                      child: Text('นำออก',style: TextStyle(decoration: TextDecoration.underline),),
                       onPressed: () {
                         setState(() {
                           List<Map<String, String>> list =

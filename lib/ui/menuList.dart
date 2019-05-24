@@ -179,9 +179,12 @@ class _MenuState extends State<Menu> {
                     .collection('users.eat')
                     .document('${widget.user.email}')
                     .snapshots();
+                // await test.elementAt(0).then((a){
+                //   print(a.data.values.toList());
+                // });
                 await test.elementAt(0).then((a) {
                   
-                  for (var item in a.data.values.toList()[0]) {
+                  for (var item in a.data.values.toList()[1]) {
                     print(number);
                     list2['name'] = '${this.number}. ${item['name']}';
                     list2['cal'] = item['cal'];
