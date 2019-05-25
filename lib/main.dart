@@ -9,6 +9,21 @@ import 'package:mobile_project/ui/map.dart';
 
 
 void main() => runApp(MyApp());
+const MaterialColor white = const MaterialColor(
+  0xff29487d,
+  const <int, Color>{
+    50: const Color(0xff29487d),
+    100: const Color(0xff29487d),
+    200: const Color(0xff29487d),
+    300: const Color(0xff29487d),
+    400: const Color(0xff29487d),
+    500: const Color(0xff29487d),
+    600: const Color(0xff29487d),
+    700: const Color(0xff29487d),
+    800: const Color(0xff29487d),
+    900: const Color(0xff29487d),
+  },
+);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -19,9 +34,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.orange,
+        primarySwatch: white,
         fontFamily: 'Sukhumvit',
-        appBarTheme: AppBarTheme(color: Color(0xfff5a623)),
+        appBarTheme: AppBarTheme(color: Color(0xff29487d)),
       ),
       initialRoute: "/",
       routes: {

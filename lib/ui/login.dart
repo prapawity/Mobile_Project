@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:mobile_project/ui/featureList.dart';
 import 'package:mobile_project/ui/informationForm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,9 +15,42 @@ class Splash extends StatefulWidget {
   SplashState createState() => new SplashState();
 }
 
+check_state_user(context) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String email = sharedPreferences.getString("email");
+  String password = sharedPreferences.getString("password");
+  print('${email} and ${password}');
+  if (email != '' && password != '') {
+    FirebaseAuth auth = await FirebaseAuth.instance;
+    await auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((FirebaseUser userfire) async {
+      SplashState2();
+      if (userfire.isEmailVerified) {
+        final QuerySnapshot result = await Firestore.instance
+            .collection('users')
+            .where('email', isEqualTo: userfire.email)
+            .limit(1)
+            .getDocuments();
+        final List<DocumentSnapshot> documents = result.documents;
+        if (documents.length == 1) {
+          print('asdsadadad');
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => dailyMain(user: userfire)));
+        }
+      }
+    });
+  }
+}
+
 class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      check_state_user(context);
+    });
     return new Container(
       decoration: BoxDecoration(
         // Box decoration takes a gradient
@@ -45,6 +79,7 @@ class SplashState extends State<Splash> {
     );
   }
 }
+
 class SplashState2 extends State<Splash> {
   @override
   Widget build(BuildContext context) {
@@ -65,13 +100,15 @@ class SplashState2 extends State<Splash> {
         ),
       ),
       child: Wrap(
-        children: <Widget>[SplashScreen(
-            seconds: 10,
-            navigateAfterSeconds: new AfterSplash(),
-            image: new Image.asset("resource/logo.png"),
-            backgroundColor: Colors.orange,
-            photoSize: 100.0,
-            loaderColor: Colors.white),],
+        children: <Widget>[
+          SplashScreen(
+              seconds: 10,
+              navigateAfterSeconds: new AfterSplash(),
+              image: new Image.asset("resource/logo.png"),
+              backgroundColor: Colors.orange,
+              photoSize: 100.0,
+              loaderColor: Colors.white),
+        ],
       ),
     );
   }
@@ -163,7 +200,9 @@ class AfterSplash extends StatelessWidget {
                       child: Text(
                         "ลงชื่อเข้าใช้",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       onPressed: () async {
                         bool chk = false;
@@ -190,6 +229,12 @@ class AfterSplash extends StatelessWidget {
                               final List<DocumentSnapshot> documents =
                                   result.documents;
                               if (documents.length == 1) {
+                                SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(
+                                    'email', _controller.text);
+                                sharedPreferences.setString(
+                                    'password', _controller2.text);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -198,6 +243,7 @@ class AfterSplash extends StatelessWidget {
                                 ck = 1;
                               }
                               if (ck == 0) {
+                                print('00000000000');
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -225,7 +271,9 @@ class AfterSplash extends StatelessWidget {
                     RaisedButton(
                       child: Text("สมัครสมาชิก",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black)),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           auth
@@ -240,7 +288,10 @@ class AfterSplash extends StatelessWidget {
                             }
                             try {
                               userid.sendEmailVerification();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FeatureList()));
                             } catch (e) {
                               _displaySnackBar(context);
                             }
