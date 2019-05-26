@@ -18,7 +18,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "กรุณายืนยัน E-mail ของท่าน",
-        description: "เราจะทำการแคลอรี่ของท่านในแต่ละวัน\nที่มาจากการกินและการออกกำลังกายของท่าน",
+        description: "คุณจะต้องทำการยืนยันอีเมลที่เราส่งไปในอีเมลของทคุณก่อนการใช้งาน LifeBoost",
         pathImage: "resource/email.png",
         backgroundColor: Color(0xff406E8E),
         
@@ -27,7 +27,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "การคำนวณแคลอรี่",
-        description: "เราจะทำการแคลอรี่ของท่านในแต่ละวัน\nที่มาจากการกินและการออกกำลังกายของท่าน",
+        description: "เราจะทำการเก็บแคลอรี่ในแต่ละวัน\nที่มาจากการรับประทานอาหารและออกกำลังกายของคุณ",
         pathImage: "resource/calculator.png",
         backgroundColor: Color(0xffD78521),
         
@@ -36,7 +36,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "การออกกำลังกาย",
-        description: "เราจะเก็บประวัติการออกกำลังการของท่านในแต่ละวัน\nเพื่อท่านจะสามารถรู้จำนวนแคลอรี่ที่ท่านได้ใช้ไปในแต่ละวันได้",
+        description: "เราจะแนะนำการออกกำลังกายที่จะช่วยเผาผลาญแคลอรี่ของคุณได้",
         pathImage: "resource/exercise.png",
         backgroundColor: Color(0xff203152),
       ),
@@ -45,7 +45,7 @@ class FeatureListState extends State<FeatureList>{
       new Slide(
         title: "ร้านอาหาร",
         description:
-        "เราจะแนะนำร้านอาหารที่อยู่ใกล้ท่าน เพื่อที่ท่านจะสามารถทราบที่อยู่ของร้านอาหารที่ท่านสนใจได้",
+        "เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้",
         pathImage: "resource/res.png",
         backgroundColor: Color(0xff9932CC),
       ),
@@ -54,7 +54,7 @@ class FeatureListState extends State<FeatureList>{
       new Slide(
         title: "แผนที่ร้านอาหาร",
         description:
-        "เราจะแสดงแผนที่ของร้านอาหารที่ท่านสนใจ",
+        "เราจะแสดงแผนที่ของร้านอาหารที่คุณสนใจ",
         pathImage: "resource/map.png",
         backgroundColor: Color(0xff90323D),
       ),
