@@ -105,13 +105,12 @@ class updateinformationFormState extends State<updateinformationForm>
           iconTheme: IconThemeData(color: Colors.white),
         ),
         body: new ListView(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(10.0),
           children: <Widget>[
             GestureDetector(
               onTap: () => imagePicker.showDialog(context),
               child: new Center(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: userimg == null
                       ? new Stack(
                           children: <Widget>[

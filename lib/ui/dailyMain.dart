@@ -478,8 +478,25 @@ class dailyMainState extends State<dailyMain> {
         .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
+  checkdate() async {
+    await Firestore.instance
+        .collection('users.eat')
+        .document(widget.user.email)
+        .get()
+        .then((a) async {
+      List day = '${DateTime.now()}'.split(' ');
+      List day2 = '${a.data.values.toList().elementAt(0)}'.split(' ');
+      if ('${day2[0]}'.compareTo('${day[0]}') < 0) {
+        await Firestore.instance.collection('users.eat').document(widget.user.email).updateData({'date':'${DateTime.now()}','food':[]});
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      checkdate();
+    });
     return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance
           .collection('users')
