@@ -347,8 +347,8 @@ class dailyMainState extends State<dailyMain> {
                 : Container(
                     color: Colors.white,
                     child: ListTile(
-                      subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
-                      title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                      subtitle: Text('อย่าลืมออกกำลังกายด้วยล่ะ'),
+                      title: Text('วันนี้ยังไม่ได้ออกกำลังกายเลยนะ'),
                     ));
           }
         },
