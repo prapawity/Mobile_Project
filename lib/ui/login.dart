@@ -19,7 +19,6 @@ check_state_user(context) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String email = sharedPreferences.getString("email");
   String password = sharedPreferences.getString("password");
-  print('${email} and ${password}');
   if (email != '' && password != '') {
     FirebaseAuth auth = await FirebaseAuth.instance;
     await auth
@@ -34,8 +33,8 @@ check_state_user(context) async {
             .getDocuments();
         final List<DocumentSnapshot> documents = result.documents;
         if (documents.length == 1) {
-          print('asdsadadad');
-          Navigator.pushReplacement(
+          print('171717171');
+          return Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => dailyMain(user: userfire)));
@@ -212,12 +211,23 @@ class AfterSplash extends StatelessWidget {
                         //   password: pass
                         // );
                         if (_formKey.currentState.validate()) {
+                          _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                              backgroundColor: Color(0xff29487d),
+                              duration: new Duration(seconds: 3),
+                              content: new Center(
+                                child: Container(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  alignment: Alignment(0.0, 0.0),
+                                ),
+                              )));
+
                           chk = true;
                           await auth
                               .signInWithEmailAndPassword(
                                   email: user, password: pass)
                               .then((FirebaseUser userfire) async {
-                            SplashState2();
                             if (userfire.isEmailVerified) {
                               int ck = 0;
                               final QuerySnapshot result = await Firestore
@@ -235,16 +245,15 @@ class AfterSplash extends StatelessWidget {
                                     'email', _controller.text);
                                 sharedPreferences.setString(
                                     'password', _controller2.text);
-                                Navigator.pushReplacement(
+                                print('qiuhsiuhqihdqd');
+                                return Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             dailyMain(user: userfire)));
-                                ck = 1;
                               }
                               if (ck == 0) {
-                                print('00000000000');
-                                Navigator.pushReplacement(
+                                return Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -282,7 +291,6 @@ class AfterSplash extends StatelessWidget {
                             password: pass,
                           )
                               .then((FirebaseUser userid) {
-                            print(userid);
                             if (userid == null) {
                               _displaySnackBar(context);
                             }
@@ -366,8 +374,8 @@ class AfterSplash extends StatelessWidget {
   }
 
   _displaySnackBar3(BuildContext context) {
-    final snackBar =
-        SnackBar(content: Text('กรุณาลงทะเบียน หรือยืนยัน E-mailของท่านก่อน'));
+    final snackBar = SnackBar(
+        content: Text('��รุณาลงทะเบียน หรือยืนยัน E-mailข���งท่านก่อน'));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 

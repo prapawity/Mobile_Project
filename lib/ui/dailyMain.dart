@@ -20,6 +20,7 @@ import 'package:mobile_project/ui/customMenu.dart';
 import 'package:mobile_project/ui/getdata.dart';
 import 'package:mobile_project/service/userinfo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 class dailyMain extends StatefulWidget {
   const dailyMain({Key key, this.user}) : super(key: key);
@@ -27,6 +28,37 @@ class dailyMain extends StatefulWidget {
   final FirebaseUser user;
   @override
   dailyMainState createState() => dailyMainState();
+}
+class SplashState extends State<dailyMain> {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      decoration: BoxDecoration(
+        // Box decoration takes a gradient
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          stops: [0.3, 5],
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Color(0xfff5a623),
+            Color(0xfff5a623),
+          ],
+        ),
+      ),
+      child: Container(
+        child: SplashScreen(
+            seconds: 6,
+            navigateAfterSeconds: new dailyMainState(),
+            image: new Image.asset("resource/logo.png"),
+            backgroundColor: Colors.orange,
+            photoSize: 150.0,
+            loaderColor: Colors.white),
+      ),
+    );
+  }
 }
 
 Color labelColor = Colors.blue[200];
@@ -436,7 +468,8 @@ class dailyMainState extends State<dailyMain> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString('email', '');
     sharedPreferences.setString('password', '');
-    Navigator.of(context).popAndPushNamed("/");
+    Navigator.of(context)
+    .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
   @override
