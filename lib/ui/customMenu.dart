@@ -25,7 +25,7 @@ class _Add extends State<Add> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("เพิ่มอาหาร"),
+        title: Text("เพิ่มรายการอาหาร"),
       ),
       body: Builder(
         builder: (BuildContext context) {
@@ -43,11 +43,11 @@ class _Add extends State<Add> {
                       borderSide: new BorderSide(),
                     ),
                     hintText: "อาหารของคุณ",
-                    prefixIcon: Icon(Icons.fastfood),
+                    prefixIcon: Icon(Icons.kitchen),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "โปรดกรอกอาหารของคุณ";
+                      return "โปรดระบุอาหารของคุณ";
                     }
                   },
                 ),
@@ -65,7 +65,7 @@ class _Add extends State<Add> {
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "โปรดกรอกพลังงานของอาหาร";
+                      return "โปรดระบุพลังงานของอาหาร";
                     }
                   },
                 ),
@@ -78,7 +78,7 @@ class _Add extends State<Add> {
                   textColor: Colors.white,
                   onPressed: () {
                     if (!_formKey.currentState.validate()) {
-                      Toast.show("โปรดกรอกข้อมูล", context, gravity: Toast.BOTTOM);
+                      Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context, gravity: Toast.BOTTOM);
                     } else {
                       List<Map<String, String>> list =
                           new List<Map<String, String>>();
