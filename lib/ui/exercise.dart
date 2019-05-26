@@ -15,95 +15,112 @@ class exercise extends StatelessWidget {
   Widget build(BuildContext context) {
     String _name;
     String _cal;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ออกกำลังกาย'),
-        centerTitle: true,
-      ),
-      body: Builder(
-        builder: (BuildContext context) {
-          return Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
-              children: <Widget>[
-                const Divider(height: 25.0),
-                TextFormField(
-                  controller: txtControl1,
-                  decoration: InputDecoration(
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
+    return Container(
+      decoration: BoxDecoration(
+        image: new DecorationImage(
+        image: new AssetImage("resource/bg6.jpg"),
+        fit: BoxFit.cover,
+      )),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('เพิ่มการออกกำลังกาย'),
+          centerTitle: true,
+        ),
+        body: Builder(
+          builder: (BuildContext context) {
+            return Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
+                children: <Widget>[
+                  const Divider(height: 25.0),
+                  TextFormField(
+                    controller: txtControl1,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      hintText: "กิจกรรมที่ทำ",
+                      prefixIcon: Icon(Icons.accessibility_new),
                     ),
-                    hintText: "กิจกรรมที่ทำ",
-                    prefixIcon: Icon(Icons.accessibility_new),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "กรุณากรอกกิจกรรมที่ทำ";
-                    }else {
-                    _name = value;
-                  }
-                  },
-                ),
-                const Divider(height: 5.0),
-                TextFormField(
-                  controller: txtControl2,
-                  decoration: InputDecoration(
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
-                    ),
-                    hintText: "หลังงานที่ใ้ช(แคลอรี่)",
-                    prefixIcon: Icon(Icons.fitness_center),
-                  ),
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "กรุณากรอกจำนวนพลังงานที่ใช้";
-                    }else {
-                    _cal = value;
-                  }
-                  },
-                ),
-                const Divider(height: 15.0),
-                RaisedButton(
-                  color: Color(0xff29487d),
-                  child: Text(
-                    "เพิ่ม",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  textColor: Colors.white,
-                  onPressed: () {
-                    if (!_formKey.currentState.validate()) {
-                      Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
-                          gravity: Toast.BOTTOM);
-                    } else {
-                      List<Map<String, String>> list =
-                          new List<Map<String, String>>();
-
-                      Map<String, String> list2 = Map<String, String>();
-                      list2['name'] = _name;
-                      list2['cal'] = _cal;
-
-                      list.add(list2);
-
-                      Firestore.instance
-                          .collection('calorie_ex_user')
-                          .document(user.email)
-                          .updateData(
-                              {"activity": FieldValue.arrayUnion(list)});
-                      Navigator.pop(context);
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "กรุณากรอกกิจกรรมที่ทำ";
+                      }else {
+                      _name = value;
                     }
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                    },
+                  ),
+                  const Divider(height: 5.0),
+                  TextFormField(
+                    controller: txtControl2,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      hintText: "พลังงานที่ใช้(kcal)",
+                      prefixIcon: Icon(Icons.fitness_center),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "กรุณากรอกจำนวนพลังงานที่ใช้";
+                      }else if (!isNum(value)){
+                        return "กรุณากรอกเป็นตัวเลข";
+                    } else {
+                      _cal = value;
+                    }
+                    },
+                  ),
+                  const Divider(height: 15.0),
+                  RaisedButton(
+                    color: Color(0xff29487d),
+                    child: Text(
+                      "เพิ่ม",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      if (!_formKey.currentState.validate()) {
+                        Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
+                            gravity: Toast.BOTTOM);
+                      } else {
+                        List<Map<String, String>> list =
+                            new List<Map<String, String>>();
+
+                        Map<String, String> list2 = Map<String, String>();
+                        list2['name'] = _name;
+                        list2['cal'] = _cal;
+
+                        list.add(list2);
+
+                        Firestore.instance
+                            .collection('calorie_ex_user')
+                            .document(user.email)
+                            .updateData(
+                                {"activity": FieldValue.arrayUnion(list)});
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        // oldForm(context, _name, _cal),
       ),
-      // oldForm(context, _name, _cal),
     );
   }
 
+}
+
+bool isNum(String s) {
+  if(s == null) {
+    return false;
+  }
+  return double.parse(s, (e) => null) != null;
 }

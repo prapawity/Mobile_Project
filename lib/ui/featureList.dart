@@ -57,7 +57,7 @@ class FeatureListState extends State<FeatureList> {
           color: Colors.black,
           fontSize: 30,
         ),
-        description: "เราจะแนะนำการออกกำลังกายที่จะช่วยเผาผลาญแคลอรี่ของคุณได้",
+        description: "เราจะบันทึกกิจกรรมการออกกำลังกายเพื่อลดจำนวนแคลอรี่จากอาหารที่คุณรับประทานไป",
         styleDescription: TextStyle(
           color: Colors.black,
           fontSize: 16,

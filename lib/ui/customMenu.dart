@@ -24,7 +24,7 @@ class _Add extends State<Add> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: new DecorationImage(
+          image: new DecorationImage(
         image: new AssetImage("resource/bg5.jpg"),
         fit: BoxFit.cover,
       )),
@@ -49,11 +49,16 @@ class _Add extends State<Add> {
                         borderSide: new BorderSide(),
                       ),
                       hintText: "อาหารของคุณ",
-                      prefixIcon: Icon(Icons.kitchen),
+                      prefixIcon: Icon(Icons.fastfood),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
                         return "โปรดระบุอาหารของคุณ";
+                      } else {
+                        try {
+                          double.parse(value);
+                          return "ชื่ออาหารต้องไม่เป็นตัวเลข";
+                        } catch (e) {}
                       }
                     },
                   ),
@@ -72,6 +77,12 @@ class _Add extends State<Add> {
                     validator: (value) {
                       if (value.isEmpty) {
                         return "โปรดระบุพลังงานของอาหาร";
+                      } else {
+                        try {
+                          double.parse(value);
+                        } catch (e) {
+                          return "พลังงานต้องเป็นตัวเลข";
+                        }
                       }
                     },
                   ),
