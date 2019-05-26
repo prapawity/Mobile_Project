@@ -37,12 +37,13 @@ int sharedValue = 0;
 class dailyMainState extends State<dailyMain> {
   int statenow = 1;
   getListdata() async {
-  Stream<DocumentSnapshot> dataget = await Firestore.instance
-            .collection('users.eat')
-            .document('${widget.user.email}')
-            .snapshots();
-  return dataget;
-}
+    Stream<DocumentSnapshot> dataget = await Firestore.instance
+        .collection('users.eat')
+        .document('${widget.user.email}')
+        .snapshots();
+    return dataget;
+  }
+
   int number = 0;
   Map<String, double> userLocation;
   int chks = 0;
@@ -60,7 +61,7 @@ class dailyMainState extends State<dailyMain> {
   };
   int sharedValue = 0;
   Widget food(BuildContext context) {
-    if(state ==3){
+    if (state == 3) {
       state = 1;
       return CircularProgressIndicator();
     }
@@ -75,11 +76,9 @@ class dailyMainState extends State<dailyMain> {
           if (!snapshort.hasData) return CircularProgressIndicator();
           List<FoodElement> listFalse = new List<FoodElement>();
           if (snapshort.hasData) {
-            print(snapshort.data.data.values.toList().elementAt(1));
             for (var i = 0;
                 i < snapshort.data.data.values.toList().elementAt(1).length;
                 i++) {
-                  print(snapshort.data.data.values.toList().elementAt(1)[i]);
               FoodElement e = new FoodElement(
                   cal:
                       '${snapshort.data.data.values.toList().elementAt(1)[i]["cal"]}',
@@ -162,11 +161,11 @@ class dailyMainState extends State<dailyMain> {
                     ),
                   )
                 : Container(
-                  color: Colors.white,
+                    color: Colors.white,
                     child: ListTile(
-                    subtitle: Text('อย่าลืมทานข้าวด้วยล่ะ'),
-                    title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
-                  ));
+                      subtitle: Text('อย่าลืมทานข้าวด้วยล่ะ'),
+                      title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                    ));
           }
         },
       ),
@@ -174,7 +173,7 @@ class dailyMainState extends State<dailyMain> {
   }
 
   Widget restaurant(BuildContext context) {
-    
+    state = 2;
     return Container(
       color: Colors.transparent,
       width: 300,
@@ -256,7 +255,7 @@ class dailyMainState extends State<dailyMain> {
   }
 
   Widget work(BuildContext context) {
-    if(state ==1){
+    if (state == 1) {
       state = 3;
       return CircularProgressIndicator();
     }
@@ -275,8 +274,9 @@ class dailyMainState extends State<dailyMain> {
                 i < snapshort2.data.data.values.toList()[0].length;
                 i++) {
               FoodElement z = new FoodElement(
-                  cal: '${snapshort2.data.data.values.toList()[0][0]['cal']}',
-                  name: '${snapshort2.data.data.values.toList()[0][0]['name']}');
+                  cal: '${snapshort2.data.data.values.toList()[0][i]['cal']}',
+                  name:
+                      '${snapshort2.data.data.values.toList()[0][i]['name']}');
               listFalse2.add(z);
             }
             getcalories();
@@ -285,7 +285,6 @@ class dailyMainState extends State<dailyMain> {
                     child: ListView.builder(
                       itemCount: listFalse2.length,
                       itemBuilder: (BuildContext context, int index) {
-
                         return Card(
                           // title: Text('${listFalse.elementAt(index).name}'),
                           child: FlatButton(
@@ -346,11 +345,11 @@ class dailyMainState extends State<dailyMain> {
                     ),
                   )
                 : Container(
-                  color: Colors.white,
+                    color: Colors.white,
                     child: ListTile(
-                    subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
-                    title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
-                  ));
+                      subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
+                      title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                    ));
           }
         },
       ),
@@ -405,13 +404,15 @@ class dailyMainState extends State<dailyMain> {
                 icon: Icon(
                   Icons.menu,
                   color: Color(0xff29487d),
-                ), onPressed: () {},
+                ),
+                onPressed: () {},
               ),
               IconButton(
                 icon: Icon(
                   Icons.search,
                   color: Color(0xff29487d),
-                ), onPressed: () {},
+                ),
+                onPressed: () {},
               )
             ],
           ),
@@ -601,7 +602,7 @@ class dailyMainState extends State<dailyMain> {
     for (var i in listchk2) {
       cal = cal - int.parse(i.cal);
     }
-    if(cal <0)cal=0;
+    if (cal < 0) cal = 0;
     Firestore.instance
         .collection('users')
         .document('${widget.user.email}')
