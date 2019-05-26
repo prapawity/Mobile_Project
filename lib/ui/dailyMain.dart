@@ -10,6 +10,7 @@ import 'package:mobile_project/model/restaurant_model.dart';
 import 'package:mobile_project/service/restaurant_services.dart';
 import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
+import 'package:mobile_project/ui/exercise.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/restaurant_screen.dart';
@@ -411,7 +412,7 @@ class dailyMainState extends State<dailyMain> {
                         new Menu(user: widget.user))),
               ),
               new ListTile(
-                title: new Text("เพิ่มอาหาร"),
+                title: new Text("เพิ่มรายการอาหาร"),
                 trailing: new Icon(Icons.add),
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new Add(
@@ -421,7 +422,10 @@ class dailyMainState extends State<dailyMain> {
               new ListTile(
                 title: new Text("ออกกำลังกาย"),
                 trailing: new Icon(Icons.add),
-                onTap: () => Navigator.pushNamed(context, "/exercise"),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new exercise(
+                          user: widget.user,
+                        ))),
               ),
               new Divider(),
               new ListTile(

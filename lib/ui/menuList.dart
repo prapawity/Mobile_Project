@@ -120,7 +120,7 @@ class _MenuState extends State<Menu> {
               children: <Widget>[
                 new ListTile(
                     title:
-                        new Text("${foods[index].name}    ${foods[index].cal}"),
+                        new Text("${foods[index].name} ${foods[index].cal} kcal"),
                     leading: Text((index + 1).toString()),
                     onTap: () {
                       _showDialog(index);
@@ -157,7 +157,7 @@ class _MenuState extends State<Menu> {
                 new ListTile(
                   
                     title:
-                        new Text("${_searchListItems.elementAt(index)}    ${getcal(_searchListItems.elementAt(index))}"),
+                        new Text("${_searchListItems.elementAt(index)} ${getcal(_searchListItems.elementAt(index))} kcal"),
                     leading: Text((index + 1).toString()),
                     onTap: () {
                       _showDialog2(_searchListItems.elementAt(index));
@@ -179,7 +179,7 @@ class _MenuState extends State<Menu> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("แจ้งเตือน"),
-          content: new Text("ยืนยันการเลือกรายการอาหารหรือไม่?"),
+          content: new Text("ยืนยันการเลือกอาหารหรือไม่?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
@@ -236,7 +236,7 @@ class _MenuState extends State<Menu> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("แจ้งเตือน"),
-          content: new Text("ยืนยันการเลือกรายการอาหารหรือไม่?"),
+          content: new Text("ยืนยันการเลือกอาหารหรือไม่?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(

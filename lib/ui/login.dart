@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toast/toast.dart';
 
 String user = "", pass = "";
 
@@ -152,8 +153,8 @@ class AfterSplash extends StatelessWidget {
                         style: new TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
-                            labelText: "UserName",
-                            hintText: "Please Input Your UserName",
+                            labelText: "อีเมล",
+                            hintText: "โปรดระบุอีเมลของคุณ",
                             icon: Icon(Icons.account_box,
                                 size: 40, color: Colors.white),
                             border: OutlineInputBorder(
@@ -164,7 +165,7 @@ class AfterSplash extends StatelessWidget {
                         validator: (id) {
                           if (id.isEmpty) {
                             chk2 = true;
-                            return "Please Input Your USER-ID";
+                            return "โปรดระบุอีเมลของคุณ";
                           } else {
                             user = id;
                           }
@@ -182,8 +183,8 @@ class AfterSplash extends StatelessWidget {
                         controller: _controller2,
                         style: new TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            labelText: "PASSWORD",
-                            hintText: "Please Input Your PASSWORD",
+                            labelText: "รหัสผ่าน",
+                            hintText: "โปรดระบุรหัสผ่านของคุณ",
                             icon:
                                 Icon(Icons.lock, size: 40, color: Colors.white),
                             border: OutlineInputBorder(
@@ -193,7 +194,7 @@ class AfterSplash extends StatelessWidget {
                         validator: (password) {
                           if (password.isEmpty) {
                             chk2 = true;
-                            return "Please Input Your PASSWORD";
+                            return "โปรดระบุรหัสผ่านของคุณ";
                           } else {
                             pass = password;
                           }

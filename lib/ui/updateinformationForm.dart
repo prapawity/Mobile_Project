@@ -15,7 +15,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-
+import 'package:toast/toast.dart';
 import 'dailyMain.dart';
 
 class updateinformationForm extends StatefulWidget {
@@ -30,6 +30,8 @@ class updateinformationFormState extends State<updateinformationForm>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List _cities = [];
+  final _formKey = GlobalKey<FormState>();
+
   var textfield_date = TextEditingController();
   var pic_date = new DateTime.now();
   int _radioValue1;
@@ -96,182 +98,190 @@ class updateinformationFormState extends State<updateinformationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: _scaffoldKey,
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
-            "Personal Information",
+            "ข้อมูลส่วนตัว",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        body: new ListView(
-          padding: EdgeInsets.all(10.0),
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => imagePicker.showDialog(context),
-              child: new Center(
-                child: Container(
-                  child: userimg == null
-                      ? new Stack(
-                          children: <Widget>[
-                            new Center(
-                                child: new Icon(
-                              Icons.camera_alt,
-                              size: 150,
-                            )),
-                          ],
-                        )
-                      : _image == null
-                          ? new Container(
-                              height: 160.0,
-                              width: 160.0,
-                              decoration: new BoxDecoration(
-                                image: new DecorationImage(
-                                  image: new NetworkImage("$userimg"),
-                                  fit: BoxFit.cover,
+        body: Form(
+          key: _formKey,
+          child: new ListView(
+            padding: EdgeInsets.all(20.0),
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => imagePicker.showDialog(context),
+                child: new Center(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: userimg == null
+                        ? new Stack(
+                            children: <Widget>[
+                              new Center(
+                                  child: new Icon(
+                                Icons.camera_alt,
+                                size: 150,
+                              )),
+                            ],
+                          )
+                        : _image == null
+                            ? new Container(
+                                height: 160.0,
+                                width: 160.0,
+                                decoration: new BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new NetworkImage("$userimg"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  border: Border.all(
+                                      color: Color(0xff29487d), width: 5.0),
+                                  borderRadius: new BorderRadius.all(
+                                      const Radius.circular(80.0)),
                                 ),
-                                border: Border.all(
-                                    color: Color(0xff29487d), width: 5.0),
-                                borderRadius: new BorderRadius.all(
-                                    const Radius.circular(80.0)),
-                              ),
-                            )
-                          : new Container(
-                              height: 160.0,
-                              width: 160.0,
-                              decoration: new BoxDecoration(
-                                image: new DecorationImage(
-                                  image: new ExactAssetImage(_image.path),
-                                  fit: BoxFit.cover,
+                              )
+                            : new Container(
+                                height: 160.0,
+                                width: 160.0,
+                                decoration: new BoxDecoration(
+                                  image: new DecorationImage(
+                                    image: new ExactAssetImage(_image.path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  border: Border.all(
+                                      color: Color(0xff29487d), width: 5.0),
+                                  borderRadius: new BorderRadius.all(
+                                      const Radius.circular(80.0)),
                                 ),
-                                border: Border.all(
-                                    color: Color(0xff29487d), width: 5.0),
-                                borderRadius: new BorderRadius.all(
-                                    const Radius.circular(80.0)),
                               ),
-                            ),
-                ),
-              ),
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
-            TextField(
-              controller: username,
-              decoration: InputDecoration(
-                labelText: "Username",
-                hintText: "Please Input Your USER-NAME",
-                icon:
-                    Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  onChanged: _handleRadioValueChange1,
-                ),
-                new Text(
-                  'ผู้ชาย',
-                  style: new TextStyle(fontSize: 16.0),
-                ),
-                new Radio(
-                  value: 1,
-                  groupValue: _radioValue1,
-                  onChanged: _handleRadioValueChange1,
-                ),
-                new Text(
-                  'ผู้หญิง',
-                  style: new TextStyle(
-                    fontSize: 16.0,
                   ),
                 ),
-              ],
-            ),
-            TextField(
-              onTap: datePicker,
-              textAlign: TextAlign.center,
-              // editable: false,
-              // inputType: InputType.date,
-              // initialDate: DateTime.now(),
-              // format: DateFormat("yyyy-MM-dd"),
-              controller: textfield_date,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: "Date of Birth",
               ),
-            ),
-            Text('แคลลอรี่ต่อวัน'),
-            Slider(
-              value: _discreteValue.roundToDouble(),
-              min: 1000,
-              max: 3000.0,
-              divisions: 3000,
-              label: '$_discreteValue',
-              onChanged: (double value) {
-                setState(() {
-                  _discreteValue = value.round();
-                });
-              },
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            RaisedButton(
-              child: Text("Save"),
-              onPressed: () async {
-                _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                    backgroundColor: Color(0xff29487d),
-                    duration: new Duration(seconds: 3),
-                    content: new Center(
-                      child: Container(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
-                        alignment: Alignment(0.0, 0.0),
-                      ),
-                    )));
-                print("SAce");
-                String name = username.text;
-                String sex = _radioValue1 == 0 ? 'Male' : 'Female';
-                String date = textfield_date.text;
-                String user = widget.user.email;
-                FirebaseUser userobj = widget.user;
-                int cal = _discreteValue;
-                String namez = widget.user.email;
-                String url;
-                if (_image != null) {
-                  final StorageReference storageRef =
-                      FirebaseStorage.instance.ref().child('$namez');
-                  final StorageUploadTask uploadTask =
-                      storageRef.putFile(_image);
-                  var dowurl =
-                      await (await uploadTask.onComplete).ref.getDownloadURL();
-                  url = dowurl.toString();
-                } else {
-                  url = userimg;
-                }
-                Firestore.instance
-                    .collection('users')
-                    .document('$user')
-                    .updateData({
-                  'date': '$date',
-                  'imgurl': "$url",
-                  'sex': '$sex',
-                  'username': "$name",
-                  'calmax': cal,
-                });
-                Navigator.pop(context);
-              },
-              color: Color(0xff29487d),
-              splashColor: Colors.blueGrey,
-              textColor: Colors.white,
-            ),
-          ],
+              Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+              TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "โปรดระบุชื่อ";
+                  }
+                },
+                controller: username,
+                decoration: InputDecoration(
+                  labelText: "ชื่อ",
+                  hintText: "โปรดระบุชื่อ",
+                  icon: Icon(Icons.account_box,
+                      size: 40, color: Color(0xff29487d)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: 0,
+                    groupValue: _radioValue1,
+                    onChanged: _handleRadioValueChange1,
+                  ),
+                  new Text(
+                    'ผู้ชาย',
+                    style: new TextStyle(fontSize: 16.0),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: _radioValue1,
+                    onChanged: _handleRadioValueChange1,
+                  ),
+                  new Text(
+                    'ผู้หญิง',
+                    style: new TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+              TextField(
+                textAlign: TextAlign.center,
+                // editable: false,
+                // inputType: InputType.date,
+                // initialDate: DateTime.now(),
+                // format: DateFormat("yyyy-MM-dd"),
+                onTap: datePicker,
+                controller: textfield_date,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  labelText: "วันเกิด",
+                ),
+              ),
+              Text('แคลอรี่ต่อวัน'),
+              Slider(
+                value: _discreteValue.roundToDouble(),
+                min: 1000,
+                max: 3000.0,
+                divisions: 3000,
+                label: '$_discreteValue',
+                onChanged: (double value) {
+                  setState(() {
+                    _discreteValue = value.round();
+                  });
+                },
+              ),
+              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+              RaisedButton(
+                child: Text("บันทึก"),
+                onPressed: () async {
+                  if (_radioValue1 != 0 && _radioValue1 != 1) {
+                    Toast.show("โปรดระบุเพศ", context,
+                        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  }
+                  if (!_formKey.currentState.validate()) {
+                    Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
+                        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  } else {
+                    print("SAce");
+                    String name = username.text=username.text[0].toUpperCase()+ username.text.substring(1);
+                    String sex = _radioValue1 == 0 ? 'Male' : 'Female';
+                    String date = textfield_date.text;
+                    String user = widget.user.email;
+                    FirebaseUser userobj = widget.user;
+                    int cal = _discreteValue;
+                    String namez = widget.user.email;
+                    String url;
+                    if (_image != null) {
+                      final StorageReference storageRef =
+                          FirebaseStorage.instance.ref().child('$namez');
+                      final StorageUploadTask uploadTask =
+                          storageRef.putFile(_image);
+                      var dowurl = await (await uploadTask.onComplete)
+                          .ref
+                          .getDownloadURL();
+                      url = dowurl.toString();
+                    } else {
+                      url = userimg;
+                    }
+                    Firestore.instance
+                        .collection('users')
+                        .document('$user')
+                        .updateData({
+                      'date': '$date',
+                      'imgurl': "$url",
+                      'sex': '$sex',
+                      'username': "$name",
+                      'calmax': cal,
+                    });
+                    Navigator.pop(context);
+                  }
+                },
+                color: Color(0xff29487d),
+                splashColor: Colors.blueGrey,
+                textColor: Colors.white,
+              ),
+            ],
+          ),
         ));
   }
 
@@ -297,8 +307,8 @@ class updateinformationFormState extends State<updateinformationForm>
       initialYear: pic_date.year,
       initialMonth: pic_date.month,
       initialDate: pic_date.day,
-      cancel: Text('custom cancel'),
-      confirm: Text('custom confirm'),
+      cancel: Text('ยกเลิก'),
+      confirm: Text('ยืนยันวันเกิด'),
       dateFormat: 'dd-mmmm-yyyy',
       onChanged: (year, month, date) {
         textfield_date.text = "$date/$month/$year";
