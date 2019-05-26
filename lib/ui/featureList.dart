@@ -20,36 +20,32 @@ class FeatureListState extends State<FeatureList> {
       new Slide(
         title: "กรุณายืนยัน E-mail ของท่าน",
         styleTitle: TextStyle(
-            color: Color(0xff3da4ab),
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
+          color: Colors.black,
+          fontSize: 30.0,
+        ),
         description:
             "คุณจะต้องทำการยืนยันอีเมลที่เราส่งไปในอีเมลของทคุณก่อนการใช้งาน LifeBoost",
         styleDescription: TextStyle(
-            color: Color(0xfffe9c8f),
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Raleway'),
+          color: Colors.black,
+          fontSize: 16,
+        ),
         pathImage: "resource/email.png",
-        backgroundColor: Color(0xff406E8E),
+        backgroundColor: Colors.black,
       ),
     );
     slides.add(
       new Slide(
         title: "การคำนวณแคลอรี่",
         styleTitle: TextStyle(
-            color: Color(0xff3da4ab),
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
+          color: Colors.black,
+          fontSize: 30,
+        ),
         description:
             "เราจะทำการเก็บแคลอรี่ในแต่ละวัน\nที่มาจากการรับประทานอาหารและออกกำลังกายของคุณ",
         styleDescription: TextStyle(
-            color: Color(0xfffe9c8f),
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Raleway'),
+          color: Colors.black,
+          fontSize: 16,
+        ),
         pathImage: "resource/calculator.png",
         backgroundColor: Color(0xffD78521),
       ),
@@ -58,16 +54,14 @@ class FeatureListState extends State<FeatureList> {
       new Slide(
         title: "การออกกำลังกาย",
         styleTitle: TextStyle(
-            color: Color(0xff3da4ab),
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
+          color: Colors.black,
+          fontSize: 30,
+        ),
         description: "เราจะแนะนำการออกกำลังกายที่จะช่วยเผาผลาญแคลอรี่ของคุณได้",
         styleDescription: TextStyle(
-            color: Color(0xfffe9c8f),
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Raleway'),
+          color: Colors.black,
+          fontSize: 16,
+        ),
         pathImage: "resource/exercise.png",
         backgroundColor: Color(0xff203152),
       ),
@@ -76,34 +70,31 @@ class FeatureListState extends State<FeatureList> {
       new Slide(
         title: "ร้านอาหาร",
         styleTitle: TextStyle(
-            color: Color(0xff3da4ab),
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
-        description: "เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้",
+          color: Colors.black,
+          fontSize: 30,
+        ),
+        description:
+            "เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้",
         styleDescription: TextStyle(
-            color: Color(0xfffe9c8f),
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Raleway'),
+          color: Colors.black,
+          fontSize: 16,
+        ),
         pathImage: "resource/res.png",
         backgroundColor: Color(0xff9932CC),
       ),
     );
-        slides.add(
+    slides.add(
       new Slide(
         title: "แผนที่ร้านอาหาร",
         styleTitle: TextStyle(
-            color: Color(0xff3da4ab),
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
+          color: Colors.black,
+          fontSize: 30.0,
+        ),
         description: "เราจะแสดงแผนที่ของร้านอาหารที่คุณสนใจ",
         styleDescription: TextStyle(
-            color: Color(0xfffe9c8f),
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Raleway'),
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
         pathImage: "resource/map.png",
         backgroundColor: Color(0xff90323D),
       ),
@@ -112,6 +103,7 @@ class FeatureListState extends State<FeatureList> {
 
   void onDonePress() {
     // Do what you want
+    Navigator.pop(context);
   }
 
   void onTabChangeCompleted(index) {
@@ -121,22 +113,19 @@ class FeatureListState extends State<FeatureList> {
   Widget renderNextBtn() {
     return Icon(
       Icons.navigate_next,
-      color: Color(0xffffcc5c),
+      color: Colors.white,
       size: 35.0,
     );
   }
 
   Widget renderDoneBtn() {
-    return Icon(
-      Icons.done,
-      color: Color(0xffffcc5c),
-    );
+    return Icon(Icons.done, color: Colors.white);
   }
 
   Widget renderSkipBtn() {
     return Icon(
       Icons.skip_next,
-      color: Color(0xffffcc5c),
+      color: Colors.white,
     );
   }
 
@@ -186,37 +175,45 @@ class FeatureListState extends State<FeatureList> {
 
   @override
   Widget build(BuildContext context) {
-    return new IntroSlider(
-      // List slides
-      slides: this.slides,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("LifeBoost"),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      body: Container(
+        child: new IntroSlider(
+          // List slides
+          slides: this.slides,
+          // Skip button
+          renderSkipBtn: this.renderSkipBtn(),
+          colorSkipBtn: Color(0xff223B67),
+          highlightColorSkipBtn: Color(0xffffcc5c),
 
-      // Skip button
-      renderSkipBtn: this.renderSkipBtn(),
-      colorSkipBtn: Color(0x33ffcc5c),
-      highlightColorSkipBtn: Color(0xffffcc5c),
+          // Next button
+          renderNextBtn: this.renderNextBtn(),
 
-      // Next button
-      renderNextBtn: this.renderNextBtn(),
+          // Done button
+          renderDoneBtn: this.renderDoneBtn(),
+          onDonePress: this.onDonePress,
+          colorDoneBtn: Color(0xff223B67),
+          highlightColorDoneBtn: Color(0xffffcc5c),
 
-      // Done button
-      renderDoneBtn: this.renderDoneBtn(),
-      onDonePress: this.onDonePress,
-      colorDoneBtn: Color(0x33ffcc5c),
-      highlightColorDoneBtn: Color(0xffffcc5c),
+          // Dot indicator
+          colorDot: Color(0xffD0DAE6),
+          colorActiveDot: Color(0xff547AA5),
+          sizeDot: 13.0,
 
-      // Dot indicator
-      colorDot: Color(0x33ffcc5c),
-      colorActiveDot: Color(0xffffcc5c),
-      sizeDot: 13.0,
+          // List custom tabs
+          listCustomTabs: this.renderListCustomTabs(),
 
-      // List custom tabs
-      listCustomTabs: this.renderListCustomTabs(),
+          // Show or hide status bar
+          shouldHideStatusBar: true,
 
-      // Show or hide status bar
-      shouldHideStatusBar: true,
-
-      // On tab change completed
-      onTabChangeCompleted: this.onTabChangeCompleted,
+          // On tab change completed
+          onTabChangeCompleted: this.onTabChangeCompleted,
+        ),
+      ),
     );
   }
 }
