@@ -1,65 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toast/toast.dart';
 
 class exercise extends StatelessWidget {
   final FirebaseUser user;
-  const exercise({Key key, this.user}) : super(key: key);
+  final TextEditingController txtControl1;
+  final TextEditingController txtControl2;
+  const exercise({Key key, this.user, this.txtControl1, this.txtControl2})
+      : super(key: key);
   static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String _name;
     String _cal;
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('ออกกำลังกาย'),
         centerTitle: true,
       ),
-      body: Container(
-          padding: EdgeInsets.all(10),
-          child: Form(
+      body: Builder(
+        builder: (BuildContext context) {
+          return Form(
             key: _formKey,
             child: ListView(
+              padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
               children: <Widget>[
+                const Divider(height: 25.0),
                 TextFormField(
+                  controller: txtControl1,
                   decoration: InputDecoration(
-                    hintText: 'กิจกรรมที่ทำ',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 2.0),
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
                     ),
+                    hintText: "กิจกรรมที่ทำ",
+                    prefixIcon: Icon(Icons.accessibility_new),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return ("กรุณากรอกกิจกรรมที่ทำ");
-                    } else {
-                      _name = value;
-                    }
+                      return "กรุณากรอกกิจกรรมที่ทำ";
+                    }else {
+                    _name = value;
+                  }
                   },
                 ),
+                const Divider(height: 5.0),
                 TextFormField(
+                  controller: txtControl2,
                   decoration: InputDecoration(
-                    hintText: 'หลังงานที่ใ้ช(แคลอรี่)',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 2.0),
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(),
                     ),
+                    hintText: "หลังงานที่ใ้ช(แคลอรี่)",
+                    prefixIcon: Icon(Icons.fitness_center),
                   ),
+                  keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return ("กรุณากรอกจำนวนพลังงานที่ใช้");
-                    } else {
-                      _cal = value;
-                    }
+                      return "กรุณากรอกจำนวนพลังงานที่ใช้";
+                    }else {
+                    _cal = value;
+                  }
                   },
                 ),
+                const Divider(height: 15.0),
                 RaisedButton(
-                  color: Theme.of(context).accentColor,
+                  color: Color(0xff29487d),
+                  child: Text(
+                    "เพิ่ม",
+                    style: TextStyle(fontSize: 18),
+                  ),
                   textColor: Colors.white,
-                  child: Text('บันทึก'),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (!_formKey.currentState.validate()) {
+                      Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
+                          gravity: Toast.BOTTOM);
+                    } else {
                       List<Map<String, String>> list =
                           new List<Map<String, String>>();
 
@@ -80,7 +99,11 @@ class exercise extends StatelessWidget {
                 ),
               ],
             ),
-          )),
+          );
+        },
+      ),
+      // oldForm(context, _name, _cal),
     );
   }
+
 }

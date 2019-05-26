@@ -29,6 +29,7 @@ class _Add extends State<Add> {
         fit: BoxFit.cover,
       )),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text("เพิ่มรายการอาหาร"),
         ),
