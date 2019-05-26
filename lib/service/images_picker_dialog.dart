@@ -79,7 +79,7 @@ class ImagePickerDialog extends StatelessWidget {
                   child: roundedButton(
                       "Camera",
                       EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                      const Color(0xFF167F67),
+                      const Color(0xFF536c97),
                       const Color(0xFFFFFFFF)),
                 ),
                 new GestureDetector(
@@ -87,7 +87,7 @@ class ImagePickerDialog extends StatelessWidget {
                   child: roundedButton(
                       "Gallery",
                       EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                      const Color(0xFF167F67),
+                      const Color(0xFF536c97),
                       const Color(0xFFFFFFFF)),
                 ),
                 const SizedBox(height: 15.0),
@@ -98,7 +98,7 @@ class ImagePickerDialog extends StatelessWidget {
                     child: roundedButton(
                         "Cancel",
                         EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                        const Color(0xFF167F67),
+                        const Color(0xFF536c97),
                         const Color(0xFFFFFFFF)),
                   ),
                 ),
