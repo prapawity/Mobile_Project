@@ -2,18 +2,26 @@
 
 A new Flutter project @ITKMITL Year 2 (IT-SE)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Feature List 
+![feature List](resource/feature.gif)
 
-A few resources to get you started if this is your first Flutter project:
+## การคำนวณแคลอรี่
+*เราจะทำการเก็บแคลอรี่ในแต่ละวันที่มาจากการรับประทานอาหารและออกกำลังกายของคุณ*
+![cal](resource/cal.gif)
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+## การออกกำลังกาย
+*เราจะบันทึกกิจกรรมการออกกำลังกายเพื่อลดจำนวนแคลอรี่จากอาหารที่คุณรับประทานไป*
+![ex](resource/ex.gif)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+
+## ร้านอาหาร
+*เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้*
+![res](resource/res.gif)
+
+## ร้แผนที่ร้านอาหาร
+*เราจะแสดงแผนที่ของร้านอาหารที่คุณสนใจ*
+![map](resource/map.gif)
 
 
 ## Problem with location

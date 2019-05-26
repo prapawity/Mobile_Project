@@ -51,7 +51,7 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(10),
                               child: Column(
                                 children: <Widget>[
                                   new Text(
@@ -59,14 +59,38 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                                           ? "${title.substring(0, 40)}..."
                                           : title,
                                       style: headerTextStyle),
-                                  new Text(
-                                      "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
-                                  )
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Text(
+                                        "ระยะห่าง " +
+                                            Haversine.haversine(
+                                                    Haversine.lat,
+                                                    Haversine.lng,
+                                                    restaurant.lat,
+                                                    restaurant.lng)
+                                                .toStringAsFixed(2)
+                                                .toString() +
+                                            " กม.",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            // fontSize: 10,
+                                            fontStyle: FontStyle.italic)),
+                                  ),
+                                  Container(
+                                    // padding: EdgeInsets.all(10),
+                                    child: Text(restaurant.detail.address+"\n"),
+                                  ),
+                                  Container(
+                                    // padding: EdgeInsets.all(10),
+                                    child: Text(desc.length >= 100
+                                        ? "${desc.substring(0, 100)}..."
+                                        : desc,
+                                        style: TextStyle(
+                                          fontSize: 12
+                                        ),),
+                                  ),
                                 ],
                               )),
-                          Text(desc.length > 50
-                              ? "${desc.substring(0, 50)}..."
-                              : desc)
                         ],
                       ),
                     );
@@ -82,8 +106,9 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                       },
                       child: Card(
                         // color: Color(0xff9DABC3),
-                        margin: EdgeInsets.only(bottom: 10,left: 20,right: 20),
-                        
+                        margin:
+                            EdgeInsets.only(bottom: 10, left: 20, right: 20),
+
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Column(
