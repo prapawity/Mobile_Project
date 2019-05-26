@@ -36,6 +36,7 @@ class informationState extends State<InfromationForm>
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -85,6 +86,7 @@ class informationState extends State<InfromationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             "Personal Information",
@@ -101,7 +103,7 @@ class informationState extends State<InfromationForm>
               onTap: () => imagePicker.showDialog(context),
               child: new Center(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: _image == null
                       ? new Stack(
                           children: <Widget>[
@@ -120,8 +122,8 @@ class informationState extends State<InfromationForm>
                               image: new ExactAssetImage(_image.path),
                               fit: BoxFit.cover,
                             ),
-                            border:
-                                Border.all(color: Color(0xff29487d), width: 5.0),
+                            border: Border.all(
+                                color: Color(0xff29487d), width: 5.0),
                             borderRadius: new BorderRadius.all(
                                 const Radius.circular(80.0)),
                           ),
@@ -135,7 +137,8 @@ class informationState extends State<InfromationForm>
               decoration: InputDecoration(
                 labelText: "Username",
                 hintText: "Please Input Your USER-NAME",
-                icon: Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
+                icon:
+                    Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -197,6 +200,17 @@ class informationState extends State<InfromationForm>
             RaisedButton(
               child: Text("Save"),
               onPressed: () async {
+                _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                    backgroundColor: Color(0xff29487d),
+                    duration: new Duration(seconds: 6),
+                    content: new Center(
+                      child: Container(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
+                        alignment: Alignment(0.0, 0.0),
+                      ),
+                    )));
                 String name = username.text;
                 String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                 String date = textfield_date.text;
@@ -215,7 +229,8 @@ class informationState extends State<InfromationForm>
                   url = dowurl.toString();
                 }
                 if (state == '') {
-                  url = 'https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png';
+                  url =
+                      'https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png';
                 }
                 var now = new DateTime.now();
                 Firestore.instance
