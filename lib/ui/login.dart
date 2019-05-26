@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/dailyMain.dart';
 import 'package:mobile_project/ui/featureList.dart';
+import 'package:mobile_project/ui/forgetpassword.dart';
 import 'package:mobile_project/ui/informationForm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -137,7 +138,7 @@ class AfterSplash extends StatelessWidget {
                   children: <Widget>[
                     new Image.asset(
                       "resource/logo.png",
-                      height: 300,
+                      height: 250,
                     ),
                     Theme(
                       data: new ThemeData(
@@ -366,6 +367,20 @@ class AfterSplash extends StatelessWidget {
                       splashColor: Colors.blueGrey,
                       textColor: Colors.orange,
                     ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: FlatButton(
+                        color: Colors.transparent,
+                        child: Text('ลืมรหัสผ่าน',style: TextStyle(color: Colors.white),),
+                        onPressed: () async {
+                          
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgetPasswordPage()));
+                        },
+                      ),
+                    )
                     // RaisedButton(child: Text('Test FeatureList'),onPressed: (){
                     //   Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
                     // },)

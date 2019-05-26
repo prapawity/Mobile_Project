@@ -61,7 +61,7 @@ class dailyMainState extends State<dailyMain> {
   };
   int sharedValue = 0;
   Widget food(BuildContext context) {
-    if (state == 3) {
+    if (state != 1) {
       state = 1;
       return CircularProgressIndicator();
     }
@@ -255,7 +255,7 @@ class dailyMainState extends State<dailyMain> {
   }
 
   Widget work(BuildContext context) {
-    if (state == 1) {
+    if (state != 3) {
       state = 3;
       return CircularProgressIndicator();
     }
