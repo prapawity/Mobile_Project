@@ -71,7 +71,7 @@ class SplashState extends State<Splash> {
             seconds: 6,
             navigateAfterSeconds: new AfterSplash(),
             image: new Image.asset("resource/logo.png"),
-            backgroundColor: Colors.orange,
+            backgroundColor: Color(0xff29487d),
             photoSize: 150.0,
             loaderColor: Colors.white),
       ),
