@@ -20,88 +20,95 @@ class _Add extends State<Add> {
   final txtControl1 = TextEditingController();
   final txtControl2 = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("เพิ่มรายการอาหาร"),
-      ),
-      body: Builder(
-        builder: (BuildContext context) {
-          return Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
-              children: <Widget>[
-                const Divider(height: 25.0),
-                TextFormField(
-                  controller: txtControl1,
-                  decoration: InputDecoration(
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
+    return Container(
+      decoration: BoxDecoration(
+        image: new DecorationImage(
+        image: new AssetImage("resource/bg5.jpg"),
+        fit: BoxFit.cover,
+      )),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("เพิ่มรายการอาหาร"),
+        ),
+        body: Builder(
+          builder: (BuildContext context) {
+            return Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 30, 30, 0),
+                children: <Widget>[
+                  const Divider(height: 25.0),
+                  TextFormField(
+                    controller: txtControl1,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      hintText: "อาหารของคุณ",
+                      prefixIcon: Icon(Icons.kitchen),
                     ),
-                    hintText: "อาหารของคุณ",
-                    prefixIcon: Icon(Icons.kitchen),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "โปรดระบุอาหารของคุณ";
+                      }
+                    },
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "โปรดระบุอาหารของคุณ";
-                    }
-                  },
-                ),
-                const Divider(height: 5.0),
-                TextFormField(
-                  controller: txtControl2,
-                  decoration: InputDecoration(
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(20.0),
-                      borderSide: new BorderSide(),
+                  const Divider(height: 5.0),
+                  TextFormField(
+                    controller: txtControl2,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(20.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      hintText: "พลังงาน (kcal)",
+                      prefixIcon: Icon(Icons.fitness_center),
                     ),
-                    hintText: "พลังงาน (kcal)",
-                    prefixIcon: Icon(Icons.fitness_center),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "โปรดระบุพลังงานของอาหาร";
+                      }
+                    },
                   ),
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "โปรดระบุพลังงานของอาหาร";
-                    }
-                  },
-                ),
-                const Divider(height: 15.0),
-                RaisedButton(
-                  color: Color(0xff29487d),
-                  child: Text("เพิ่ม",
-                    style: TextStyle(fontSize: 18),
+                  const Divider(height: 15.0),
+                  RaisedButton(
+                    color: Color(0xff29487d),
+                    child: Text(
+                      "เพิ่ม",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    textColor: Colors.white,
+                    onPressed: () {
+                      if (!_formKey.currentState.validate()) {
+                        Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
+                            gravity: Toast.BOTTOM);
+                      } else {
+                        List<Map<String, String>> list =
+                            new List<Map<String, String>>();
+
+                        Map<String, String> list2 = Map<String, String>();
+                        list2['name'] = txtControl1.text;
+                        list2['cal'] = txtControl2.text;
+
+                        list.add(list2);
+
+                        Firestore.instance
+                            .collection('calorie_food')
+                            .document(widget.user.email)
+                            .updateData({"food": FieldValue.arrayUnion(list)});
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
-                  textColor: Colors.white,
-                  onPressed: () {
-                    if (!_formKey.currentState.validate()) {
-                      Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context, gravity: Toast.BOTTOM);
-                    } else {
-                      List<Map<String, String>> list =
-                          new List<Map<String, String>>();
-
-                      Map<String, String> list2 = Map<String, String>();
-                      list2['name'] = txtControl1.text;
-                      list2['cal'] = txtControl2.text;
-
-                      list.add(list2);
-
-                      Firestore.instance
-                        .collection('calorie_food')
-                        .document(widget.user.email)
-                        .updateData(
-                          {"food": FieldValue.arrayUnion(list)});
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
