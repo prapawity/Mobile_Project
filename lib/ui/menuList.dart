@@ -43,6 +43,13 @@ class _MenuState extends State<Menu> {
       }
     });
   }
+  getcal(String name){
+    for(var j in foods){
+      if(j.name == name){
+        return j.cal;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,13 +152,20 @@ class _MenuState extends State<Menu> {
       child: new ListView.builder(
           itemCount: _searchListItems.length,
           itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              color: Colors.amberAccent,
-              elevation: 5.0,
-              child: new Container(
-                margin: EdgeInsets.all(15.0),
-                child: new Text("${_searchListItems.elementAt(index)}"),
-              ),
+            return new Column(
+              children: <Widget>[
+                new ListTile(
+                  
+                    title:
+                        new Text("${_searchListItems.elementAt(index)}    ${getcal(_searchListItems.elementAt(index))}"),
+                    leading: Text((index + 1).toString()),
+                    onTap: () {
+                      _showDialog2(_searchListItems.elementAt(index));
+                    }),
+                new Divider(
+                  height: 2.0,
+                ),
+              ],
             );
           }),
     );
@@ -165,7 +179,7 @@ class _MenuState extends State<Menu> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("แจ้งเตือน"),
-          content: new Text("ยืนยันการรับประทานอาหารหรือไม่?"),
+          content: new Text("ยืนยันการเลือกรายการอาหารหรือไม่?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
@@ -183,18 +197,80 @@ class _MenuState extends State<Menu> {
                 //   print(a.data.values.toList());
                 // });
                 await test.elementAt(0).then((a) {
-                  
                   for (var item in a.data.values.toList()[1]) {
                     print(number);
                     list2['name'] = '${this.number}. ${item['name']}';
                     list2['cal'] = item['cal'];
                     list.add(list2);
-                    this.number +=1;
+                    this.number += 1;
                   }
                 });
                 list2['name'] = '${this.number}. ${foods[index].name}';
                 list2['cal'] = foods[index].cal;
                 list.add(list2);
+                Firestore.instance
+                    .collection('users.eat')
+                    .document(widget.user.email)
+                    .updateData({"food": FieldValue.arrayUnion(list)});
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: new Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialog2(String name) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("แจ้งเตือน"),
+          content: new Text("ยืนยันการเลือกรายการอาหารหรือไม่?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: new Text("ยืนยัน"),
+              onPressed: () async {
+                this.number = 1;
+                List<Map<String, String>> list =
+                    new List<Map<String, String>>();
+                Map<String, String> list2 = Map<String, String>();
+                Stream<DocumentSnapshot> test = await Firestore.instance
+                    .collection('users.eat')
+                    .document('${widget.user.email}')
+                    .snapshots();
+                // await test.elementAt(0).then((a){
+                //   print(a.data.values.toList());
+                // });
+                await test.elementAt(0).then((a) {
+                  for (var item in a.data.values.toList()[1]) {
+                    print(number);
+                    list2['name'] = '${this.number}. ${item['name']}';
+                    list2['cal'] = item['cal'];
+                    list.add(list2);
+                    this.number += 1;
+                  }
+                });
+                int state = 0;
+                for (var j in foods) {
+                  if (j.name == name) {
+                    list2['name'] = '${this.number}. ${foods[state].name}';
+                    list2['cal'] = foods[state].cal;
+                    list.add(list2);
+                  }
+                  state += 1;
+                }
                 Firestore.instance
                     .collection('users.eat')
                     .document(widget.user.email)
