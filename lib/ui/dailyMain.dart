@@ -523,7 +523,7 @@ class dailyMainState extends State<dailyMain> {
                 chartType: CircularChartType.Radial,
                 edgeStyle: SegmentEdgeStyle.round,
                 percentageValues: true,
-                holeLabel: '${nowuser.calnow} กิโลแคลอรี่',
+                holeLabel: '${nowuser.calnow} kcal',
                 labelStyle: _labelStyle,
               ),
             ),
