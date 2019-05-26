@@ -297,7 +297,7 @@ class dailyMainState extends State<dailyMain> {
     return Container(
       decoration: BoxDecoration(
           image: new DecorationImage(
-        image: new AssetImage("resource/bg.jpg"),
+        image: new AssetImage("resource/bg4.jpg"),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
