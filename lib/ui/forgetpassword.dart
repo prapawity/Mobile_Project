@@ -77,44 +77,41 @@ class ForgetPasswordPage extends StatelessWidget {
                       Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
                           gravity: Toast.BOTTOM);
                     } else {
-                      await Firestore.instance
+                      _scaffoldKey2.currentState.showSnackBar(new SnackBar(
+                          backgroundColor: Color(0xff29487d),
+                          duration: new Duration(seconds: 2),
+                          content: new Center(
+                            child: Container(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              ),
+                              alignment: Alignment(0.0, 0.0),
+                            ),
+                          )));
+                      DocumentSnapshot data = await Firestore.instance
                           .collection('users')
                           .document('${_name}')
-                          .get()
-                          .then((a) async {
-                        if (a == null) {
-                          Toast.show("ไม่มีข้อมูลบัญชีผู้ใช้", context,
-                              gravity: Toast.BOTTOM,
-                              duration: Toast.LENGTH_SHORT);
-                        }
-                        if (a.data.containsValue('${_cal}') != null) {
+                          .get();
+                      if (data.data != null) {
+                        print(data.data.containsValue('${_cal}'));
+                        if (data.data.containsValue('${_cal}')) {
                           await FirebaseAuth.instance
                               .sendPasswordResetEmail(email: '${_name}');
                           Toast.show("กรุณาดูที่อีเมลของท่าน", context,
                               gravity: Toast.BOTTOM,
                               duration: Toast.LENGTH_SHORT);
-                          _scaffoldKey2.currentState.showSnackBar(new SnackBar(
-                              backgroundColor: Color(0xff29487d),
-                              duration: new Duration(seconds: 2),
-                              content: new Center(
-                                child: Container(
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  alignment: Alignment(0.0, 0.0),
-                                ),
-                              )));
+
                           Navigator.pop(context);
                         } else {
                           Toast.show("ไม่มีข้อมูลบัญชีผู้ใช้", context,
                               gravity: Toast.BOTTOM,
                               duration: Toast.LENGTH_SHORT);
                         }
-                      }).catchError(() {
+                      } else {
                         Toast.show("ไม่มีข้อมูลบัญชีผู้ใช้", context,
                             gravity: Toast.BOTTOM,
                             duration: Toast.LENGTH_SHORT);
-                      });
+                      }
                     }
                   },
                 ),
@@ -127,3 +124,34 @@ class ForgetPasswordPage extends StatelessWidget {
     );
   }
 }
+
+//    for (var item in a.data.values.toList()){
+//      print(item);
+//    }
+// if (a.data.values == null) {
+//   Toast.show("ไม่มีข้อมูลบัญชีผู้ใช้", context,
+//       gravity: Toast.BOTTOM,
+//       duration: Toast.LENGTH_SHORT);
+// } else if (a.data.containsValue('${_cal}') != null) {
+//   await FirebaseAuth.instance
+//       .sendPasswordResetEmail(email: '${_name}');
+//   Toast.show("กรุณาดูที่อีเมลของท่าน", context,
+//       gravity: Toast.BOTTOM,
+//       duration: Toast.LENGTH_SHORT);
+//   _scaffoldKey2.currentState.showSnackBar(new SnackBar(
+//       backgroundColor: Color(0xff29487d),
+//       duration: new Duration(seconds: 2),
+//       content: new Center(
+//         child: Container(
+//           child: CircularProgressIndicator(
+//             backgroundColor: Colors.white,
+//           ),
+//           alignment: Alignment(0.0, 0.0),
+//         ),
+//       )));
+//   Navigator.pop(context);
+// } else {
+//   Toast.show("ไม่มีข้อมูลบัญชีผู้ใช้", context,
+//       gravity: Toast.BOTTOM,
+//       duration: Toast.LENGTH_SHORT);
+// }
