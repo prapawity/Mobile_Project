@@ -5,7 +5,7 @@ A new Flutter project @ITKMITL Year 2 (IT-SE)
 
 ## Feature List 
 <!-- ![feature List](resource/featurelist.gif) -->
-<p align="left">
+<p align="center">
   <img width="300" height="500" src="resource/featurelist.gif">
 </p>
 
@@ -13,29 +13,29 @@ A new Flutter project @ITKMITL Year 2 (IT-SE)
 -*เราจะทำการเก็บแคลอรี่ในแต่ละวันที่มาจากการรับประทานอาหารและออกกำลังกายของคุณ*
 
 <!-- ![cal](resource/cal.gif) -->
-<p align="left">
+<p align="center">
   <img width="300" height="500" src="resource/cal.gif">
 </p>
 
 ## การออกกำลังกาย
 -*เราจะบันทึกกิจกรรมการออกกำลังกายเพื่อลดจำนวนแคลอรี่จากอาหารที่คุณรับประทานไป*
 <!-- ![ex](resource/ex.gif) -->
-<p align="left">
+<p align="center">
   <img width="300" height="500" src="resource/ex.gif">
 </p>
 
 ## ร้านอาหาร
 -*เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้*
 <!-- ![res](resource/res_nearby.gif) -->
-<p align="left">
+<p align="center">
   <img width="300" height="500" src="res_nearby.gif">
 </p>
 
 ## แผนที่ร้านอาหาร
 -*เราจะแสดงแผนที่ของร้านอาหารที่คุณสนใจ*
 <!-- ![map](resource/map.gif) -->
-<p align="left">
-  <img width="300" height="500" src="resource/map.gif">
+<p align="center">
+  <img width="300" height="500" src="map.gif">
 </p>
 
 ## Problem with location
