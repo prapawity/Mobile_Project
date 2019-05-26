@@ -206,14 +206,21 @@ class informationState extends State<InfromationForm>
               RaisedButton(
                 child: Text("บันทึก"),
                 onPressed: () async {
-                  if (_radioValue1 != 0 && _radioValue1 != 1) {
+                  
+                  if (!_formKey.currentState.validate()) {
+                    Toast.show("โปรดระบุชื่อ", context,
+                        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  }
+                  else if (_radioValue1 != 0 && _radioValue1 != 1) {
                     Toast.show("โปรดระบุเพศ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
-                  if (!_formKey.currentState.validate()) {
-                    Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
+                  else if(textfield_date.text != null){
+                    Toast.show("โปรดระบุวันเกิด", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-                  } else {
+                  } 
+                  
+                   else {
                     String name = username.text=username.text[0].toUpperCase()+ username.text.substring(1);
                     String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                     String date = textfield_date.text;
@@ -251,6 +258,10 @@ class informationState extends State<InfromationForm>
                     });
                     Firestore.instance
                         .collection('calorie_food')
+                        .document('$user')
+                        .setData({});
+                    Firestore.instance
+                        .collection('calorie_ex_user')
                         .document('$user')
                         .setData({});
                     Firestore.instance
