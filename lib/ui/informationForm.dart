@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_project/service/userinfo.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:toast/toast.dart';
 import 'dailyMain.dart';
 
 class InfromationForm extends StatefulWidget {
@@ -36,7 +36,7 @@ class informationState extends State<InfromationForm>
   File _image;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     Firestore.instance
@@ -87,167 +87,186 @@ class informationState extends State<InfromationForm>
     return new Scaffold(
         appBar: AppBar(
           title: Text(
-            "Personal Information",
+            "ข้อมูลส่วนตัว",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        body: new ListView(
-          padding: EdgeInsets.all(20.0),
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => imagePicker.showDialog(context),
-              child: new Center(
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: _image == null
-                      ? new Stack(
-                          children: <Widget>[
-                            new Center(
-                                child: new Icon(
-                              Icons.camera_alt,
-                              size: 150,
-                            )),
-                          ],
-                        )
-                      : new Container(
-                          height: 160.0,
-                          width: 160.0,
-                          decoration: new BoxDecoration(
-                            image: new DecorationImage(
-                              image: new ExactAssetImage(_image.path),
-                              fit: BoxFit.cover,
+        body: Form(
+          key: _formKey,
+          child: new ListView(
+            padding: EdgeInsets.all(20.0),
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => imagePicker.showDialog(context),
+                child: new Center(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: _image == null
+                        ? new Stack(
+                            children: <Widget>[
+                              new Center(
+                                  child: new Icon(
+                                Icons.camera_alt,
+                                size: 150,
+                              )),
+                            ],
+                          )
+                        : new Container(
+                            height: 160.0,
+                            width: 160.0,
+                            decoration: new BoxDecoration(
+                              image: new DecorationImage(
+                                image: new ExactAssetImage(_image.path),
+                                fit: BoxFit.cover,
+                              ),
+                              border: Border.all(
+                                  color: Color(0xff29487d), width: 5.0),
+                              borderRadius: new BorderRadius.all(
+                                  const Radius.circular(80.0)),
                             ),
-                            border:
-                                Border.all(color: Color(0xff29487d), width: 5.0),
-                            borderRadius: new BorderRadius.all(
-                                const Radius.circular(80.0)),
                           ),
-                        ),
-                ),
-              ),
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
-            TextField(
-              controller: username,
-              decoration: InputDecoration(
-                labelText: "Username",
-                hintText: "Please Input Your USER-NAME",
-                icon: Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  onChanged: _handleRadioValueChange1,
-                ),
-                new Text(
-                  'ผู้ชาย',
-                  style: new TextStyle(fontSize: 16.0),
-                ),
-                new Radio(
-                  value: 1,
-                  groupValue: _radioValue1,
-                  onChanged: _handleRadioValueChange1,
-                ),
-                new Text(
-                  'ผู้หญิง',
-                  style: new TextStyle(
-                    fontSize: 16.0,
                   ),
                 ),
-              ],
-            ),
-            TextField(
-              onTap: datePicker,
-              textAlign: TextAlign.center,
-              // editable: false,
-              // inputType: InputType.date,
-              // initialDate: DateTime.now(),
-              // format: DateFormat("yyyy-MM-dd"),
-              controller: textfield_date,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: "Date of Birth",
               ),
-            ),
-            Text('แคลลอรี่ต่อวัน'),
-            Slider(
-              value: _discreteValue.roundToDouble(),
-              min: 1000,
-              max: 3000.0,
-              divisions: 3000,
-              label: '$_discreteValue',
-              onChanged: (double value) {
-                setState(() {
-                  _discreteValue = value.round();
-                });
-              },
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-            RaisedButton(
-              child: Text("Save"),
-              onPressed: () async {
-                String name = username.text;
-                String sex = _radioValue1 == 0 ? 'Male' : 'Female';
-                String date = textfield_date.text;
-                String user = widget.user.email;
-                FirebaseUser userobj = widget.user;
-                int cal = _discreteValue;
-                String namez = widget.user.email;
-                String url = '';
-                if (state != '') {
-                  final StorageReference storageRef =
-                      FirebaseStorage.instance.ref().child('$namez');
-                  final StorageUploadTask uploadTask =
-                      storageRef.putFile(_image);
-                  var dowurl =
-                      await (await uploadTask.onComplete).ref.getDownloadURL();
-                  url = dowurl.toString();
-                }
-                if (state == '') {
-                  url = 'https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png';
-                }
-                var now = new DateTime.now();
-                Firestore.instance
-                    .collection('users')
-                    .document('$user')
-                    .setData({
-                  'date': '$date',
-                  'imgurl': "$url",
-                  'sex': '$sex',
-                  'username': "$name",
-                  'calmax': cal,
-                  'calnow': 0.0,
-                  'email': widget.user.email,
-                });
-                Firestore.instance
-                    .collection('calorie_food')
-                    .document('$user')
-                    .setData({});
-                Firestore.instance
-                    .collection('users.eat')
-                    .document('$user')
-                    .setData({'food': [], 'date': '$now'});
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => dailyMain(user: userobj)));
-              },
-              color: Color(0xff29487d),
-              splashColor: Colors.blueGrey,
-              textColor: Colors.white,
-            ),
-          ],
+              Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
+              TextFormField(
+                  controller: username,
+                  decoration: InputDecoration(
+                    labelText: "ชื่อ",
+                    hintText: "กรุณาระบุชื่อ",
+                    icon: Icon(Icons.account_box,
+                        size: 40, color: Color(0xff29487d)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "กรุณาระบุชื่อ";
+                    }
+                  }),
+              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: 0,
+                    groupValue: _radioValue1,
+                    onChanged: _handleRadioValueChange1,
+                  ),
+                  new Text(
+                    'ผู้ชาย',
+                    style: new TextStyle(fontSize: 16.0),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: _radioValue1,
+                    onChanged: _handleRadioValueChange1,
+                  ),
+                  new Text(
+                    'ผู้หญิง',
+                    style: new TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+              TextField(
+                textAlign: TextAlign.center,
+                // editable: false,
+                // inputType: InputType.date,
+                // initialDate: DateTime.now(),
+                // format: DateFormat("yyyy-MM-dd"),
+                onTap: datePicker,
+                controller: textfield_date,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  labelText: "วันเกิด",
+                ),
+              ),
+              Text('แคลลอรี่ต่อวัน'),
+              Slider(
+                value: _discreteValue.roundToDouble(),
+                min: 1000,
+                max: 3000.0,
+                divisions: 3000,
+                label: '$_discreteValue',
+                onChanged: (double value) {
+                  setState(() {
+                    _discreteValue = value.round();
+                  });
+                },
+              ),
+              Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+              RaisedButton(
+                child: Text("บันทึก"),
+                onPressed: () async {
+                  if (_radioValue1 != 0 && _radioValue1 != 1) {
+                    Toast.show("กรุณาระบุเพศ", context,
+                        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  }
+                  if (!_formKey.currentState.validate()) {
+                    Toast.show("กรุณากรอกข้อมูลให้ครบถ้วน", context,
+                        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                  } else {
+                    String name = username.text;
+                    String sex = _radioValue1 == 0 ? 'Male' : 'Female';
+                    String date = textfield_date.text;
+                    String user = widget.user.email;
+                    FirebaseUser userobj = widget.user;
+                    int cal = _discreteValue;
+                    String namez = widget.user.email;
+                    String url = '';
+                    if (state != '') {
+                      final StorageReference storageRef =
+                          FirebaseStorage.instance.ref().child('$namez');
+                      final StorageUploadTask uploadTask =
+                          storageRef.putFile(_image);
+                      var dowurl = await (await uploadTask.onComplete)
+                          .ref
+                          .getDownloadURL();
+                      url = dowurl.toString();
+                    }
+                    if (state == '') {
+                      url =
+                          'https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png';
+                    }
+                    var now = new DateTime.now();
+                    Firestore.instance
+                        .collection('users')
+                        .document('$user')
+                        .setData({
+                      'date': '$date',
+                      'imgurl': "$url",
+                      'sex': '$sex',
+                      'username': "$name",
+                      'calmax': cal,
+                      'calnow': 0.0,
+                      'email': widget.user.email,
+                    });
+                    Firestore.instance
+                        .collection('calorie_food')
+                        .document('$user')
+                        .setData({});
+                    Firestore.instance
+                        .collection('users.eat')
+                        .document('$user')
+                        .setData({'food': [], 'date': '$now'});
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => dailyMain(user: userobj)));
+                  }
+                },
+                color: Color(0xff29487d),
+                splashColor: Colors.blueGrey,
+                textColor: Colors.white,
+              ),
+            ],
+          ),
         ));
   }
 
@@ -274,8 +293,8 @@ class informationState extends State<InfromationForm>
       initialYear: pic_date.year,
       initialMonth: pic_date.month,
       initialDate: pic_date.day,
-      cancel: Text('custom cancel'),
-      confirm: Text('custom confirm'),
+      cancel: Text('ยกเลิก'),
+      confirm: Text('ยืนยันวันเกิด'),
       dateFormat: 'dd-mmmm-yyyy',
       onChanged: (year, month, date) {
         textfield_date.text = "$date/$month/$year";

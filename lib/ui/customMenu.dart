@@ -43,7 +43,7 @@ class _Add extends State<Add> {
                       borderSide: new BorderSide(),
                     ),
                     hintText: "อาหารของคุณ",
-                    prefixIcon: Icon(Icons.kitchen),
+                    prefixIcon: Icon(Icons.fastfood),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
