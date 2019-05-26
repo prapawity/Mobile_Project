@@ -254,6 +254,10 @@ class informationState extends State<InfromationForm>
                         .document('$user')
                         .setData({});
                     Firestore.instance
+                        .collection('calorie_ex_user')
+                        .document('$user')
+                        .setData({});
+                    Firestore.instance
                         .collection('users.eat')
                         .document('$user')
                         .setData({'food': [], 'date': '$now'});
