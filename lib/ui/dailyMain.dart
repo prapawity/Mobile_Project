@@ -402,7 +402,7 @@ class dailyMainState extends State<dailyMain> {
                         new Menu(user: widget.user))),
               ),
               new ListTile(
-                title: new Text("เพิ่มอาหาร"),
+                title: new Text("เพิ่มรายการอาหาร"),
                 trailing: new Icon(Icons.add),
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) => new Add(
