@@ -212,8 +212,8 @@ class dailyMainState extends State<dailyMain> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           new Text(
-                              title.length > 30
-                                  ? "${title.substring(0, 30)}..."
+                              title.length > 20
+                                  ? "${title.substring(0, 20)}..."
                                   : title,
                               style: headerTextStyle),
                           new Text("ระยะห่าง " +
@@ -222,11 +222,11 @@ class dailyMainState extends State<dailyMain> {
                                   .toStringAsFixed(2)
                                   .toString() +
                               " กม."),
-                          Text(
-                            restaurant.recommend.length > 40
-                                ? "${restaurant.recommend.substring(0, 40)}..."
+                          Container(child: Text(
+                            restaurant.recommend.length > 30
+                                ? "${restaurant.recommend.substring(0, 30)}..."
                                 : restaurant.recommend,
-                          ),
+                          ),)
                         ],
                       ),
                     );
