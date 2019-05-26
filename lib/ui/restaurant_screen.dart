@@ -37,6 +37,10 @@ class RestaurantScreen extends StatelessWidget {
         ),
         new Container(
           margin: EdgeInsets.all(10),
+          // child: Text(restaurant.)
+        ),
+        new Container(
+          margin: EdgeInsets.all(10),
           child: new Container(
             child: Text(restaurant.description),
           ),

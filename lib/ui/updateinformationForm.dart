@@ -27,6 +27,7 @@ class updateinformationForm extends StatefulWidget {
 
 class updateinformationFormState extends State<updateinformationForm>
     with TickerProviderStateMixin, ImagePickerListener {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List _cities = [];
   final _formKey = GlobalKey<FormState>();
@@ -97,6 +98,7 @@ class updateinformationFormState extends State<updateinformationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             "ข้อมูลส่วนตัว",
@@ -241,7 +243,7 @@ class updateinformationFormState extends State<updateinformationForm>
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   } else {
                     print("SAce");
-                    String name = username.text;
+                    String name = username.text=username.text[0].toUpperCase()+ username.text.substring(1);
                     String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                     String date = textfield_date.text;
                     String user = widget.user.email;

@@ -24,6 +24,7 @@ class InfromationForm extends StatefulWidget {
 class informationState extends State<InfromationForm>
     with TickerProviderStateMixin, ImagePickerListener {
   List<DropdownMenuItem<String>> _dropDownMenuItems;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   List _cities = [];
   var textfield_date = TextEditingController();
   var pic_date = new DateTime.now();
@@ -85,6 +86,7 @@ class informationState extends State<InfromationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             "ข้อมูลส่วนตัว",
@@ -212,7 +214,7 @@ class informationState extends State<InfromationForm>
                     Toast.show("กรุณากรอกข้อมูลให้ครบถ้วน", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   } else {
-                    String name = username.text;
+                    String name = username.text=username.text[0].toUpperCase()+ username.text.substring(1);
                     String sex = _radioValue1 == 0 ? 'Male' : 'Female';
                     String date = textfield_date.text;
                     String user = widget.user.email;

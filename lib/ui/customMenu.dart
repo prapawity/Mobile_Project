@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:toast/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +25,7 @@ class _Add extends State<Add> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("เพิ่มเมนู"),
+        title: Text("เพิ่มอาหาร"),
       ),
       body: Builder(
         builder: (BuildContext context) {
@@ -71,15 +71,14 @@ class _Add extends State<Add> {
                 ),
                 const Divider(height: 15.0),
                 RaisedButton(
-                  color: Colors.orange,
+                  color: Color(0xff29487d),
                   child: Text("เพิ่ม",
                     style: TextStyle(fontSize: 18),
                   ),
                   textColor: Colors.white,
                   onPressed: () {
                     if (!_formKey.currentState.validate()) {
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text("โปรดกรอกข้อมูล")));
+                      Toast.show("โปรดกรอกข้อมูล", context, gravity: Toast.BOTTOM);
                     } else {
                       List<Map<String, String>> list =
                           new List<Map<String, String>>();
