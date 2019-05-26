@@ -103,7 +103,6 @@ class informationState extends State<InfromationForm>
               onTap: () => imagePicker.showDialog(context),
               child: new Center(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: _image == null
                       ? new Stack(
                           children: <Widget>[
