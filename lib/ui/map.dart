@@ -123,7 +123,7 @@ class _MapLocationState extends State<MapLocation> {
                                                         left: 10),
                                                     width: 300,
                                                     child: Text(
-                                                        ': Lontitude : ${widget.restaurant.lng}')),
+                                                        ': Longitude : ${widget.restaurant.lng}')),
                                               ],
                                             ),
                                           ],

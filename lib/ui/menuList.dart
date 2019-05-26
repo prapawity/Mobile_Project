@@ -183,6 +183,12 @@ class _MenuState extends State<Menu> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
+              child: new Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
               child: new Text("ยืนยัน"),
               onPressed: () async {
                 this.number = 1;
@@ -216,12 +222,7 @@ class _MenuState extends State<Menu> {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: new Text("ยกเลิก"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            
           ],
         );
       },
@@ -239,6 +240,12 @@ class _MenuState extends State<Menu> {
           content: new Text("ยืนยันการเลือกอาหารหรือไม่?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: new Text("ยกเลิก"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             FlatButton(
               child: new Text("ยืนยัน"),
               onPressed: () async {
@@ -279,12 +286,7 @@ class _MenuState extends State<Menu> {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: new Text("ยกเลิก"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            
           ],
         );
       },

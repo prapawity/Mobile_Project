@@ -278,7 +278,7 @@ class AfterSplash extends StatelessWidget {
                         _controller2.clear();
                         chk2 = false;
                       },
-                      color: Colors.blue,
+                      color: Color(0xFF7e91b1),
                       splashColor: Colors.blueGrey,
                       textColor: Colors.white,
                     ),
@@ -287,7 +287,7 @@ class AfterSplash extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black)),
+                              color: Colors.white)),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -362,7 +362,7 @@ class AfterSplash extends StatelessWidget {
                         _controller.clear();
                         _controller2.clear();
                       },
-                      color: Colors.white,
+                      color: Color(0xFF7e91b1),
                       splashColor: Colors.blueGrey,
                       textColor: Colors.orange,
                     ),
@@ -385,12 +385,12 @@ class AfterSplash extends StatelessWidget {
   }
 
   _displayToast2(BuildContext context) {
-    Toast.show("อีเมลนี้ถูกใช้ไปแล้ว", context,
+    Toast.show("อีเมลหรือรหัสผ่านไม่ถูกต้อง", context,
         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
   _displayToast3(BuildContext context) {
-    Toast.show("กรณายืนยันอีเมล", context,
+    Toast.show("โปรดยืนยันอีเมล", context,
         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
