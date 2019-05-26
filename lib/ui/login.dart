@@ -124,7 +124,7 @@ class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange,
+      backgroundColor: Color(0xff29487d),
       key: _scaffoldKey,
       body: Container(
         child: new Builder(
@@ -137,17 +137,21 @@ class AfterSplash extends StatelessWidget {
                   children: <Widget>[
                     new Image.asset(
                       "resource/logo.png",
-                      height: 270,
+                      height: 300,
                     ),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
                     Theme(
+                      
                       data: new ThemeData(
                         primaryColor: Colors.white,
                         primaryColorDark: Colors.white,
+                        hintColor: Colors.white,
+                        inputDecorationTheme: InputDecorationTheme(labelStyle: TextStyle(color: Colors.white)),
                       ),
                       child: TextFormField(
+                        
                         controller: _controller,
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.white),
                             labelText: "UserName",
                             hintText: "Please Input Your UserName",
                             icon: Icon(Icons.account_box,
@@ -172,10 +176,13 @@ class AfterSplash extends StatelessWidget {
                       data: new ThemeData(
                         primaryColor: Colors.white,
                         primaryColorDark: Colors.white,
+                        hintColor: Colors.white
                       ),
                       child: TextFormField(
                         controller: _controller2,
+                        
                         decoration: InputDecoration(
+                          
                             labelText: "PASSWORD",
                             hintText: "Please Input Your PASSWORD",
                             icon:
