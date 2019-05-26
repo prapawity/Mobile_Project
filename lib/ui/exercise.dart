@@ -27,7 +27,7 @@ class exercise extends StatelessWidget {
                     hintText: 'กิจกรรมที่ทำ',
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 5.0),
+                          color: Theme.of(context).accentColor, width: 2.0),
                     ),
                   ),
                   validator: (value) {
@@ -43,7 +43,7 @@ class exercise extends StatelessWidget {
                     hintText: 'หลังงานที่ใ้ช(แคลอรี่)',
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 5.0),
+                          color: Theme.of(context).accentColor, width: 2.0),
                     ),
                   ),
                   validator: (value) {

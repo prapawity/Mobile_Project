@@ -52,6 +52,7 @@ class dailyMainState extends State<dailyMain> {
   };
   int sharedValue = 0;
   Widget food(BuildContext context) {
+    
     return Container(
       height: 130,
       child: StreamBuilder<DocumentSnapshot>(
@@ -360,7 +361,7 @@ class dailyMainState extends State<dailyMain> {
     return Container(
       decoration: BoxDecoration(
           image: new DecorationImage(
-        image: new AssetImage("resource/bg.jpg"),
+        image: new AssetImage("resource/bg4.jpg"),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -383,13 +384,13 @@ class dailyMainState extends State<dailyMain> {
                 icon: Icon(
                   Icons.menu,
                   color: Color(0xff29487d),
-                ),
+                ), onPressed: () {},
               ),
               IconButton(
                 icon: Icon(
                   Icons.search,
                   color: Color(0xff29487d),
-                ),
+                ), onPressed: () {},
               )
             ],
           ),
@@ -502,7 +503,7 @@ class dailyMainState extends State<dailyMain> {
                 percentageValues: true,
                 holeLabel: '${nowuser.calnow} กิโลแคลอรี่',
                 labelStyle: _labelStyle,
-              ),
+              ), onPressed: () {},
             ),
             new Column(
               // mainAxisAlignment: MainAxisAlignment.center,

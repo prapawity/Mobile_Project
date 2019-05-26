@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/ui/exercise.dart';
 import 'package:mobile_project/ui/login.dart';
 import 'package:mobile_project/ui/informationForm.dart';
-import 'package:mobile_project/ui/dailyMain.dart';
+
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/restaurant_screen.dart';
-import 'package:mobile_project/ui/map.dart';
+
 
 
 void main() => runApp(MyApp());
