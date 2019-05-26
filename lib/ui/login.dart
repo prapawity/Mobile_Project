@@ -34,7 +34,6 @@ check_state_user(context) async {
             .getDocuments();
         final List<DocumentSnapshot> documents = result.documents;
         if (documents.length == 1) {
-          print('171717171');
           return Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -251,7 +250,7 @@ class AfterSplash extends StatelessWidget {
                                     'email', _controller.text);
                                 sharedPreferences.setString(
                                     'password', _controller2.text);
-                                print('qiuhsiuhqihdqd');
+                        
                                 return Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
