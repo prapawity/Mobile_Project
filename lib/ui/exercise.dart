@@ -68,7 +68,9 @@ class exercise extends StatelessWidget {
                     validator: (value) {
                       if (value.isEmpty) {
                         return "กรุณากรอกจำนวนพลังงานที่ใช้";
-                      }else {
+                      }else if (!isNum(value)){
+                        return "กรุณากรอกเป็นตัวเลข";
+                    } else {
                       _cal = value;
                     }
                     },
@@ -114,4 +116,11 @@ class exercise extends StatelessWidget {
     );
   }
 
+}
+
+bool isNum(String s) {
+  if(s == null) {
+    return false;
+  }
+  return double.parse(s, (e) => null) != null;
 }
