@@ -29,6 +29,7 @@ class dailyMain extends StatefulWidget {
   @override
   dailyMainState createState() => dailyMainState();
 }
+
 class SplashState extends State<dailyMain> {
   @override
   Widget build(BuildContext context) {
@@ -187,6 +188,7 @@ class dailyMainState extends State<dailyMain> {
 
   Widget restaurant(BuildContext context) {
     return Container(
+      color: Colors.transparent,
       width: 300,
       height: 130,
       child: FutureBuilder<List<Restaurant>>(
@@ -202,37 +204,34 @@ class dailyMainState extends State<dailyMain> {
                   itemBuilder: (context, index) {
                     Restaurant restaurant = snapshot.data[index];
                     String title = restaurant.name;
-                    var cardText = Container(
+                    var cardText = Padding(
+                      padding: EdgeInsets.all(5),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            child: Container(
-                                child: Column(
-                              children: <Widget>[
-                                new Text(
-                                    title.length > 20
-                                        ? "${title.substring(0, 20)}..."
-                                        : title,
-                                    style: headerTextStyle),
-                                new Text("ระยะห่าง " +
-                                    Haversine.haversine(
-                                            Haversine.lat,
-                                            Haversine.lng,
-                                            restaurant.lat,
-                                            restaurant.lng)
-                                        .toStringAsFixed(2)
-                                        .toString() +
-                                    " กม.")
-                              ],
-                            )),
-                            padding: EdgeInsets.only(bottom: 5.0),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          new Text(
+                              title.length > 30
+                                  ? "${title.substring(0, 30)}..."
+                                  : title,
+                              style: headerTextStyle),
+                          new Text("ระยะห่าง " +
+                              Haversine.haversine(Haversine.lat, Haversine.lng,
+                                      restaurant.lat, restaurant.lng)
+                                  .toStringAsFixed(2)
+                                  .toString() +
+                              " กม."),
+                          Text(
+                            restaurant.recommend.length > 40
+                                ? "${restaurant.recommend.substring(0, 40)}..."
+                                : restaurant.recommend,
                           ),
-                          Text('${restaurant.recommend}')
                         ],
                       ),
                     );
+
+                    // Padding(padding: EdgeInsets.only(bottom: 10.0),)
                     return InkWell(
                       onTap: () {
                         Navigator.push(
@@ -245,13 +244,14 @@ class dailyMainState extends State<dailyMain> {
                       },
                       child: Card(
                         // color: Colors.amberAccent,
-                        margin: EdgeInsets.all(0),
+                        margin: EdgeInsets.all(5),
+
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Row(
                           children: <Widget>[
                             snapshot.data.length == 0
-                                ? Text('Nodata')
+                                ? Text('ไม่มีสถานที่อยู่กล้ๆ')
                                 : cardText
                           ],
                         ),
@@ -469,7 +469,7 @@ class dailyMainState extends State<dailyMain> {
     sharedPreferences.setString('email', '');
     sharedPreferences.setString('password', '');
     Navigator.of(context)
-    .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
   @override
