@@ -103,7 +103,7 @@ class informationState extends State<InfromationForm>
               onTap: () => imagePicker.showDialog(context),
               child: new Center(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: _image == null
                       ? new Stack(
                           children: <Widget>[
@@ -202,7 +202,7 @@ class informationState extends State<InfromationForm>
               onPressed: () async {
                 _scaffoldKey.currentState.showSnackBar(new SnackBar(
                     backgroundColor: Color(0xff29487d),
-                    duration: new Duration(seconds: 3),
+                    duration: new Duration(seconds: 6),
                     content: new Center(
                       child: Container(
                         child: CircularProgressIndicator(

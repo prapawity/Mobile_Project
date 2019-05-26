@@ -84,7 +84,7 @@ class dailyMainState extends State<dailyMain> {
   int sharedValue = 0;
   Widget food(BuildContext context) {
     return Container(
-      height: 155,
+      height: 130,
       child: StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('users.eat')
@@ -190,7 +190,7 @@ class dailyMainState extends State<dailyMain> {
     return Container(
       color: Colors.transparent,
       width: 300,
-      height: 155,
+      height: 130,
       child: FutureBuilder<List<Restaurant>>(
           future: getAllRestaurant(userLocation),
           builder: (context, snapshot) {
