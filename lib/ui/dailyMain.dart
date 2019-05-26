@@ -10,6 +10,7 @@ import 'package:mobile_project/model/restaurant_model.dart';
 import 'package:mobile_project/service/restaurant_services.dart';
 import 'package:mobile_project/service/user.dart';
 import 'package:mobile_project/styles/mainStyle.dart';
+import 'package:mobile_project/ui/exercise.dart';
 import 'package:mobile_project/ui/menuList.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/restaurant_screen.dart';
@@ -94,6 +95,8 @@ class dailyMainState extends State<dailyMain> {
           if (!snapshort.hasData) return CircularProgressIndicator();
           List<FoodElement> listFalse = new List<FoodElement>();
           if (snapshort.hasData) {
+            print('has');
+            print(snapshort.data.data.length);
             for (var i = 0;
                 i < snapshort.data.data.values.toList().elementAt(1).length;
                 i++) {
@@ -112,74 +115,80 @@ class dailyMainState extends State<dailyMain> {
                 .collection('users')
                 .document('${widget.user.email}')
                 .updateData({'calnow': cal});
-            return Container(
-              child: ListView.builder(
-                itemCount: listFalse.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    // title: Text('${listFalse.elementAt(index).name}'),
-                    child: FlatButton(
-                      color: Colors.transparent,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      splashColor: Colors.white,
-                      child: ListTile(
-                        subtitle: Text('${listFalse.elementAt(index).cal} kcal'),
-                        title: Text('${listFalse.elementAt(index).name}'),
-                        trailing: FlatButton(
-                          padding: EdgeInsets.only(right: 0),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                          splashColor: Colors.white,
-                          child: Icon(
-                            Icons.remove_circle,
-                            color: Colors.red[200],
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              List<Map<String, String>> list =
-                                  new List<Map<String, String>>();
-                              int chked = 0;
-                              number = 1;
-                              for (var item in listFalse) {
-                                Map<String, String> list2 =
-                                    Map<String, String>();
-                                print(item.name);
-                                List namechk = item.name.split(' ');
-                                print(namechk);
-                                list2['name'] = '${number}. ${namechk[1]}';
-                                list2['cal'] = item.cal;
-                                if (list2['name'] !=
-                                    listFalse.elementAt(index).name) {
-                                  list.add(list2);
-                                  number += 1;
-                                } else {
-                                  if (chked > 0) {
-                                    list.add(list2);
-                                    number += 1;
-                                  } else {
-                                    chked = 1;
-                                  }
-                                }
-                              }
+            return listFalse.length != 0
+                ? Container(
+                    child: ListView.builder(
+                      itemCount: listFalse.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          // title: Text('${listFalse.elementAt(index).name}'),
+                          child: FlatButton(
+                            color: Colors.transparent,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0)),
+                            splashColor: Colors.white,
+                            child: ListTile(
+                              subtitle: Text(
+                                  '${listFalse.elementAt(index).cal} kcal',style: TextStyle(fontSize: 12),),
+                              title: Text('${listFalse.elementAt(index).name}',style: TextStyle(fontSize: 14),),
+                              trailing: FlatButton(
+                                padding: EdgeInsets.only(right: 0),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
+                                splashColor: Colors.white,
+                                child: Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red[200],
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    List<Map<String, String>> list =
+                                        new List<Map<String, String>>();
+                                    int chked = 0;
+                                    number = 1;
+                                    for (var item in listFalse) {
+                                      Map<String, String> list2 =
+                                          Map<String, String>();
 
-                              Firestore.instance
-                                  .collection('users.eat')
-                                  .document('${widget.user.email}')
-                                  .updateData({'food': list}).catchError((e) {
-                                print(e);
-                              });
-                            });
-                          },
-                        ),
-                      ),
+                                      List namechk = item.name.split(' ');
+
+                                      list2['name'] =
+                                          '${number}. ${namechk[1]}';
+                                      list2['cal'] = item.cal;
+                                      if (list2['name'] !=
+                                          listFalse.elementAt(index).name) {
+                                        list.add(list2);
+                                        number += 1;
+                                      } else {
+                                        if (chked > 0) {
+                                          list.add(list2);
+                                          number += 1;
+                                        } else {
+                                          chked = 1;
+                                        }
+                                      }
+                                    }
+
+                                    Firestore.instance
+                                        .collection('users.eat')
+                                        .document('${widget.user.email}')
+                                        .updateData({'food': list}).catchError(
+                                            (e) {});
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            );
-          } else {
-            return CircularProgressIndicator();
+                  )
+                : Container(
+                    child: ListTile(
+                      subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
+                      title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                    ));
           }
         },
       ),
@@ -198,7 +207,6 @@ class dailyMainState extends State<dailyMain> {
               if (snapshot.hasError) {
                 return Text("Error");
               } else {
-                print(snapshot.data);
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
@@ -222,11 +230,13 @@ class dailyMainState extends State<dailyMain> {
                                   .toStringAsFixed(2)
                                   .toString() +
                               " กม."),
-                          Container(child: Text(
-                            restaurant.recommend.length > 30
-                                ? "${restaurant.recommend.substring(0, 30)}..."
-                                : restaurant.recommend,
-                          ),)
+                          Container(
+                            child: Text(
+                              restaurant.recommend.length > 30
+                                  ? "${restaurant.recommend.substring(0, 30)}..."
+                                  : restaurant.recommend,
+                            ),
+                          )
                         ],
                       ),
                     );
@@ -282,7 +292,7 @@ class dailyMainState extends State<dailyMain> {
       if (chks != 0) {
         setState(() {
           List<CircularStackEntry> data = _generateChartData(0);
-          print(data);
+
           _chartKey.currentState.updateData(data);
         });
       }
@@ -368,7 +378,7 @@ class dailyMainState extends State<dailyMain> {
                   onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                       builder: (BuildContext context) =>
                           new updateinformationForm(user: widget.user))),
-                  // onDoubleTap: () => print("profile click"),
+
                   child: new CircleAvatar(
                     backgroundImage: new NetworkImage(imgprofile),
                     backgroundColor: Colors.white,
@@ -412,7 +422,10 @@ class dailyMainState extends State<dailyMain> {
               new ListTile(
                 title: new Text("ออกกำลังกาย"),
                 trailing: new Icon(Icons.add),
-                onTap: () => Navigator.pushNamed(context, "/exercise"),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new exercise(
+                          user: widget.user,
+                        ))),
               ),
               new Divider(),
               new ListTile(
@@ -488,7 +501,10 @@ class dailyMainState extends State<dailyMain> {
       List day = '${DateTime.now()}'.split(' ');
       List day2 = '${a.data.values.toList().elementAt(0)}'.split(' ');
       if ('${day2[0]}'.compareTo('${day[0]}') < 0) {
-        await Firestore.instance.collection('users.eat').document(widget.user.email).updateData({'date':'${DateTime.now()}','food':[]});
+        await Firestore.instance
+            .collection('users.eat')
+            .document(widget.user.email)
+            .updateData({'date': '${DateTime.now()}', 'food': []});
       }
     });
   }
@@ -513,7 +529,6 @@ class dailyMainState extends State<dailyMain> {
 }
 
 List<CircularStackEntry> _generateChartData(double value) {
-  print('test $value');
   Color dialColor = Colors.orange;
   if (value < 0) {
     dialColor = Colors.red[200];
