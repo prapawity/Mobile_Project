@@ -124,17 +124,14 @@ class dailyMainState extends State<dailyMain> {
                           borderRadius: new BorderRadius.circular(30.0)),
                       splashColor: Colors.white,
                       child: ListTile(
+                        
                         title: Text('${listFalse.elementAt(index).name}'),
                         trailing: FlatButton(
-                          color: Colors.transparent,
+                          padding: EdgeInsets.only(right: 0),
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           splashColor: Colors.white,
-                          child: Text(
-                            'นำออก',
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
-                          ),
+                          child: Icon(Icons.remove_circle,color: Colors.red,),
                           onPressed: () {
                             setState(() {
                               List<Map<String, String>> list =

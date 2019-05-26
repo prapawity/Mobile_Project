@@ -140,18 +140,17 @@ class AfterSplash extends StatelessWidget {
                       height: 300,
                     ),
                     Theme(
-                      
                       data: new ThemeData(
                         primaryColor: Colors.white,
                         primaryColorDark: Colors.white,
                         hintColor: Colors.white,
-                        inputDecorationTheme: InputDecorationTheme(labelStyle: TextStyle(color: Colors.white)),
+                        inputDecorationTheme: InputDecorationTheme(
+                            labelStyle: TextStyle(color: Colors.white)),
                       ),
                       child: TextFormField(
-                        
                         controller: _controller,
                         decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white),
+                            labelStyle: TextStyle(color: Colors.white),
                             labelText: "UserName",
                             hintText: "Please Input Your UserName",
                             icon: Icon(Icons.account_box,
@@ -174,15 +173,12 @@ class AfterSplash extends StatelessWidget {
                     Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
                     Theme(
                       data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white,
-                        hintColor: Colors.white
-                      ),
+                          primaryColor: Colors.white,
+                          primaryColorDark: Colors.white,
+                          hintColor: Colors.white),
                       child: TextFormField(
                         controller: _controller2,
-                        
                         decoration: InputDecoration(
-                          
                             labelText: "PASSWORD",
                             hintText: "Please Input Your PASSWORD",
                             icon:
@@ -292,6 +288,17 @@ class AfterSplash extends StatelessWidget {
                               color: Colors.black)),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
+                          _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                              backgroundColor: Color(0xff29487d),
+                              duration: new Duration(seconds: 3),
+                              content: new Center(
+                                child: Container(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  alignment: Alignment(0.0, 0.0),
+                                ),
+                              )));
                           auth
                               .createUserWithEmailAndPassword(
                             email: user,
