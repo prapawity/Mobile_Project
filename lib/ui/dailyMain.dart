@@ -131,7 +131,10 @@ class dailyMainState extends State<dailyMain> {
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           splashColor: Colors.white,
-                          child: Icon(Icons.remove_circle,color: Colors.red[200],),
+                          child: Icon(
+                            Icons.remove_circle,
+                            color: Colors.red[200],
+                          ),
                           onPressed: () {
                             setState(() {
                               List<Map<String, String>> list =
@@ -376,6 +379,13 @@ class dailyMainState extends State<dailyMain> {
                         fit: BoxFit.fill,
                         image: new NetworkImage(
                             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN2vSHb57BWkqpxHJkc9gqtcFdXNPBQDtoSPstPMEYl-ZVLMj"))),
+              ),
+              new ListTile(
+                title: new Text("แก้ไขข้อมูลส่วนตัว"),
+                trailing: new Icon(Icons.person),
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        new updateinformationForm(user: widget.user))),
               ),
               new ListTile(
                 title: new Text("ร้านอาหาร"),
