@@ -132,7 +132,7 @@ class updateinformationFormState extends State<updateinformationForm>
                                   fit: BoxFit.cover,
                                 ),
                                 border: Border.all(
-                                    color: Colors.orange, width: 5.0),
+                                    color: Color(0xff29487d), width: 5.0),
                                 borderRadius: new BorderRadius.all(
                                     const Radius.circular(80.0)),
                               ),
@@ -146,7 +146,7 @@ class updateinformationFormState extends State<updateinformationForm>
                                   fit: BoxFit.cover,
                                 ),
                                 border: Border.all(
-                                    color: Colors.orange, width: 5.0),
+                                    color: Color(0xff29487d), width: 5.0),
                                 borderRadius: new BorderRadius.all(
                                     const Radius.circular(80.0)),
                               ),
@@ -160,7 +160,7 @@ class updateinformationFormState extends State<updateinformationForm>
               decoration: InputDecoration(
                 labelText: "Username",
                 hintText: "Please Input Your USER-NAME",
-                icon: Icon(Icons.account_box, size: 40, color: Colors.orange),
+                icon: Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -254,7 +254,7 @@ class updateinformationFormState extends State<updateinformationForm>
                 });
                 Navigator.pop(context);
               },
-              color: Colors.orange,
+              color: Color(0xff29487d),
               splashColor: Colors.blueGrey,
               textColor: Colors.white,
             ),
