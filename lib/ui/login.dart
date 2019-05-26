@@ -129,7 +129,7 @@ class AfterSplash extends StatelessWidget {
       key: _scaffoldKey,
       body: Container(
         child: new Builder(
-          builder: (BuildContext) {
+          builder: (buildContext) {
             return SafeArea(
               child: Form(
                 key: _formKey,
@@ -178,7 +178,6 @@ class AfterSplash extends StatelessWidget {
                           primaryColor: Colors.white,
                           primaryColorDark: Colors.white,
                           hintColor: Colors.white),
-                          
                       child: TextFormField(
                         controller: _controller2,
                         style: new TextStyle(color: Colors.white),
@@ -267,14 +266,14 @@ class AfterSplash extends StatelessWidget {
                                             InfromationForm(user: userfire)));
                               }
                             } else {
-                              _displaySnackBar3(context);
+                              _displayToast3(context);
                             }
                           }).catchError((e) {
-                            _displaySnackBar4(context);
+                            _displayToast4(context);
                           });
                         }
                         if (chk == false) {
-                          _displaySnackBar4(context);
+                          _displayToast4(context);
                         }
                         _controller.clear();
                         _controller2.clear();
@@ -310,7 +309,7 @@ class AfterSplash extends StatelessWidget {
                           )
                               .then((FirebaseUser userid) {
                             if (userid == null) {
-                              _displaySnackBar(context);
+                              _displayToast(context);
                             }
                             try {
                               userid.sendEmailVerification();
@@ -319,7 +318,7 @@ class AfterSplash extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => FeatureList()));
                             } catch (e) {
-                              _displaySnackBar(context);
+                              _displayToast(context);
                             }
                             //   String uid = userid.uid;
                             //   String test = _controller.text;
@@ -344,10 +343,10 @@ class AfterSplash extends StatelessWidget {
                             //           builder: (context) =>
                             //               InfromationForm(user: userid)));
                           }).catchError((e) {
-                            _displaySnackBar2(context);
+                            _displayToast2(context);
                           });
                         } else {
-                          _displaySnackBar4(context);
+                          _displayToast4(context);
                         }
                         // bool chk = false;
                         // _formKey.currentState.validate();
@@ -356,7 +355,7 @@ class AfterSplash extends StatelessWidget {
                         // chk = true;
 
                         // if (chk == false) {
-                        //   _displaySnackBar(context);
+                        //   _displayToast(context);
                         // }
                         // _controller.clear();
                         // _controller2.clear();
@@ -381,24 +380,23 @@ class AfterSplash extends StatelessWidget {
     );
   }
 
-  _displaySnackBar(BuildContext context) {
-    final snackBar = SnackBar(content: Text('USER or PASSWORD is Incorrect'));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+  _displayToast(BuildContext context) {
+    Toast.show("อีเมลหรือรหัสผ่านไม่ถูกต้อง", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
-  _displaySnackBar2(BuildContext context) {
-    final snackBar = SnackBar(content: Text('E-mail นี้ถูกใช้ไปแล้ว'));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+  _displayToast2(BuildContext context) {
+    Toast.show("อีเมลนี้ถูกใช้ไปแล้ว", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
-  _displaySnackBar3(BuildContext context) {
-    final snackBar = SnackBar(
-        content: Text('��รุณาลงทะเบียน หรือยืนยัน E-mailข���งท่านก่อน'));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+  _displayToast3(BuildContext context) {
+    Toast.show("กรณายืนยันอีเมล", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
-  _displaySnackBar4(BuildContext context) {
-    final snackBar = SnackBar(content: Text('กรุณากรอกข้อมูลให้ถูกห้อง'));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
+  _displayToast4(BuildContext context) {
+    Toast.show("โปรดกรอกข้อมูลให้ถูกต้อง", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 }

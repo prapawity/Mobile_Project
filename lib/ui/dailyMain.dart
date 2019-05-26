@@ -172,7 +172,7 @@ class dailyMainState extends State<dailyMain> {
                             });
                           },
                         ),
-                      ),
+                      ), onPressed: () {},
                     ),
                   );
                 },
@@ -320,13 +320,13 @@ class dailyMainState extends State<dailyMain> {
                 icon: Icon(
                   Icons.menu,
                   color: Color(0xff29487d),
-                ),
+                ), onPressed: () {},
               ),
               IconButton(
                 icon: Icon(
                   Icons.search,
                   color: Color(0xff29487d),
-                ),
+                ), onPressed: () {},
               )
             ],
           ),
@@ -436,7 +436,7 @@ class dailyMainState extends State<dailyMain> {
                 percentageValues: true,
                 holeLabel: '${nowuser.calnow} กิโลแคลอรี่',
                 labelStyle: _labelStyle,
-              ),
+              ), onPressed: () {},
             ),
             new Column(
               // mainAxisAlignment: MainAxisAlignment.center,
