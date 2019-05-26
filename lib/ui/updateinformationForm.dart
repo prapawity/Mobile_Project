@@ -27,6 +27,7 @@ class updateinformationForm extends StatefulWidget {
 
 class updateinformationFormState extends State<updateinformationForm>
     with TickerProviderStateMixin, ImagePickerListener {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   List _cities = [];
   var textfield_date = TextEditingController();
@@ -95,6 +96,7 @@ class updateinformationFormState extends State<updateinformationForm>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           title: Text(
             "Personal Information",
@@ -159,7 +161,8 @@ class updateinformationFormState extends State<updateinformationForm>
               decoration: InputDecoration(
                 labelText: "Username",
                 hintText: "Please Input Your USER-NAME",
-                icon: Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
+                icon:
+                    Icon(Icons.account_box, size: 40, color: Color(0xff29487d)),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -221,6 +224,17 @@ class updateinformationFormState extends State<updateinformationForm>
             RaisedButton(
               child: Text("Save"),
               onPressed: () async {
+                _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                    backgroundColor: Color(0xff29487d),
+                    duration: new Duration(seconds: 3),
+                    content: new Center(
+                      child: Container(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
+                        alignment: Alignment(0.0, 0.0),
+                      ),
+                    )));
                 print("SAce");
                 String name = username.text;
                 String sex = _radioValue1 == 0 ? 'Male' : 'Female';
@@ -238,7 +252,7 @@ class updateinformationFormState extends State<updateinformationForm>
                   var dowurl =
                       await (await uploadTask.onComplete).ref.getDownloadURL();
                   url = dowurl.toString();
-                }else{
+                } else {
                   url = userimg;
                 }
                 Firestore.instance
