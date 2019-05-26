@@ -164,13 +164,13 @@ class updateinformationFormState extends State<updateinformationForm>
               TextFormField(
                 validator: (value) {
                   if (value.isEmpty) {
-                    return "กรุณาระบุชื่อ";
+                    return "โปรดระบุชื่อ";
                   }
                 },
                 controller: username,
                 decoration: InputDecoration(
                   labelText: "ชื่อ",
-                  hintText: "กรุณาระบุชื่อ",
+                  hintText: "โปรดระบุชื่อ",
                   icon: Icon(Icons.account_box,
                       size: 40, color: Color(0xff29487d)),
                   border: OutlineInputBorder(
@@ -217,7 +217,7 @@ class updateinformationFormState extends State<updateinformationForm>
                   labelText: "วันเกิด",
                 ),
               ),
-              Text('แคลลอรี่ต่อวัน'),
+              Text('แคลอรี่ต่อวัน'),
               Slider(
                 value: _discreteValue.roundToDouble(),
                 min: 1000,
@@ -235,11 +235,11 @@ class updateinformationFormState extends State<updateinformationForm>
                 child: Text("บันทึก"),
                 onPressed: () async {
                   if (_radioValue1 != 0 && _radioValue1 != 1) {
-                    Toast.show("กรุณาระบุเพศ", context,
+                    Toast.show("โปรดระบุเพศ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
                   if (!_formKey.currentState.validate()) {
-                    Toast.show("กรุณากรอกข้อมูลให้ครบถ้วน", context,
+                    Toast.show("โปรดกรอกข้อมูลให้ครบถ้วน", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   } else {
                     print("SAce");
