@@ -8,7 +8,7 @@ String url = 'http://api.halalthai.com/restaurant/place/nearby/?access_token=e80
 var location = new Location();
 
 Future<List<Restaurant>> getAllRestaurant(Map<String, double> userLocation) async {
-   
+   print("try to get location");
    try{
      userLocation = await location.getLocation();
      print(userLocation["latitude"].toString());
@@ -25,7 +25,10 @@ Future<List<Restaurant>> getAllRestaurant(Map<String, double> userLocation) asyn
      }
    }
    catch (e) {
+     print("cant get locations");
      print(e);
+       Haversine.lat = 13.729792;
+        Haversine.lng  = 100.78044159999999;
     }
   
   final response = await http.get(url);
