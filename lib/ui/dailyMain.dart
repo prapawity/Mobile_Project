@@ -79,7 +79,7 @@ class dailyMainState extends State<dailyMain> {
   final Map<int, Widget> logoWidgets = const <int, Widget>{
     0: Text('อาหาร'),
     1: Text('ร้านอาหาร'),
-    2: Text('ออกกำลัง'),
+    2: Text('ออกกำลังกาย'),
   };
   int sharedValue = 0;
   Widget food(BuildContext context) {
@@ -124,7 +124,7 @@ class dailyMainState extends State<dailyMain> {
                           borderRadius: new BorderRadius.circular(30.0)),
                       splashColor: Colors.white,
                       child: ListTile(
-                        
+                        subtitle: Text('${listFalse.elementAt(index).cal} kcal'),
                         title: Text('${listFalse.elementAt(index).name}'),
                         trailing: FlatButton(
                           padding: EdgeInsets.only(right: 0),
@@ -248,7 +248,7 @@ class dailyMainState extends State<dailyMain> {
                         child: Row(
                           children: <Widget>[
                             snapshot.data.length == 0
-                                ? Text('ไม่มีสถานที่อยู่กล้ๆ')
+                                ? Text('ไม่มีร้านอาหารในบริเวณใกล้เคียง')
                                 : cardText
                           ],
                         ),
@@ -424,7 +424,7 @@ class dailyMainState extends State<dailyMain> {
                 chartType: CircularChartType.Radial,
                 edgeStyle: SegmentEdgeStyle.round,
                 percentageValues: true,
-                holeLabel: '${nowuser.calnow} กิโลแคลรอรี่',
+                holeLabel: '${nowuser.calnow} กิโลแคลอรี่',
                 labelStyle: _labelStyle,
               ),
             ),
