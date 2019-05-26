@@ -29,6 +29,15 @@ class RestaurantScreen extends StatelessWidget {
         new Container(
           margin: EdgeInsets.all(10),
           child: new Container(
+            child: Text('ชื่อร้าน:${restaurant.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          ),
+        ),new Container(
+          margin: EdgeInsets.all(10),
+          child: Divider()
+        ),
+        new Container(
+          margin: EdgeInsets.all(10),
+          child: new Container(
             child: Text(restaurant.description),
           ),
         ),

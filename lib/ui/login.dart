@@ -149,6 +149,7 @@ class AfterSplash extends StatelessWidget {
                       ),
                       child: TextFormField(
                         controller: _controller,
+                        style: new TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             labelText: "UserName",
@@ -176,8 +177,10 @@ class AfterSplash extends StatelessWidget {
                           primaryColor: Colors.white,
                           primaryColorDark: Colors.white,
                           hintColor: Colors.white),
+                          
                       child: TextFormField(
                         controller: _controller2,
+                        style: new TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                             labelText: "PASSWORD",
                             hintText: "Please Input Your PASSWORD",
