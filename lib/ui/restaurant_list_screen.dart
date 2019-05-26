@@ -20,6 +20,7 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff768AAC),
       appBar: AppBar(
         title: Text("ร้านอาหารที่ใกล้เคียง"),
         centerTitle: true,
@@ -40,33 +41,31 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                     String desc = restaurant.description;
                     final cardIcon = Container(
                       padding: const EdgeInsets.all(10.0),
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                      alignment: FractionalOffset.centerLeft,
-                      child: Image.network(image, height: 150.0, width: 120.0),
+                      // margin: EdgeInsets.symmetric(vertical: 10.0),
+                      alignment: FractionalOffset.center,
+                      child: Image.network(image),
                     );
                     var cardText = Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    new Text(
-                                        title.length > 20
-                                            ? "${title.substring(0, 20)}..."
-                                            : title,
-                                        style: headerTextStyle),
-                                    new Text(
-                                        "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
-                                    )
-                                  ],
-                                )),
-                            padding: EdgeInsets.only(bottom: 5.0),
-                          ),
-                          Text(desc.length > 30
-                              ? "${desc.substring(0, 30)}..."
+                          Container(
+                            padding: EdgeInsets.all(10),
+                              child: Column(
+                                children: <Widget>[
+                                  new Text(
+                                      title.length > 40
+                                          ? "${title.substring(0, 40)}..."
+                                          : title,
+                                      style: headerTextStyle),
+                                  new Text(
+                                      "ระยะห่าง "+ Haversine.haversine(Haversine.lat, Haversine.lng, restaurant.lat, restaurant.lng).toStringAsFixed(2).toString()+ " กม."
+                                  )
+                                ],
+                              )),
+                          Text(desc.length > 50
+                              ? "${desc.substring(0, 50)}..."
                               : desc)
                         ],
                       ),
@@ -82,11 +81,12 @@ class _ResraurantListScreen extends State<ResraurantListScreen> {
                         );
                       },
                       child: Card(
-                        color: Colors.amberAccent,
-                        margin: EdgeInsets.all(5.0),
+                        // color: Color(0xff9DABC3),
+                        margin: EdgeInsets.only(bottom: 10,left: 20,right: 20),
+                        
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
-                        child: Row(
+                        child: Column(
                           children: <Widget>[cardIcon, cardText],
                         ),
                       ),

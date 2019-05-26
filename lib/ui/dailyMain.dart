@@ -131,7 +131,7 @@ class dailyMainState extends State<dailyMain> {
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           splashColor: Colors.white,
-                          child: Icon(Icons.remove_circle,color: Colors.red,),
+                          child: Icon(Icons.remove_circle,color: Colors.red[200],),
                           onPressed: () {
                             setState(() {
                               List<Map<String, String>> list =

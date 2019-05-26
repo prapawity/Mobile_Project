@@ -9,22 +9,25 @@ class RestaurantScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: Text(restaurant.name),centerTitle: true,
       ),
       body: ListView(children: <Widget>[
+        
         new Container(
-          margin: EdgeInsets.fromLTRB(30, 20, 20, 50),
+          alignment: Alignment(0, 0),
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
           width: 220.0,
           height: 220.0,
           decoration: new BoxDecoration(
-              shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(20),
               image: new DecorationImage(
                   fit: BoxFit.cover,
                   image: new NetworkImage(restaurant.image))),
         ),
         new Container(
-          padding: new EdgeInsets.all(32.0),
+          margin: EdgeInsets.all(10),
           child: new Container(
             child: Text(restaurant.description),
           ),
@@ -32,8 +35,8 @@ class RestaurantScreen extends StatelessWidget {
         new Container(
           margin: EdgeInsets.all(10),
           child: RaisedButton(
-            color: Colors.orange,
-            child: Text("แผนที่"),
+            color: Color(0xff29487d),
+            child: Text("แผนที่",style: TextStyle(color: Colors.white),),
             onPressed: () {
               Navigator.push(
                 context,
