@@ -57,7 +57,7 @@ class _Add extends State<Add> {
                       } else {
                         try {
                           double.parse(value);
-                          return "ชื่ออาหารต้องเป็นตัวเลข";
+                          return "ชื่ออาหารต้องไม่เป็นตัวเลข";
                         } catch (e) {}
                       }
                     },
