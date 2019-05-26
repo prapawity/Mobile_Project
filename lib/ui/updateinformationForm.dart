@@ -162,11 +162,6 @@ class updateinformationFormState extends State<updateinformationForm>
               ),
               Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 10)),
               TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return "โปรดระบุชื่อ";
-                  }
-                },
                 controller: username,
                 decoration: InputDecoration(
                   labelText: "ชื่อ",
@@ -234,7 +229,7 @@ class updateinformationFormState extends State<updateinformationForm>
               RaisedButton(
                 child: Text("บันทึก"),
                 onPressed: () async {
-                  if (!_formKey.currentState.validate()) {
+                  if (username.text == "") {
                     Toast.show("โปรดระบุชื่อ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
@@ -242,7 +237,7 @@ class updateinformationFormState extends State<updateinformationForm>
                     Toast.show("โปรดระบุเพศ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
-                  else if(textfield_date.text != null){
+                  else if(textfield_date.text == ""){
                     Toast.show("โปรดระบุวันเกิด", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   } 

@@ -144,11 +144,7 @@ class informationState extends State<InfromationForm>
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "โปรดระบุชื่อ";
-                    }
-                  }),
+                ),
               Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
               new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -207,7 +203,7 @@ class informationState extends State<InfromationForm>
                 child: Text("บันทึก"),
                 onPressed: () async {
                   
-                  if (!_formKey.currentState.validate()) {
+                    if (username.text == "") {
                     Toast.show("โปรดระบุชื่อ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
@@ -215,11 +211,10 @@ class informationState extends State<InfromationForm>
                     Toast.show("โปรดระบุเพศ", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   }
-                  else if(textfield_date.text != null){
+                  else if(textfield_date.text == ""){
                     Toast.show("โปรดระบุวันเกิด", context,
                         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                   } 
-                  
                    else {
                     String name = username.text=username.text[0].toUpperCase()+ username.text.substring(1);
                     String sex = _radioValue1 == 0 ? 'Male' : 'Female';
