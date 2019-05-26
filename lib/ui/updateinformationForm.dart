@@ -58,7 +58,7 @@ class updateinformationFormState extends State<updateinformationForm>
         textfield_date.text = ds.data['date'];
         _discreteValue = ds.data['calmax'];
         userimg = ds.data['imgurl'];
-        if (ds.data['sex'] == "ผู้ชาย") {
+        if (ds.data['sex'] == "Male") {
           _radioValue1 = 0;
         } else {
           _radioValue1 = 1;
