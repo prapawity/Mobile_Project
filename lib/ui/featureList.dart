@@ -18,7 +18,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "กรุณายืนยัน E-mail ของท่าน",
-        description: "คุณจะต้องทำการยืนยันอีเมลที่เราส่งไปในอีเมลของทคุณก่อนการใช้งาน LifeBoost",
+        description: "คุณจะต้องทำการยืนยันอีเมลที่เราส่งไปในอีเมลของคุณก่อนการใช้งาน LifeBoost",
         pathImage: "resource/email.png",
         backgroundColor: Color(0xff406E8E),
         
@@ -27,7 +27,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "การคำนวณแคลอรี่",
-        description: "เราจะทำการเก็บแคลอรี่ในแต่ละวัน\nที่มาจากการรับประทานอาหารและออกกำลังกายของคุณ",
+        description: "เราจะทำการเก็บแคลอรี่ในแต่ละวัน\nที่มาจากการรับประทานอาหาร\nและออกกำลังกายของคุณ",
         pathImage: "resource/calculator.png",
         backgroundColor: Color(0xffD78521),
         
@@ -36,7 +36,7 @@ class FeatureListState extends State<FeatureList>{
     slides.add(
       new Slide(
         title: "การออกกำลังกาย",
-        description: "เราจะแนะนำการออกกำลังกายที่จะช่วยเผาผลาญแคลอรี่ของคุณได้",
+        description: "เราจะแนะนำการออกกำลังกายที่\nจะช่วยเผาผลาญแคลอรี่ของคุณได้",
         pathImage: "resource/exercise.png",
         backgroundColor: Color(0xff203152),
       ),
@@ -45,7 +45,7 @@ class FeatureListState extends State<FeatureList>{
       new Slide(
         title: "ร้านอาหาร",
         description:
-        "เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียดของร้านอาหารที่สนใจได้",
+        "เราจะแนะนำร้านอาหารที่อยู่ใกล้คุณ เพื่อที่คุณจะสามารถทราบที่อยู่และรายละเอียด\nของร้านอาหารที่สนใจได้",
         pathImage: "resource/res.png",
         backgroundColor: Color(0xff9932CC),
       ),
