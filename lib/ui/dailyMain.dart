@@ -31,38 +31,6 @@ class dailyMain extends StatefulWidget {
   dailyMainState createState() => dailyMainState();
 }
 
-class SplashState extends State<dailyMain> {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      decoration: BoxDecoration(
-        // Box decoration takes a gradient
-        gradient: LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.3, 5],
-          colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            Color(0xfff5a623),
-            Color(0xfff5a623),
-          ],
-        ),
-      ),
-      child: Container(
-        child: SplashScreen(
-            seconds: 6,
-            navigateAfterSeconds: new dailyMainState(),
-            image: new Image.asset("resource/logo.png"),
-            backgroundColor: Colors.orange,
-            photoSize: 150.0,
-            loaderColor: Colors.white),
-      ),
-    );
-  }
-}
-
 Color labelColor = Colors.blue[200];
 int sharedValue = 0;
 
@@ -95,8 +63,6 @@ class dailyMainState extends State<dailyMain> {
           if (!snapshort.hasData) return CircularProgressIndicator();
           List<FoodElement> listFalse = new List<FoodElement>();
           if (snapshort.hasData) {
-            print('has');
-            print(snapshort.data.data.length);
             for (var i = 0;
                 i < snapshort.data.data.values.toList().elementAt(1).length;
                 i++) {
@@ -107,14 +73,6 @@ class dailyMainState extends State<dailyMain> {
                       '${snapshort.data.data.values.toList().elementAt(1)[i]["name"]}');
               listFalse.add(e);
             }
-            double cal = 0;
-            for (var item in listFalse) {
-              cal = cal + double.parse(item.cal);
-            }
-            Firestore.instance
-                .collection('users')
-                .document('${widget.user.email}')
-                .updateData({'calnow': cal});
             return listFalse.length != 0
                 ? Container(
                     child: ListView.builder(
@@ -129,8 +87,13 @@ class dailyMainState extends State<dailyMain> {
                             splashColor: Colors.white,
                             child: ListTile(
                               subtitle: Text(
-                                  '${listFalse.elementAt(index).cal} kcal',style: TextStyle(fontSize: 12),),
-                              title: Text('${listFalse.elementAt(index).name}',style: TextStyle(fontSize: 14),),
+                                '${listFalse.elementAt(index).cal} kcal',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              title: Text(
+                                '${listFalse.elementAt(index).name}',
+                                style: TextStyle(fontSize: 14),
+                              ),
                               trailing: FlatButton(
                                 padding: EdgeInsets.only(right: 0),
                                 shape: new RoundedRectangleBorder(
@@ -186,9 +149,9 @@ class dailyMainState extends State<dailyMain> {
                   )
                 : Container(
                     child: ListTile(
-                      subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
-                      title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
-                    ));
+                    subtitle: Text('อย่าลืมท������นขาวด้วยล่ะ'),
+                    title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                  ));
           }
         },
       ),
@@ -277,8 +240,98 @@ class dailyMainState extends State<dailyMain> {
   }
 
   Widget work(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(),
+    return Container(
+      height: 130,
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: Firestore.instance
+            .collection('calorie_ex_user')
+            .document('${widget.user.email}')
+            .snapshots(),
+        builder: (context, snapshort) {
+          if (!snapshort.hasData) return CircularProgressIndicator();
+          List<FoodElement> listFalse2 = new List<FoodElement>();
+          if (snapshort.hasData) {
+            for (var i = 0;
+                i < snapshort.data.data.values.toList()[0].length;
+                i++) {
+              FoodElement e = new FoodElement(
+                  cal: '${snapshort.data.data.values.toList()[1][0]['cal']}',
+                  name: '${snapshort.data.data.values.toList()[1][0]['name']}');
+              listFalse2.add(e);
+            }
+            getcalories();
+            return listFalse2.length != 0
+                ? Container(
+                    child: ListView.builder(
+                      itemCount: listFalse2.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          // title: Text('${listFalse.elementAt(index).name}'),
+                          child: FlatButton(
+                            color: Colors.transparent,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0)),
+                            splashColor: Colors.white,
+                            child: ListTile(
+                              subtitle: Text(
+                                '${listFalse2.elementAt(index).cal} kcal',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              title: Text(
+                                '${listFalse2.elementAt(index).name}',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              trailing: FlatButton(
+                                padding: EdgeInsets.only(right: 0),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
+                                splashColor: Colors.white,
+                                child: Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red[200],
+                                ),
+                                onPressed: () async {
+                                  List<Map<String, String>> list =
+                                      new List<Map<String, String>>();
+                                  setState(() {
+                                    int chked = 0;
+                                    number = 1;
+                                    for (var item in listFalse2) {
+                                      Map<String, String> list2 =
+                                          Map<String, String>();
+
+                                      list2['name'] = '${item.name}';
+                                      list2['cal'] = item.cal;
+
+                                      if (list2['name'] !=
+                                          listFalse2.elementAt(index).name) {
+                                        list.add(list2);
+                                      }
+                                    }
+                                  });
+                                  await Firestore.instance
+                                      .collection('calorie_ex_user')
+                                      .document('${widget.user.email}')
+                                      .updateData({
+                                    'activity': list
+                                  }).catchError((e) {});
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : Container(
+                    child: ListTile(
+                    subtitle: Text('อย่าลืมทานขาวด้วยล่ะ'),
+                    title: Text('วันนี้ยังไม่ได้ทานข้าวเลยนะ'),
+                  ));
+          }
+        },
+      ),
     );
   }
 
@@ -492,6 +545,46 @@ class dailyMainState extends State<dailyMain> {
         .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
+  getcalories() async {
+    double cal = 0;
+    List<FoodElement> listchk1 = new List<FoodElement>();
+    List<FoodElement> listchk2 = new List<FoodElement>();
+    Stream<DocumentSnapshot> chk = await Firestore.instance
+        .collection('users.eat')
+        .document(widget.user.email)
+        .snapshots();
+    await chk.elementAt(0).then((a) {
+      for (var i = 0; i < a.data.values.toList()[1].length; i++) {
+        FoodElement e = new FoodElement(
+            cal: '${a.data.values.toList()[1][0]['cal']}',
+            name: '${a.data.values.toList()[1][0]['name']}');
+        listchk1.add(e);
+      }
+    });
+    Stream<DocumentSnapshot> chk2 = await Firestore.instance
+        .collection('calorie_ex_user')
+        .document('${widget.user.email}')
+        .snapshots();
+    await chk2.elementAt(0).then((a) {
+      for (var i = 0; i < a.data.values.toList()[0].length; i++) {
+        FoodElement e = new FoodElement(
+            cal: '${a.data.values.toList()[0][0]['cal']}',
+            name: '${a.data.values.toList()[0][0]['name']}');
+        listchk2.add(e);
+      }
+    });
+    for (var i in listchk1) {
+      cal = cal + int.parse(i.cal);
+    }
+    for (var i in listchk2) {
+      cal = cal - int.parse(i.cal);
+    }
+    Firestore.instance
+        .collection('users')
+        .document('${widget.user.email}')
+        .updateData({'calnow': cal});
+  }
+
   checkdate() async {
     await Firestore.instance
         .collection('users.eat')
@@ -513,6 +606,7 @@ class dailyMainState extends State<dailyMain> {
   Widget build(BuildContext context) {
     setState(() {
       checkdate();
+      getcalories();
     });
     return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance

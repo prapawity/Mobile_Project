@@ -104,7 +104,7 @@ class _MenuState extends State<Menu> {
   Widget _listView(menu, String uid) {
     for (int i = 0; i < menu.length; i++) {
       if (menu[i]["food"] != null && menu[i].documentID == uid ||
-          menu[i].documentID == "NqWIRf1CoiaIZKVUpXYp") {
+          menu[i].documentID == "default") {
         for (int j = 0; j < menu[i]["food"].length; j++) {
           FoodElement foodEl = new FoodElement(
               name: menu[i]["food"][j]["name"], cal: menu[i]["food"][j]["cal"]);
