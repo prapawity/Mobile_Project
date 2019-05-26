@@ -250,7 +250,7 @@ class AfterSplash extends StatelessWidget {
                                     'email', _controller.text);
                                 sharedPreferences.setString(
                                     'password', _controller2.text);
-                        
+
                                 return Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
