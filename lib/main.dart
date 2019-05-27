@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_project/ui/exercise.dart';
 import 'package:mobile_project/ui/login.dart';
 import 'package:mobile_project/ui/informationForm.dart';
@@ -6,9 +7,11 @@ import 'package:mobile_project/ui/informationForm.dart';
 import 'package:mobile_project/ui/restaurant_list_screen.dart';
 import 'package:mobile_project/ui/restaurant_screen.dart';
 
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MyApp());
+}
 
-
-void main() => runApp(MyApp());
 const MaterialColor white = const MaterialColor(
   0xff29487d,
   const <int, Color>{
@@ -40,17 +43,15 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-         "/": (context) =>Splash(),
-        // "/": (context) =>ResraurantListScreen(),   
-        "/information": (context) =>InfromationForm(),
-        "/ResraurantListScreen": (context) =>ResraurantListScreen(),
-        "/restaurant_screen": (context) =>RestaurantScreen(),
+        "/": (context) => Splash(),
+        // "/": (context) =>ResraurantListScreen(),
+        "/information": (context) => InfromationForm(),
+        "/ResraurantListScreen": (context) => ResraurantListScreen(),
+        "/restaurant_screen": (context) => RestaurantScreen(),
         //  "/":  (context) =>dailyMain(),
         // "/third": (context) =>(SignUp()),
         "/exercise": (context) => exercise(),
-
-
-        },
+      },
     );
   }
 }

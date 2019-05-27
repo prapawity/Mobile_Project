@@ -219,7 +219,7 @@ class AfterSplash extends StatelessWidget {
                         if (_formKey.currentState.validate()) {
                           _scaffoldKey.currentState.showSnackBar(new SnackBar(
                               backgroundColor: Color(0xff29487d),
-                              duration: new Duration(seconds: 3),
+                              duration: new Duration(seconds: 10),
                               content: new Center(
                                 child: Container(
                                   child: CircularProgressIndicator(
@@ -293,7 +293,7 @@ class AfterSplash extends StatelessWidget {
                         if (_formKey.currentState.validate()) {
                           _scaffoldKey.currentState.showSnackBar(new SnackBar(
                               backgroundColor: Color(0xff29487d),
-                              duration: new Duration(seconds: 3),
+                              duration: new Duration(seconds: 10),
                               content: new Center(
                                 child: Container(
                                   child: CircularProgressIndicator(
