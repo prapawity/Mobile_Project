@@ -622,6 +622,10 @@ class dailyMainState extends State<dailyMain> {
             .collection('users.eat')
             .document(widget.user.email)
             .updateData({'date': '${DateTime.now()}', 'food': []});
+            await Firestore.instance
+            .collection('calorie_ex_user')
+            .document(widget.user.email)
+            .updateData({'activity': []});
       }
     });
   }
