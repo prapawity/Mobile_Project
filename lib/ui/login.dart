@@ -211,11 +211,7 @@ class AfterSplash extends StatelessWidget {
                       ),
                       onPressed: () async {
                         bool chk = false;
-
-                        // auth.createUserWithEmailAndPassword(
-                        //   email: user,
-                        //   password: pass
-                        // );
+                        
                         if (_formKey.currentState.validate()) {
                           _scaffoldKey.currentState.showSnackBar(new SnackBar(
                               backgroundColor: Color(0xff29487d),
@@ -320,46 +316,14 @@ class AfterSplash extends StatelessWidget {
                             } catch (e) {
                               _displayToast(context);
                             }
-                            //   String uid = userid.uid;
-                            //   String test = _controller.text;
-                            //   Firestore.instance
-                            //       .collection('users')
-                            //       .document('$test')
-                            //       .setData({
-                            //     'username': 'none',
-                            //     'sex': 'none',
-                            //     'date': 'none',
-                            //     'imgurl': 'none',
-                            //     'calmax': 2000,
-                            //     'calnow': 0,
-                            //   });
-                            //   Firestore.instance
-                            //     .collection('calorie_food')
-                            //     .document(uid).setData({});
 
-                            //   Navigator.pushReplacement(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) =>
-                            //               InfromationForm(user: userid)));
                           }).catchError((e) {
                             _displayToast2(context);
                           });
                         } else {
                           _displayToast4(context);
                         }
-                        // bool chk = false;
-                        // _formKey.currentState.validate();
-                        // UserPass.idPass.add([user,pass]);
-                        // Navigator.pushNamed(context, "/information");
-                        // chk = true;
 
-                        // if (chk == false) {
-                        //   _displayToast(context);
-                        // }
-                        // _controller.clear();
-                        // _controller2.clear();
-                        // chk2 = false;
                         _controller.clear();
                         _controller2.clear();
                       },
@@ -381,9 +345,6 @@ class AfterSplash extends StatelessWidget {
                         },
                       ),
                     )
-                    // RaisedButton(child: Text('Test FeatureList'),onPressed: (){
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => FeatureList()));
-                    // },)
                   ],
                 ),
               ),
